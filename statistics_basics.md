@@ -20,3 +20,6 @@ Sampling error (Stichprobenabweichung)
 sampling error is incurred when the statistical characteristics of a population are estimated from a subset, or sample, of that population. Since the sample does not include all members of the population, statistics on the sample, such as means and quantiles, generally differ from the characteristics of the entire population, which are known as parameters. 
 
 characteristic value (Merkmalausprägung): 
+
+
+Correlation does not imply causation (Korrelation bedeutet nicht Kausalität.)
