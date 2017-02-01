@@ -1,0 +1,3 @@
+Station|Year|Month|Day|Hour|Max|Load
+bla|12|||||
+blubb|13|||||
