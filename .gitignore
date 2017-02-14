@@ -6,3 +6,6 @@ p3/2013_Max_Loads.csv
 p3/745090.csv
 p3/blubb.csv
 p3/bla.txt
+.*osm
+.osm
+p3/Assignment/*.osm
