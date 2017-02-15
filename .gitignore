@@ -7,3 +7,5 @@ p3/745090.csv
 p3/blubb.csv
 p3/bla.txt
 p3/Assignment/*.osm
+p3/Assignment/*.json
+p3/Assignment/*.pyc
