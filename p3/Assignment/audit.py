@@ -4,6 +4,7 @@ import xml.etree.cElementTree as ET
 import re
 import codecs
 import json
+import phonenumbers
 from collections import defaultdict
 
 
@@ -11,6 +12,8 @@ STREET_TYPE_RE = re.compile(r'\b\S+\.?$', re.IGNORECASE)
 LOWER = re.compile(r'^([a-z]|_)*$')
 LOWER_COLON = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
 PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
+URL_RE = re.compile(r'^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$')
+EMAIL_RE = re.compile(r'^([\u00C0-\u017a-zA-Z\d_\.-]+)@([\u00C0-\u017\da-zA-Z\.-]+)\.([a-z\.]{2,6})$')
 
 def count_tags(filename):
     tags = {}
@@ -26,7 +29,7 @@ def count_tags(filename):
 
 
 
-def key_type(element, keys):
+def key_type(element, keys, problematic, other):
     if element.tag == "tag":
         key = element.attrib['k']
         if LOWER.match(key):
@@ -35,18 +38,24 @@ def key_type(element, keys):
             keys["LOWER_COLON"] = keys["LOWER_COLON"] + 1
         elif PROBLEMCHARS.match(key):
             keys["PROBLEMCHARS"] = keys["PROBLEMCHARS"] + 1
+            problematic.append(key)
         else:
             keys["other"] = keys["other"] + 1
+            other.append(key)
 
-    return keys
+    return keys,problematic,other
 
 
 def audit_k_value(filename):
     keys = {"LOWER": 0, "LOWER_COLON": 0, "PROBLEMCHARS": 0, "other": 0}
+    problematic = []
+    other = []
     for _, element in ET.iterparse(filename):
-        keys = key_type(element, keys)
+        keys,problematic,other = key_type(element, keys, problematic, other)
 
-    return keys
+    return keys,problematic,other 
+
+
 
 
 def contributing_users(filename):
@@ -60,47 +69,64 @@ def contributing_users(filename):
     return users
 
 
-def audit_street_type(street_types, street_name):
-    expected = ["Strasse", "Allee", "Straße", 'Weg', 'Ring']
+def is_valid_email(email):
+    return EMAIL_RE.match(email)
+
+def is_valid_url(url):
+    return URL_RE.match(url)
 
 
-    m = STREET_TYPE_RE.search(street_name)
-    if m:
-        street_type = m.group()
-        if street_type.encode('utf-8') not in expected:
-            street_types[street_type].add(street_name)
+def is_valid_phone(phone):
+    try:
+        return phonenumbers.is_valid_number(phonenumbers.parse(phone))
+    except:
+        return False
 
 
-def is_street_name(elem):
-    return (elem.attrib['k'] == "addr:street")
+def clean_contact(contact):
+    return contact
 
 
-def audit_streets(osmfile):
-    osm_file = open(osmfile, "rb")
-    street_types = defaultdict(set)
-    for event, elem in ET.iterparse(osm_file, events=("start",)):
-
-        if elem.tag == "node" or elem.tag == "way":
-            for tag in elem.iter("tag"):
-                if is_street_name(tag):
-                    audit_street_type(street_types, tag.get('v'))
-    osm_file.close()
-    return street_types
+def clean_address(address):
+    return address
 
 
-def update_name(name, mapping):
+def audit_contact_data(filename):
+    invalid_phone = []
+    invalid_email = []
+    invalid_url = []
+    with open(filename, 'rb') as f:
+        for event, elem in ET.iterparse(f, events=("start",)):
 
-    mapping = { "Str": "Straße",
-            "St.": "Straße"
-          }
-    m = STREET_TYPE_RE.search(name)
-    if m:
-        street_type = m.group()
-        return name.replace(street_type,mapping[street_type])
-    else:
-        return name
+            if elem.tag == "node" or elem.tag == "way":
+                for tag in elem.iter("tag"):
+                    if tag.get('k') == "contact:website":
+                        if not is_valid_url(tag.get('v')):
+                            invalid_url.append(tag.get('v'))
+                    elif tag.get('k') == "contact:phone":
+                        if not is_valid_phone(tag.get('v')):
+                            invalid_phone.append(tag.get('v'))
+                    elif tag.get('k') == "contact:fax":
+                        if not is_valid_phone(tag.get('v')):  
+                            invalid_phone.append(tag.get('v'))
+                    elif tag.get('k') == "contact:email":
+                        if not is_valid_email(tag.get('v')):
+                            invalid_email.append(tag.get('v'))
 
+    return (invalid_phone, invalid_email, invalid_url)
 
+def clean_node(node):
+    try:
+        node['address'] = clean_address(node['address'])
+    except:
+        pass
+
+    try:
+        node['contact'] = clean_contact(node['contact'])
+    except:
+        pass
+
+    return node
 
 
 
@@ -129,34 +155,49 @@ def shape_element(element):
         if element.get('uid') != None:
             node['created']['uid'] = element.get('uid')
         if element.get('lat') != None:
-            node['pos'][0] = element.get('lat')
+            node['pos'][0] = float(element.get('lat'))
         if element.get('lon') != None:
-            node['pos'][1] = element.get('lon')
+            node['pos'][1] = float(element.get('lon'))
         
-        
-        node['address'] = {}
+        address = {}
+        contact = {}
         for child in element:
             if child.tag == 'tag':
                 if child.attrib['k'] == 'addr:housenumber':
-                    node['address']['housenumber'] = child.get('v')
+                    address['housenumber'] = child.get('v')
+                elif child.attrib['k'] == 'addr:country':
+                    address['country'] = child.get('v')
                 elif child.attrib['k'] == 'addr:postcode':
-                    node['address']['postcode'] = child.get('v')
+                    address['postcode'] = child.get('v')
                 elif child.attrib['k'] == 'addr:street':
-                    node['address']['street'] = child.get('v')
+                    address['street'] = child.get('v')
+                elif child.attrib['k'] == 'addr:city':
+                    address['city'] = child.get('v')
+                elif child.attrib['k'] == 'contact:email':
+                    contact['email'] = child.get('v')
+                elif child.attrib['k'] == 'contact:fax':
+                    contact['fax'] = child.get('v')
+                elif child.attrib['k'] == 'contact:phone':
+                    contact['phone'] = child.get('v')
+                elif child.attrib['k'] == 'contact:website':
+                    contact['website'] = child.get('v')
                 elif child.attrib['k'] == 'amenity':
                     node['amenity'] = child.get('v')
                 elif child.attrib['k'] == 'name':
-                    node['name'] = child.get('v')
-                elif child.attrib['k'] == 'phone':       
-                    node['phone'] = child.get('v')   
-        return node
+                    node['name'] = child.get('v') 
+                elif child.attrib['k'] == 'tourism':
+                    node['tourism'] = child.get('v') 
+
+        if len(address) > 0:
+            node['address'] = address
+        if len(contact) > 0:
+            node['contact'] = contact
+        return clean_node(node)
     else:
         return None
 
 
-def process_map(file_in, pretty = False):
-    # You do not need to change this file
-    file_out = "{0}.json".format(file_in)
+def process(file_in, file_out, pretty = False):
     data = []
     with codecs.open(file_out, "w") as fo:
         for _, element in ET.iterparse(file_in):
