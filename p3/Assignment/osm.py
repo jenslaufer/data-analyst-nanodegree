@@ -83,6 +83,8 @@ def is_valid_phone(phone):
         print "Error parsing {0}: {1}".format(phone,e)
         return False
 
+def clean_phone_number(phone):
+        return phonenumbers.format_number(phonenumbers.parse(phone, 'DE'), phonenumbers.PhoneNumberFormat.INTERNATIONAL)
 
 def clean_contact(contact):
     try:
@@ -91,6 +93,15 @@ def clean_contact(contact):
     except:
         pass
 
+    try:
+        contact['fax'] = clean_phone_number(contact['fax'])
+    except:
+        pass
+
+    try:
+        contact['phone'] = clean_phone_number(contact['phone'])
+    except:
+        pass
 
     return contact
 
