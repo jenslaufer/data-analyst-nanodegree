@@ -13,7 +13,7 @@ LOWER = re.compile(r'^([a-z]|_)*$')
 LOWER_COLON = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
 PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
 URL_RE = re.compile(r'^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$')
-EMAIL_RE = re.compile(r'^([\u00C0-\u017a-zA-Z\d_\.-]+)@([\u00C0-\u017\da-zA-Z\.-]+)\.([a-z\.]{2,6})$')
+EMAIL_RE = re.compile(r'^([\w\d_\.\-_]+)@([\w\d\.\-_]+)\.([a-z\.]{2,6})$', re.UNICODE)
 
 def count_tags(filename):
     tags = {}
@@ -79,11 +79,19 @@ def is_valid_url(url):
 def is_valid_phone(phone):
     try:
         return phonenumbers.is_valid_number(phonenumbers.parse(phone))
-    except:
+    except Exception as e:
+        print "Error parsing {0}: {1}".format(phone,e)
         return False
 
 
 def clean_contact(contact):
+    try:
+        if not URL_RE.match(contact['website']):
+            contact['website'] = 'http://'+contact['website']
+    except:
+        pass
+
+
     return contact
 
 
