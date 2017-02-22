@@ -12,13 +12,17 @@ STREET_TYPE_RE = re.compile(r'\b\S+\.?$', re.IGNORECASE)
 LOWER = re.compile(r'^([a-z]|_)*$')
 LOWER_COLON = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
 PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
-URL_RE = re.compile(r'^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$')
-EMAIL_RE = re.compile(r'^([\w\d_\.\-_]+)@([\w\d\.\-_]+)\.([a-z\.]{2,6})$', re.UNICODE)
+URL_RE = re.compile(
+    r'^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$')
+EMAIL_RE = re.compile(
+    r'^([\w\d_\.\-_]+)@([\w\d\.\-_]+)\.([a-z\.]{2,6})$', re.UNICODE)
 HOTEL_NAME_RE = re.compile(r'[Hh]otel')
 GUEST_HOUSE_NAME_RE = re.compile(r'[Pp]ension')
-APARTMENT_NAME_RE = re.compile(r'([Ff]erienwohnung)|([Ff]e[wW]o)|([Aa]partment)')
+APARTMENT_NAME_RE = re.compile(
+    r'([Ff]erienwohnung)|([Ff]e[wW]o)|([Aa]partment)')
 CHALET_NAME_RE = re.compile(r'[Ch]alet')
 HOSTEL_NAME_RE = re.compile(r'[Jj]ugendherberge')
+
 
 def count_tags(filename):
     tags = {}
@@ -29,9 +33,8 @@ def count_tags(filename):
             num += 1
         except:
             pass
-        tags[elem.tag] = num 
+        tags[elem.tag] = num
     return tags
-
 
 
 def key_type(element, keys, problematic, other):
@@ -48,7 +51,7 @@ def key_type(element, keys, problematic, other):
             keys["other"] = keys["other"] + 1
             other.append(key)
 
-    return keys,problematic,other
+    return keys, problematic, other
 
 
 def audit_k_value(filename):
@@ -56,11 +59,9 @@ def audit_k_value(filename):
     problematic = []
     other = []
     for _, element in ET.iterparse(filename):
-        keys,problematic,other = key_type(element, keys, problematic, other)
+        keys, problematic, other = key_type(element, keys, problematic, other)
 
-    return keys,problematic,other 
-
-
+    return keys, problematic, other
 
 
 def contributing_users(filename):
@@ -77,6 +78,7 @@ def contributing_users(filename):
 def is_valid_email(email):
     return EMAIL_RE.match(email)
 
+
 def is_valid_url(url):
     return URL_RE.match(url)
 
@@ -85,16 +87,18 @@ def is_valid_phone(phone):
     try:
         return phonenumbers.is_valid_number(phonenumbers.parse(phone))
     except Exception as e:
-        print "Error parsing {0}: {1}".format(phone,e)
+        print "Error parsing {0}: {1}".format(phone, e)
         return False
 
+
 def clean_phone_number(phone):
-        return phonenumbers.format_number(phonenumbers.parse(phone, 'DE'), phonenumbers.PhoneNumberFormat.INTERNATIONAL)
+    return phonenumbers.format_number(phonenumbers.parse(phone, 'DE'), phonenumbers.PhoneNumberFormat.INTERNATIONAL)
+
 
 def clean_contact(contact):
     try:
         if not URL_RE.match(contact['website']):
-            contact['website'] = 'http://'+contact['website']
+            contact['website'] = 'http://' + contact['website']
     except:
         pass
 
@@ -131,13 +135,14 @@ def audit_contact_data(filename):
                         if not is_valid_phone(tag.get('v')):
                             invalid_phone.append(tag.get('v'))
                     elif tag.get('k') == "contact:fax":
-                        if not is_valid_phone(tag.get('v')):  
+                        if not is_valid_phone(tag.get('v')):
                             invalid_phone.append(tag.get('v'))
                     elif tag.get('k') == "contact:email":
                         if not is_valid_email(tag.get('v')):
                             invalid_email.append(tag.get('v'))
 
     return (invalid_phone, invalid_email, invalid_url)
+
 
 def clean_lodging_data(node):
     try:
@@ -155,6 +160,7 @@ def clean_lodging_data(node):
         pass
     return node
 
+
 def clean_node(node):
     node = clean_lodging_data(node)
     try:
@@ -170,15 +176,13 @@ def clean_node(node):
     return node
 
 
-
 def shape_element(element):
 
-
-    CREATED = [ "version", "changeset", "timestamp", "user", "uid"]
+    CREATED = ["version", "changeset", "timestamp", "user", "uid"]
 
     node = {}
-    if element.tag == "node" or element.tag == "way" :
-        node['pos'] = [0,0]
+    if element.tag == "node" or element.tag == "way":
+        node['pos'] = [0, 0]
         node['created'] = {}
         node['type'] = element.tag
         if element.get('id') != None:
@@ -199,7 +203,7 @@ def shape_element(element):
             node['pos'][0] = float(element.get('lat'))
         if element.get('lon') != None:
             node['pos'][1] = float(element.get('lon'))
-        
+
         address = {}
         contact = {}
         for child in element:
@@ -225,9 +229,9 @@ def shape_element(element):
                 elif child.attrib['k'] == 'amenity':
                     node['amenity'] = child.get('v')
                 elif child.attrib['k'] == 'name':
-                    node['name'] = child.get('v') 
+                    node['name'] = child.get('v')
                 elif child.attrib['k'] == 'tourism':
-                    node['tourism'] = child.get('v') 
+                    node['tourism'] = child.get('v')
 
         if len(address) > 0:
             node['address'] = address
@@ -238,7 +242,7 @@ def shape_element(element):
         return None
 
 
-def process(file_in, file_out, pretty = False):
+def process(file_in, file_out, pretty=False):
     data = []
     with codecs.open(file_out, "w") as fo:
         for _, element in ET.iterparse(file_in):
@@ -246,8 +250,7 @@ def process(file_in, file_out, pretty = False):
             if el:
                 data.append(el)
                 if pretty:
-                    fo.write(json.dumps(el, indent=2)+"\n")
+                    fo.write(json.dumps(el, indent=2) + "\n")
                 else:
                     fo.write(json.dumps(el) + "\n")
     return data
-
