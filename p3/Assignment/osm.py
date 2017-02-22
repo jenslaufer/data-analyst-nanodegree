@@ -14,6 +14,11 @@ LOWER_COLON = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
 PROBLEMCHARS = re.compile(r'[=\+/&<>;\'"\?%#$@\,\. \t\r\n]')
 URL_RE = re.compile(r'^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$')
 EMAIL_RE = re.compile(r'^([\w\d_\.\-_]+)@([\w\d\.\-_]+)\.([a-z\.]{2,6})$', re.UNICODE)
+HOTEL_NAME_RE = re.compile(r'[Hh]otel')
+GUEST_HOUSE_NAME_RE = re.compile(r'[Pp]ension')
+APARTMENT_NAME_RE = re.compile(r'([Ff]erienwohnung)|([Ff]e[wW]o)|([Aa]partment)')
+CHALET_NAME_RE = re.compile(r'[Ch]alet')
+HOSTEL_NAME_RE = re.compile(r'[Jj]ugendherberge')
 
 def count_tags(filename):
     tags = {}
@@ -134,7 +139,24 @@ def audit_contact_data(filename):
 
     return (invalid_phone, invalid_email, invalid_url)
 
+def clean_lodging_data(node):
+    try:
+        if HOTEL_NAME_RE.search(node["name"]):
+            node['tourism'] = 'hotel'
+        elif GUEST_HOUSE_NAME_RE.search(node["name"]):
+            node['tourism'] = 'guest_house'
+        elif APARTMENT_NAME_RE.search(node["name"]):
+            node['tourism'] = 'apartment'
+        elif CHALET_NAME_RE.search(node["name"]):
+            node['tourism'] = 'chalet'
+        elif HOSTEL_NAME_RE.search(node["name"]):
+            node['tourism'] = 'hostel'
+    except Exception as e:
+        pass
+    return node
+
 def clean_node(node):
+    node = clean_lodging_data(node)
     try:
         node['address'] = clean_address(node['address'])
     except:
