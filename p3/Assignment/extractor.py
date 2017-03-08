@@ -1,6 +1,6 @@
 import xml.etree.cElementTree as ET
 
-def get_element(osm_file, tags=('node', 'way', 'relation')):
+def __get_element(osm_file, tags=('node', 'way', 'relation')):
     """Yield element if it is the right type of tag
 
     Reference:
@@ -23,7 +23,7 @@ def extract(source, target, k):
         output.write('<osm>\n  ')
 
         # Write every kth top level element
-        for i, element in enumerate(get_element(source)):
+        for i, element in enumerate(__get_element(source)):
             if i % k == 0:
                 output.write(ET.tostring(element, encoding='utf-8'))
 
