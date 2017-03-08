@@ -9,3 +9,5 @@ p3/bla.txt
 p3/Assignment/*.osm
 p3/Assignment/*.json
 p3/Assignment/*.pyc
+*.html
+p3/Assignment/p3_assigment_jenslaufer.zip
