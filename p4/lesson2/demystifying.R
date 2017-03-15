@@ -55,7 +55,7 @@ numbers
 udacious <- c("Chris Saden", "Lauren Castellano",
               "Sarah Spikes","Dean Eckles",
               "Andy Brown", "Moira Burke",
-              "Kunal Chawla", YOUR_NAME)
+              "Kunal Chawla", "Jens Laufer")
 
 # Notice how R updates 'udacious' in the workspace.
 # It should now say something like 'chr[1:8]'.
@@ -245,7 +245,7 @@ tail(mtcars, 3)
 mtcars$mpg
 
 # Print out any two other variables to the console.
-
+mtcars$disp
 
 
 # This is a vector containing the mpg (miles per gallon) of

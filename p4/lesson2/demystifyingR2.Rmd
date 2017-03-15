@@ -25,18 +25,21 @@ cars that get 23 or more mpg (miles per gallon). Save it to a new data
 frame called efficient.
 ```{r}
 
+efficent <- subset(mtcars, mpg > 23)
+
 ```
 
 3. How many cars get more than 23 mpg? Use one of the commands you
 learned in the demystifying.R to answer this question.
 ```{r}
+dim(efficent)
 
 ```
 
 4. We can also use logical operators to find out which car(s) get greater
 than 30 miles per gallon (mpg) and have more than 100 raw horsepower.
 ```{r}
-subset(mtcars, mpg > 30 & hp > 100)
+subset(mtcars, mpg >= 30 | hp < 60)
 ```
 
 There's only one car that gets more than 30 mpg and 100 hp.
@@ -67,11 +70,14 @@ Now you try some.
 16.90 seconds to the console.
 ```{r}
 
+subset(mtcars, qsec < 16.9 & qsec > 0.25)
 ```
 
 7. Save the subset of cars that weigh under 2000 pounds (weight is measured in lb/1000)
 to a variable called lightCars. Print the numbers of cars and the subset to the console.
 ```{r}
+
+lightCars <- subset(mtcars, wt < 2)
 
 ```
 
@@ -105,6 +111,8 @@ Open the table of values to see what values year takes on.
 Drop the year variable from the data set.
 ```{r}
 
+subset(mtcars, select=-year)
+
 ```
 
 
@@ -135,9 +143,12 @@ nothing to worry about here, but let's delete those variables from the
 work space.
 
 ```{r}
-rm(cond)
-rm(efficient)
+# rm(cond)
 ```
+'''{r}
+subset(mtcars, mpg >= 30 | hp < 60)
+'''
+
 
 Save this file if you haven't done so yet.
 
