@@ -13,6 +13,12 @@ Notes:
 
 ```{r Pseudo-Facebook User Data}
 
+pf <-  read.csv(
+  "pseudo_facebook.tsv",
+  sep="\t")
+names(pf)
+str(pf)
+
 ```
 
 ***
@@ -23,6 +29,11 @@ Notes:
 ```{r Histogram of Users\' Birthdays}
 install.packages('ggplot2')
 library(ggplot2)
+
+ggplot(data = pf, aes(x = dob_day)) + 
+  geom_histogram(binwidth = 1) + 
+  scale_x_continuous(breaks = 1:31) + 
+  facet_wrap(~dob_month)
 ```
 
 ***
@@ -116,7 +127,8 @@ Notes:
 # Add it to the code below.
 qplot(x = friend_count, data = pf, binwidth = 10) +
   scale_x_continuous(limits = c(0, 1000),
-                     breaks = seq(0, 1000, 50))
+                     breaks = seq(0, 1000, 50)) +
+  facet_wrap(~gender)
 ```
 
 ***
