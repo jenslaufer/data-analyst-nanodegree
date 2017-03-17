@@ -27,7 +27,6 @@ str(pf)
 Notes:
 
 ```{r Histogram of Users\' Birthdays}
-install.packages('ggplot2')
 library(ggplot2)
 
 ggplot(data = pf, aes(x = dob_day)) + 
@@ -40,7 +39,7 @@ ggplot(data = pf, aes(x = dob_day)) +
 
 #### What are some things that you notice about this histogram?
 Response:
-
+Outlier in January 1st
 ***
 
 ### Moira's Investigation
@@ -99,11 +98,27 @@ Notes:
 
 ```{r Friend Count}
 
+library(ggplot2)
+
+ggplot(data = pf, mapping=aes(x = friend_count)) + 
+  geom_histogram(binwidth = 1) +
+  xlim(0, 1000)
+
+```
+
+```{r Friend Count2}
+
+
+
+ggplot(data = pf, mapping = aes(x = friend_count)) +
+geom_histogram(binwidth = 25) +
+scale_x_continuous(limits = c(0, 1000), breaks = seq(0, 10000,50))
+
 ```
 
 #### How is this plot similar to Moira's first plot?
 Response:
-
+positively scewed
 ***
 
 ### Limiting the Axes
@@ -125,10 +140,12 @@ Notes:
 ```{r Faceting Friend Count}
 # What code would you add to create a facet the histogram by gender?
 # Add it to the code below.
-qplot(x = friend_count, data = pf, binwidth = 10) +
-  scale_x_continuous(limits = c(0, 1000),
-                     breaks = seq(0, 1000, 50)) +
-  facet_wrap(~gender)
+qplot(x = friend_count,
+      data = pf,
+      binwidth = 10) +
+      scale_x_continuous(limits = c(0, 1000),
+      breaks = seq(0, 1000, 50)) +
+      facet_wrap( ~ gender)
 ```
 
 ***
@@ -138,6 +155,13 @@ Notes:
 
 ```{r Omitting NA Values}
 
+qplot(x = friend_count,
+      data = subset(pf,!is.na(gender)),
+      binwidth = 10) +
+      scale_x_continuous(limits = c(0, 1000),
+      breaks = seq(0, 1000, 50)) +
+      facet_wrap( ~ gender)
+
 ```
 
 ***
@@ -146,25 +170,29 @@ Notes:
 Notes:
 
 ```{r Statistics \'by\' Gender}
+table(pf$gender)
+by(pf$friend_count, pf$gender, summary)
 
 ```
 
 #### Who on average has more friends: men or women?
 Response:
+women
 
 #### What's the difference between the median friend count for women and men?
 Response:
-
+22
 #### Why would the median be a better measure than the mean?
 Response:
-
+not so much influenced by outlier
 ***
 
 ### Tenure
 Notes:
 
 ```{r Tenure}
-
+ggplot(aes(x = tenure), data = pf) + 
+   geom_histogram(binwidth = 30, color = 'black', fill = '#099DD9')
 ```
 
 ***
@@ -172,7 +200,16 @@ Notes:
 #### How would you create a histogram of tenure by year?
 
 ```{r Tenure Histogram by Year}
-
+ggplot(aes(x = tenure / 365),
+       data = pf) +
+       geom_histogram(binwidth = .25,
+       color = 'black',
+       fill = '#F79420') +
+       scale_x_continuous(limits = c(0, 7),
+       breaks = seq(0, 7, .5)) +
+       xlab("Number of years on Facebook") +
+       ylab('Number of users')
+  
 ```
 
 ***
@@ -181,6 +218,11 @@ Notes:
 Notes:
 
 ```{r Labeling Plots}
+
+ggplot(aes(x = tenure/365), data = pf) + 
+   geom_histogram(binwidth = .25, color = 'black', fill = '#F79420')+
+      scale_x_continuous(limits = c(0, 7),
+      breaks = seq(0, 7, .5))
 
 ```
 
