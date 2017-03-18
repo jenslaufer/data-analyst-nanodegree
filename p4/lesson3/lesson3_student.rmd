@@ -233,8 +233,16 @@ Notes:
 
 ```{r User Ages}
 
-```
+ggplot(data = pf, mapping = aes(x = age)) +
+  geom_histogram(binwidth = 1) +
+  scale_x_continuous(limits = c(0, 100),
+  breaks = seq(0, 100, 2))
 
+
+```{r User Ages}
+
+summary(pf$age)
+```
 #### What do you notice?
 Response:
 
@@ -260,6 +268,23 @@ Notes:
 
 ```{r Add a Scaling Layer}
 
+
+
+
+library(gridExtra)
+
+p1 = ggplot(data = pf, mapping = aes(x = friend_count)) +
+  geom_histogram(binwidth = 1,
+                 color = 'black',
+                 fill = '#099DD9')
+
+
+p2 = p1 + scale_x_log10()
+
+
+p3 = p1 + scale_x_sqrt()
+
+grid.arrange(p1, p2, p3, ncol = 1)
 ```
 
 ***
@@ -269,6 +294,19 @@ Notes:
 
 ```{r Frequency Polygons}
 
+p1 = ggplot(aes(x = friend_count, y = ..count.. / sum(..count..)), data = subset(pf, !is.na(gender))) +
+geom_freqpoly(aes(color = gender), binwidth = 10) +
+xlab('Friend Count') +
+ylab('Percentage of users with that friend count')
+
+p2 = p1 +
+scale_x_continuous(limits = c(0, 1000), breaks = seq(0, 1000, 50)) 
+
+
+p3 = p1 + scale_x_log10()
+
+
+grid.arrange(p2, p3, ncol = 1)
 ```
 
 ***
@@ -277,6 +315,14 @@ Notes:
 Notes:
 
 ```{r Likes on the Web}
+
+
+p1 = ggplot(aes(x = friend_count, y = ..count.. / sum(..count..)), data = subset(pf, !is.na(gender))) +
+geom_freqpoly(aes(color = gender), binwidth = 10) +
+xlab('Friend Count') +
+ylab('Percentage of users with that friend count')
+
+grid.arrange(p1,ncol(1))
 
 ```
 
