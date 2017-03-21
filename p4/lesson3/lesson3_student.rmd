@@ -316,15 +316,25 @@ Notes:
 
 ```{r Likes on the Web}
 
+p1 = ggplot(aes(x = www_likes), data = subset(pf,!is.na(gender))) +
+geom_freqpoly(aes(color = gender)) + scale_x_continuous()
 
-p1 = ggplot(aes(x = friend_count, y = ..count.. / sum(..count..)), data = subset(pf, !is.na(gender))) +
-geom_freqpoly(aes(color = gender), binwidth = 10) +
-xlab('Friend Count') +
-ylab('Percentage of users with that friend count')
+p2 = p1 + scale_x_log10()
 
-grid.arrange(p1,ncol(1))
+
+
+grid.arrange(p1, p2, ncol = 1)
 
 ```
+
+```{r code}
+
+
+by(pf$www_likes, pf$gender, sum)
+
+```
+
+
 
 
 ***
@@ -333,6 +343,25 @@ grid.arrange(p1,ncol(1))
 Notes:
 
 ```{r Box Plots}
+
+
+
+
+
+ggplot(data = subset(pf, !is.na(gender)),
+mapping = aes(x = gender, y = friend_count)) +
+geom_boxplot() + scale_y_continuous(limits = c(0, 1000))
+
+
+
+ggplot(data = subset(pf,!is.na(gender)),
+mapping = aes(x = gender, y = friend_count)) +
+geom_boxplot() + coord_cartesian(ylim = c(0, 250))
+```
+
+```{r}
+
+by(pf$friend_count,pf$gender, summary)
 
 ```
 
@@ -357,6 +386,14 @@ Response:
 Response:
 ```{r Friend Requests by Gender}
 
+
+
+ggplot(
+data = subset(pf,!is.na(gender)),
+mapping = aes(x = gender, y = friendships_initiated)
+) +
+geom_boxplot() + coord_cartesian(ylim = c(0, 125))
+
 ```
 
 Response:
@@ -367,6 +404,16 @@ Response:
 Notes:
 
 ```{r Getting Logical}
+
+
+
+pf$mobile_check_in <- NA
+pf$mobile_check_in <- ifelse(pf$mobile_likes > 0, 1, 0)
+pf$mobile_check_in <- factor(pf$mobile_check_in)
+
+summary(pf$mobile_check_in)
+
+length(subset(pf$mobile_check_in,pf$mobile_check_in == 1)) / length(pf$mobile_check_in)
 
 ```
 

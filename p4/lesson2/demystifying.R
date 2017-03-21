@@ -6,10 +6,13 @@
 # You need to highlight all of the lines of the code and then
 # run it. You should see "udacious" appear in the workspace.
 
-udacious <- c("Chris Saden", "Lauren Castellano",
+udacious = c("Chris Saden", "Lauren Castellano",
               "Sarah Spikes","Dean Eckles",
               "Andy Brown", "Moira Burke",
               "Kunal Chawla")
+
+library(formatR)
+tidy_source()
 
 # You should see something like "chr[1:7]" in the 'Environment'
 # or 'Workspace' tab. This is because you created a 'vector' with
@@ -128,7 +131,7 @@ data(mtcars)
 
 
 # You should see mtcars appear in the 'Environment' tab with
-# <Promise> listed next to it. 
+# <Promise> listed next to it.
 
 # The object (mtcars) appears as a 'Promise' object in the
 # workspace until we run some code that uses the object.
