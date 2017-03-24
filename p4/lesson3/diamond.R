@@ -63,7 +63,7 @@ ggplot(data = diamonds,
 
 
 ggplot(mapping = aes(x = carat), data = diamonds) +
-  geom_freqpoly(binwidth = .05) + scale_x_continuous(limits = c(0, 2), breaks = seq(0, 2, 0.1)) +
-  geom_hline(linetype = 'dashed', yintercept = 2000) +
-  geom_vline(linetype = 'dotted',
+  geom_freqpoly(binwidth = .05) + scale_x_continuous(limits = c(0, 3.2), breaks = seq(0, 3.2, 0.1)) +
+  geom_hline(linetype = 'F1', yintercept = 2000) +
+  geom_vline(linetype = 'dashed',
              xintercept = c(0.1, 0.3, 0.8, 1.01, 1.6, 2.0, 3.0, 5.0))
