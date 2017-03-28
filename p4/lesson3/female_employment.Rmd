@@ -69,12 +69,12 @@ p2 + geom_boxplot()
 ```
 
 ```{r}
-p3 <- ggplot(data=subset(df, country %in% c('Germany', 'Norway', 'Sweden')), mapping= aes(x=year, y=employment_rate, group=1))
+
+```p3 <- ggplot(data=subset(df, country %in% c('Germany', 'Norway', 'Sweden')), mapping= aes(x=year, y=employment_rate, group=1))
 p3 <- p3 + geom_line() 
-p3 <- p3 + facet_wrap(~country, ncol = 2, scales='free')
+p3 <- p3 + facet_wrap(~country, ncol = 1, scales='fixed')
 p3 
 
-```
 
 Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
