@@ -1,0 +1,15 @@
+---
+title: "Diamond bivariate analysis"
+output: html_notebook
+---
+ 
+
+```{r}
+library(ggplot2)
+?diamonds
+```
+
+```{r}
+
+```
+
