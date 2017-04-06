@@ -1,6 +1,8 @@
 ---
 title: "Diamond bivariate analysis"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
  
 
@@ -30,6 +32,42 @@ ggplot(data=diamonds, mapping=aes(x=depth,y=price))+
   scale_x_continuous(breaks = seq(57,67,1), limits = c(55,68)) 
 ```
 ```{r}
-cor.test(diamonds,diamonds$depth, diamonds$price)
+with(diamonds, cor.test(price,depth))
 ```
+```{r}
+diamonds.carat.top1pct <- quantile(diamonds$carat, probs = c(0.99))
+diamonds.price.top1pct <- quantile(diamonds$price, probs = c(0.99))
+
+diamonds.carat.top1pct
+
+ggplot(mapping=aes(x=carat, y=price), data=subset(diamonds, price < diamonds.price.top1pct& carat < diamonds.carat.top1pct))+
+  geom_jitter(alpha=1/50)
+```
+```{r}
+diamonds$volume = diamonds$x * diamonds$y * diamonds$z
+```
+
+```{r}
+ggplot(mapping=aes(x=volume,y=price), data=diamonds) +
+  geom_jitter() 
+
+nrow(subset(diamonds,volume==0))
+```
+
+```{r}
+diamonds.without.outliers <- subset(diamonds, diamonds$volume >0 & diamonds$volume <800)
+cor.test(diamonds.without.outliers$price, diamonds.without.outliers$volume)
+```
+```{r}
+ggplot(mapping=aes(x=volume, y=price), data=diamonds.without.outliers) +
+  geom_point(alpha=1/100) +
+  geom_smooth(method = 'lm')
+```
+
+```{r}
+library(dplyr)
+
+
+```
+
 
