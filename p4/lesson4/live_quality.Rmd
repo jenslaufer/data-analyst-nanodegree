@@ -1,0 +1,85 @@
+---
+title: "Analysis Quality of life"
+output: live_quality
+---
+
+
+```{r}
+quality_of_life <- read.csv(file='data/movehubqualityoflife.csv')
+cost_of_life <- read.csv(file='data/movehubcostofliving.csv')
+cities <- read.csv(file='data/cities2.csv')
+
+#quality_of_life <- left_join(quality_of_life, cities)
+
+df <- full_join(quality_of_life, cost_of_life)
+df <- left_join(df, cities)
+
+str(df)
+
+```
+
+```{r}
+
+ggplot(data=df, mapping=aes(y=Crime.Rating, x=Quality.of.Life)) +
+  geom_point() + geom_quantile(quantiles=0.5, color='black') + geom_quantile(quantiles=0.75, color='blue') + geom_quantile(quantiles=0.25, color='red') +geom_smooth(method = 'lm', color='orange')
+
+```
+```{r}
+cor.test(df$Quality.of.Life, df$Crime.Rating)
+```
+
+It seems there is a moderate downhill (negative) relationship between Crime_rating and quality_of_live
+
+```{r}
+ggplot(data = df,
+       mapping = aes(x = Quality.of.Life, y = Avg.Rent)) +
+       geom_point() + geom_quantile(quantiles = 0.5, color = 'black') + geom_quantile(quantiles =
+       0.75, color = 'blue') + geom_quantile(quantiles = 0.25, color = 'red') +
+       geom_smooth(method = 'lm', color = 'orange') 
+```
+
+
+```{r}
+with(df, cor.test(Quality.of.Life, Avg.Rent))
+```
+```{r}
+
+ggplot(data = df,
+       mapping = aes(x = Quality.of.Life, y = Avg.Rent, size=Pollution )) +
+       geom_point() + geom_text(
+       aes(label = as.character(City)),
+       hjust = 1,
+       vjust = 1,
+       color = 'blue'
+       ) + scale_x_continuous(limits = c(85,100))
+```
+
+
+```{r}
+
+ggplot(data = df,
+       mapping = aes(x = Quality.of.Life, y = Avg.Rent, size=Crime.Rating )) +
+       geom_point() + geom_text(
+       aes(label = as.character(City)),
+       hjust = 0,
+       vjust = 0,
+       color = 'blue'
+       ) +
+  coord_cartesian(ylim=c(500, 3500),xlim=c(90,100))
+
+```
+
+```{r}
+ggplot(data = subset(df, country== 'Germany'),
+       mapping = aes(x = Quality.of.Life, y = Avg.Rent, size=Crime.Rating)) +
+       geom_point() + geom_text(
+       aes(label = as.character(City)),
+       hjust = 0,
+       vjust = 0,
+       color = 'blue'
+       ) 
+  #+
+  #coord_cartesian(ylim=c(500, 3500),xlim=c(90,100))
+
+```
+
