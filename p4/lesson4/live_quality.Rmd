@@ -2,6 +2,10 @@
 title: "Analysis Quality of life"
 output: live_quality
 ---
+```{r}
+library(dplyr)
+library(ggplot2)
+```
 
 
 ```{r}
@@ -45,13 +49,13 @@ with(df, cor.test(Quality.of.Life, Avg.Rent))
 ```{r}
 
 ggplot(data = df,
-       mapping = aes(x = Quality.of.Life, y = Avg.Rent, size=Pollution )) +
+       mapping = aes(x = Quality.of.Life, y = Avg.Rent, color=Crime.Rating , size=Pollution )) +
        geom_point() + geom_text(
        aes(label = as.character(City)),
        hjust = 1,
        vjust = 1,
-       color = 'blue'
-       ) + scale_x_continuous(limits = c(85,100))
+       color = 'black'
+       ) + scale_x_continuous(limits = c(85,100)) +scale_colour_gradient(high="red", low="green")
 ```
 
 
@@ -70,16 +74,28 @@ ggplot(data = df,
 ```
 
 ```{r}
-ggplot(data = subset(df, country== 'Germany'),
-       mapping = aes(x = Quality.of.Life, y = Avg.Rent, size=Crime.Rating)) +
-       geom_point() + geom_text(
-       aes(label = as.character(City)),
-       hjust = 0,
-       vjust = 0,
-       color = 'blue'
-       ) 
-  #+
-  #coord_cartesian(ylim=c(500, 3500),xlim=c(90,100))
+ggplot(
+  data = subset(df, country == 'Germany'),
+  mapping = aes(
+  x = Quality.of.Life,
+  y = Avg.Rent,
+  color = Crime.Rating ,
+  size = Pollution
+  )
+  ) +
+  geom_point() + geom_text(
+  aes(label = as.character(City), size = 20),
+  hjust = 1,
+  vjust = 1,
+  color = 'black'
+  ) + coord_cartesian(xlim = c(86, 91)) + scale_colour_gradient(high =
+  "red", low = "green") +
+  geom_smooth(method = 'lm', color = 'blue') 
+```
+```{r}
+library(GGally)
+ggpairs(df[,2:4])
 
 ```
+
 

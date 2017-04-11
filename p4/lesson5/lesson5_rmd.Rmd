@@ -1,0 +1,42 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+pf <- read.csv('../lesson4/data/pseudo_facebook.tsv', sep = '\t')
+```
+
+```{r}
+pf.fc_by_age_gender <- pf %>% group_by(age, gender) %>% filter(!is.na(gender)) %>% summarize(mean_friend_count=mean(friend_count),median_friend_count=median(friend_count), n=n()) %>% ungroup() %>% arrange(age)
+head(pf.fc_by_age_gender)
+
+```
+```{r}
+ggplot(data=pf.fc_by_age_gender, mapping=aes(x=age, y=mean_friend_count, color=gender)) + geom_line() 
+```
+
+```{r}
+library(reshape2)
+
+pf.fc_by_age_gender.wide <- dcast(pf.fc_by_age_gender,age ~ gender,
+      value.var = 'median_friend_count')
+```
+
+```{r}
+pf.fc_by_age_gender.wide$ratio <- pf.fc_by_age_gender.wide$female/pf.fc_by_age_gender.wide$male
+
+ggplot(mapping=aes(x=age,y=ratio), data=pf.fc_by_age_gender.wide) + geom_line()+
+geom_hline(yintercept = 1 ,alpha = 0.3, linetype = 1)
+```
+
+
+```{r}
+pf$year_joined = 2014 - floor(pf$tenure / 365)
+```
+
