@@ -1,0 +1,44 @@
+---
+title: "Yogurt consumption data"
+output: html_notebook
+---
+```{r}
+yo <- read.csv('data/yogurt.csv')
+yo$id <- factor(yo$id)
+str(yo)
+```
+
+```{r}
+ggplot(mapping = aes(x = price), data = yo) +
+  geom_histogram(bins = 50)
+```
+The data is negatively skewed with a maximum at about 65.
+We have very discrete peaks
+```{r}
+dim(table(yo$price))
+```
+
+```{r}
+yo <- transform(yo, all.purchases = strawberry+ blueberry+pina.colada+plain+mixed.berry)
+```
+
+```{r}
+ggplot(mapping=aes(y=price, x=time), data=yo) +
+  geom_jitter(alpha=1/8, shape=21)
+```
+
+```{r}
+set.seed(42)
+sample.ids <- sample(levels(yo$id),16)
+
+ggplot(aes(x = time, y = price),
+       data = subset(yo, id %in% sample.ids))+
+  facet_wrap(~ id)+
+  geom_line()+
+  geom_point(aes(size = all.purchases), pch = 1)
+```
+
+```{r}
+
+```
+
