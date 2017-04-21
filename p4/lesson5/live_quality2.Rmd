@@ -1,0 +1,66 @@
+---
+title: "Analysis Quality of life"
+output: live_quality
+---
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+Within this data analysis I want to examine the correlation of the cost of living in the different cities.
+
+```{r}
+cost_of_life <- read.csv(file='../lesson4/data/movehubcostofliving.csv')
+cities <- read.csv(file='../lesson4/data/cities2.csv')
+continents <-  read.csv(file='../lesson4/data/Countries-Continents-csv.csv')
+
+df <- right_join(cities, cost_of_life)
+df <- right_join(df,continents)
+
+```
+
+
+```{r}
+library(GGally)
+
+ggpairs(df[,5:9])
+
+```
+
+It seems that there are correlations between the average rent and the prices for wine and capuccino.
+It seems that the gasoline price doesn't have a significant correlation between the other variables, apart from the price for wine.
+
+We are doing a further analysis for the correlation for Wine and Gasoline
+
+```{r}
+ggplot(data=df, mapping=aes(x=Gasoline, y=Wine))+ geom_point(aes(size=20,color=Continent))  + geom_text(
+       aes(label = as.character(City)),
+       hjust = 1,
+       vjust = 1,
+       color = 'black'
+       ) + geom_smooth()
+```
+
+
+You can see from this plot that petrol prices are the highest in Europe most probably due tax policies and the fact that there are almost no oil resources. The prices for petrol is very low in regions with a lot oil resources (especially arabic countries). On the hand you can see that the price for wine is low in europe most probably also due leberal laws about alcohol consumption. The price for oil is very high in muslim countries. So we can see a the pattern low-petrol-price-high-wine-price which are the aracic (muslim!) countries and the pattern high-petrol-price-low-wine-price in mostly european countries. In between you have a big cloud with all other countries. So there is most problably real correlation between these variables (correlation does not imply causation). The lurking variables seems religion and national policies.
+
+```{r}
+
+
+ggplot(data=subset(df, df$Continent != 'Europe' & df$Continent != 'Africa' & df$Continent != 'Asia' ), mapping=aes(x=Gasoline, y=Wine))+ geom_point(aes(size=20,color=Continent))  + geom_text(
+       aes(label = as.character(City)),
+       hjust = 1,
+       vjust = 1,
+       color = 'black'
+       ) + geom_smooth()
+```
+
+
+
+```{r}
+cor.test(df$Wine, df$Gasoline)
+```
+
+
+```{r}
+with(subset(df, df$Continent != 'Europe' & df$Continent != 'Africa' & df$Continent != 'Asia' ), cor.test(Wine, Gasoline))
+```

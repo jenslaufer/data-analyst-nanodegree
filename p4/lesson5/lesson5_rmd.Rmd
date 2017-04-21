@@ -79,4 +79,10 @@ ggplot(mapping=aes(x = 5 * round(tenure / 5), y=friendships_initiated/tenure), d
 
 ggplot(mapping=aes(x = 25 * round(tenure / 25), y=friendships_initiated/tenure), data=subset(pf, tenure >= 1)) +
   geom_smooth(aes(color=year_joined.bucket))
+
 ```
+
+```{r}
+ggplot
+```
+
