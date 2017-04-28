@@ -1,35 +1,81 @@
-TITLE by YOUR_NAME_HERE
+Exploration of factors which influence the revenue of an Airbnb listing on Bali by Jens 
 ========================================================
 
-> **Tip**: You will see quoted sections like this throughout the template to
-help you construct your report. Make sure that you remove these notes before
-you finish and submit your project!
+Everbody heard about the 
+The other day I got my first little job as a data analyst. 
 
-> **Tip**: One of the requirements of this project is that your code follows
-good formatting techniques, including limiting your lines to 80 characters or
-less. If you're using RStudio, go into Preferences \> Code \> Display to set up
-a margin line to help you keep track of this guideline!
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
-# Load all of the packages that you end up using in your analysis in this code
-# chunk.
-
-# Notice that the parameter "echo" was set to FALSE for this code chunk. This
-# prevents the code from displaying in the knitted HTML output. You should set
-# echo=FALSE for all code chunks in your file, unless it makes sense for your
-# report to show the code that generated a particular plot.
-
-# The other parameters for "message" and "warning" should also be set to FALSE
-# for other code chunks once you have verified that each plot comes out as you
-# want it to. This will clean up the flow of your report.
-
 library(ggplot2)
+library(dplyr)
+library(GGally)
 ```
 
-```{r echo=FALSE, Load_the_Data}
-# Load the Data
+```{r echo=FALSE, message=FALSE, Load_the_Data}
+listings_df <- read.csv('data/airbnb.listings.bali.csv')
+calendar_df <- read.csv('data/airbnb.listing.calendar.dates.bali.csv')
+
+raw <- right_join(listings_df, calendar_df)
+rm(listings_df, calendar_df)
 
 ```
+
+```{r}
+raw$available = as.logical(raw$available == "true")
+raw$instant_bookable = as.logical(raw$instant_bookable == "true")
+raw$is_family_preferred = as.logical(raw$is_family_preferred == "true")
+
+```
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, creation of high level dataframe}
+
+
+ nightly_income <- function(available, price) {
+   ifelse(available == FALSE, price, 0)
+ }
+
+ occupancy <- function(available) {
+   length(which(available==FALSE)) / length(available) * 100
+ }
+ 
+ revenue_per_available_room <- function(available, average_daily_rate) {
+   length(which(available==FALSE)) / length(available) * average_daily_rate
+ }
+ 
+ yearly_revenue <- function(available, average_daily_rate) {
+   length(which(available==FALSE)) / length(available) * average_daily_rate * 365
+ }
+ 
+
+df <- raw %>% mutate(nightly_income=nightly_income(available, price.local_price)) %>% 
+          group_by(id) %>% 
+          summarize(name=first(name),
+                    currency=first(price.local_currency),
+                    bathrooms=first(bathrooms),
+                    bedrooms=first(bedrooms),
+                    beds=first(beds),
+                    instant_bookable=first(instant_bookable),
+                    person_capacity=first(person_capacity),
+                    picture_count=first(picture_count),
+                    picture_url=first(picture_url),
+                    reviews_count=first(reviews_count),
+                    room_type=first(room_type),
+                    star_rating=first(star_rating),
+                    occupancy=occupancy(available),
+                    average_daily_rate=mean(price.local_price),
+                    revenue_per_available_room=revenue_per_available_room(available,  mean(price.local_price)),
+                    yearly_revenue=yearly_revenue(available, mean(price.local_price)),
+                    revenue=sum(nightly_income))
+rm(raw)
+
+```
+```{r}
+ggplot(data=df, mapping=aes(x=yearly_revenue)) +
+  geom_histogram(binwidth = 200)+
+  scale_y_continuous(limits = c(0,20))
+```
+
 
 > **Tip**: Before you create any plots, it is a good idea to provide a short
 introduction into the dataset that you are planning to explore. Replace this
