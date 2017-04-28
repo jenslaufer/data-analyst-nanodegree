@@ -6,6 +6,7 @@ output: html_notebook
 ```{r}
 library(ggplot2)
 library(dplyr)
+library(gridExtra)
 ```
 
 
@@ -28,16 +29,157 @@ Create a scatterplot of price (y) vs carat weight (x).
 
 Limit the x-axis and y-axis to omit the top 1% of values.
 
-```{r}
-quantile(diamonds$carat,probs=seq(0.01, 0.99))
-```
 
 
 ```{r}
+
 ggplot(data=diamonds, mapping=aes(y=price,x=carat)) +
-  geom_point() +
-  xlim(quantile(diamonds,probs=seq(0.01, 0.99)))
+  geom_jitter(alpha=1/40) +
+  xlim(quantile(diamonds$carat,probs=c(0.00, .99)))+
+  ylim(quantile(diamonds$price,probs=c(0.00, .99)))+
+  geom_smooth(method='lm')
+```
+
+Create two histograms of the price variable
+and place them side by side on one output image.
+
+We’ve put some code below to get you started.
+
+The first plot should be a histogram of price
+and the second plot should transform
+the price variable using log10.
+
+Set appropriate bin widths for each plot.
+ggtitle() will add a title to each histogram.
+
+You can self-assess your work with the plots
+in the solution video.
+
+
+```{r}
+p1 <- ggplot(data=diamonds, mapping = aes(x=price)) +
+  geom_histogram(binwidth = 80)
+
+
+
+
+p2 <- ggplot(data=diamonds, mapping = aes(x=price)) +
+  geom_histogram(binwidth = 0.01) + scale_x_log10()
+
+grid.arrange(p1,p2, nrow=1)
+```
+
+```{r cuberoot transformation}
+
+cuberoot_trans = function(){
+  trans_new('cuberoot',
+            transform = function(x) {x^(1/3)},
+            inverse = function(x){ x^3})
+  }
+```
+
+Add a layer to adjust the features of the
+scatterplot. Set the transparency to one half,
+the size to three-fourths, and jitter the points.
+
+If you need hints, see the Instructor Notes.
+There are three hints so scroll down slowly if
+you don’t want all the hints at once.
+
+```{r}
+
+ggplot(aes(carat, price), data = diamonds) + 
+  geom_point(aes(color = clarity), alpha = 1/2, size = 3/4, position = 'jitter') + 
+  scale_x_continuous(trans = cuberoot_trans(), limits = c(0.2, 3),
+                     breaks = c(0.2, 0.5, 1, 2, 3)) + 
+  scale_y_continuous(trans = log10_trans(), limits = c(350, 15000),
+                     breaks = c(350, 1000, 5000, 10000, 15000)) +
+  ggtitle('Price (log10) by Cube-Root of Carat')
+```
+```{r}
+
+ggplot(aes(carat, price), data = diamonds) + 
+  geom_point(alpha = 1/2, size = 3/4, position = 'jitter') + 
+  scale_x_continuous(trans = cuberoot_trans(), limits = c(0.2, 3),
+                     breaks = c(0.2, 0.5, 1, 2, 3)) + 
+  scale_y_continuous(trans = log10_trans(), limits = c(350, 15000),
+                     breaks = c(350, 1000, 5000, 10000, 15000)) +
+  ggtitle('Price (log10) by Cube-Root of Carat')
 ```
 
 
+```{r}
+
+ggplot(aes(x = carat, y = price, color = cut), data = diamonds) + 
+  geom_point(alpha = 0.5, size = 1, position = 'jitter') +
+  scale_color_brewer(type = 'div',
+                     guide = guide_legend(title = 'Clarity', reverse = T,
+                                          override.aes = list(alpha = 1, size = 2))) +  
+  scale_x_continuous(trans = cuberoot_trans(), limits = c(0.2, 3),
+                     breaks = c(0.2, 0.5, 1, 2, 3)) + 
+  scale_y_continuous(trans = log10_trans(), limits = c(350, 15000),
+                     breaks = c(350, 1000, 5000, 10000, 15000)) +
+  ggtitle('Price (log10) by Cube-Root of Carat and Clarity')
+```
+
+
+```{r A Bigger, Better Data Set}
+library('bitops')
+load('BigDiamonds.Rda')
+```
+
+
+Your task is to build five linear models like Solomon
+did for the diamonds data set only this
+time you'll use a sample of diamonds from the
+diamondsbig data set.
+
+Be sure to make use of the same variables
+(logprice, carat, etc.) and model
+names (m1, m2, m3, m4, m5).
+
+To get the diamondsbig data into RStudio
+on your machine, copy, paste, and run the
+code in the Instructor Notes. There's
+598,024 diamonds in this data set!
+
+Since the data set is so large,
+you are going to use a sample of the
+data set to compute the models. You can use
+the entire data set on your machine which
+will produce slightly different coefficients
+and statistics for the models.
+
+This exercise WILL BE automatically graded.
+
+You can leave off the code to load in the data.
+We've sampled the data for you.
+You also don't need code to create the table output of the models.
+We'll do that for you and check your model summaries (R^2 values, AIC, etc.)
+
+Your task is to write the code to create the models.
+```{r}
+library(memisc)
+m1 <- lm(I(log(price)) ~ I(carat^(1/3)), data = diamondsbig)
+m2 <- update(m1, ~ . + carat)
+m3 <- update(m2, ~ . + cut)
+m4 <- update(m3, ~ . + color)
+m5 <- update(m4, ~ . + clarity)
+mtable(m1, m2, m3, m4, m5)
+```
+
+
+```{r}
+
+m6 <- lm(formula = I(log(price)) ~ I(carat^(1/3)) + carat + cut + color + 
+    clarity, data = diamondsbig)
+mtable(m6)
+```
+
+```{r}
+thisDiamond = data.frame(carat = 1.00, cut = "V.Good",
+                         color = "I", clarity="VS1")
+modelEstimate = predict(m6, newdata = thisDiamond,
+                        interval="prediction", level = .95)
+```
 

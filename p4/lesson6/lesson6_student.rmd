@@ -104,8 +104,8 @@ Alter the code below.
 #install.packages('RColorBrewer')
 library(RColorBrewer)
 
-ggplot(aes(x = carat, y = price, color = clarity), data = diamonds) + 
-  geom_point(alpha = 0.5, size = 1, position = 'jitter') +
+ggplot(aes(x = carat, y = price), data = diamonds) + 
+  geom_point(aes(color = clarity), alpha = 0.5, size = 1, position = 'jitter') +
   scale_color_brewer(type = 'div',
     guide = guide_legend(title = 'Clarity', reverse = T,
     override.aes = list(alpha = 1, size = 2))) +  
@@ -142,7 +142,7 @@ Alter the code below.
 ggplot(aes(x = carat, y = price, color = color), data = diamonds) + 
   geom_point(alpha = 0.5, size = 1, position = 'jitter') +
   scale_color_brewer(type = 'div',
-                     guide = guide_legend(title = 'Color', reverse = F,
+                     guide = guide_legend(title = 'Color', reverse = FALSE,
                                           override.aes = list(alpha = 1, size = 2))) +  
   scale_x_continuous(trans = cuberoot_trans(), limits = c(0.2, 3),
                      breaks = c(0.2, 0.5, 1, 2, 3)) + 
