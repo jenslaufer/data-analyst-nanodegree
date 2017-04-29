@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 Exploration of factors which influence the revenue of an Airbnb listing on Bali by Jens 
 ========================================================
 
@@ -15,66 +20,74 @@ library(GGally)
 listings_df <- read.csv('data/airbnb.listings.bali.csv')
 calendar_df <- read.csv('data/airbnb.listing.calendar.dates.bali.csv')
 
-raw <- right_join(listings_df, calendar_df)
-rm(listings_df, calendar_df)
-
 ```
 
 ```{r}
-raw$available = as.logical(raw$available == "true")
-raw$instant_bookable = as.logical(raw$instant_bookable == "true")
-raw$is_family_preferred = as.logical(raw$is_family_preferred == "true")
+calendar_df$available = as.logical(calendar_df$available == "true")
+listings_df$instant_bookable = as.logical(listings_df$instant_bookable == "true")
+listings_df$is_family_preferred = as.logical(listings_df$is_family_preferred == "true")
 
 ```
 
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, creation of high level dataframe}
+```{r echo=FALSE, warning=FALSE, message=FALSE, Creation_of_high_level_dataframe}
 
 
- nightly_income <- function(available, price) {
-   ifelse(available == FALSE, price, 0)
+ nightly_revenue <- function(available, price) {
+    ifelse(available == FALSE, price, 0)
+ }
+
+ average_daily_rate <- function(available, revenue) {
+   if(length(which(available==FALSE)) > 0){
+      revenue / length(which(available==FALSE))
+   }
+   else{
+      0
+   }
  }
 
  occupancy <- function(available) {
-   length(which(available==FALSE)) / length(available) * 100
+    length(which(available==FALSE)) / length(available)
  }
  
- revenue_per_available_room <- function(available, average_daily_rate) {
-   length(which(available==FALSE)) / length(available) * average_daily_rate
+ revenue_per_available_room <- function(available, revenue) {
+    revenue / length(available)
  }
  
- yearly_revenue <- function(available, average_daily_rate) {
-   length(which(available==FALSE)) / length(available) * average_daily_rate * 365
+ yearly_revenue <- function(available, revenue) {
+    365 * revenue / length(available)
  }
  
 
-df <- raw %>% mutate(nightly_income=nightly_income(available, price.local_price)) %>% 
+listings_df <- calendar_df %>% 
+          mutate(nightly_revenue=nightly_revenue(available, price.local_price)) %>% 
           group_by(id) %>% 
-          summarize(name=first(name),
-                    currency=first(price.local_currency),
-                    bathrooms=first(bathrooms),
-                    bedrooms=first(bedrooms),
-                    beds=first(beds),
-                    instant_bookable=first(instant_bookable),
-                    person_capacity=first(person_capacity),
-                    picture_count=first(picture_count),
-                    picture_url=first(picture_url),
-                    reviews_count=first(reviews_count),
-                    room_type=first(room_type),
-                    star_rating=first(star_rating),
+          summarize(currency=first(price.local_currency),
                     occupancy=occupancy(available),
-                    average_daily_rate=mean(price.local_price),
-                    revenue_per_available_room=revenue_per_available_room(available,  mean(price.local_price)),
-                    yearly_revenue=yearly_revenue(available, mean(price.local_price)),
-                    revenue=sum(nightly_income))
-rm(raw)
+                    average_daily_rate=average_daily_rate(available, sum(nightly_revenue)),
+                    revenue_per_available_room=revenue_per_available_room(available, sum(nightly_revenue)),
+                    yearly_revenue=yearly_revenue(available, sum(nightly_revenue)),
+                    revenue=sum(nightly_revenue)) %>%
+          right_join(listings_df)
+          
 
 ```
 ```{r}
-ggplot(data=df, mapping=aes(x=yearly_revenue)) +
+ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
   geom_histogram(binwidth = 200)+
   scale_y_continuous(limits = c(0,20))
 ```
+```{r}
+ggplot(data=listings_df, mapping = aes(x=average_daily_rate,y=yearly_revenue)) +
+  geom_point(alpha=1/10) +
+  scale_x_continuous(limit=c(0,250))+
+  scale_y_continuous(limit=c(0,50000))+
+  geom_smooth(method = 'lm')
+```
+```{r}
+with(listings_df, cor.test(yearly_revenue, average_daily_rate))
+```
+
 
 
 > **Tip**: Before you create any plots, it is a good idea to provide a short
