@@ -65,8 +65,8 @@ listings_df <- calendar_df %>%
           summarize(currency=first(price.local_currency),
                     revenue=sum(daily_revenue),
                     occupancy=occupancy(available),
-                    average_daily_rate=average_daily_rate(available, sum(daily_revenue)),
                     revenue_per_available_room=revenue_per_available_room(available, sum(daily_revenue)),
+                    average_daily_rate=average_daily_rate(available, sum(daily_revenue)),
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
                     ) %>%
           right_join(listings_df)
@@ -93,7 +93,7 @@ str(listings_df)
 ```
 
 ```{r message=FALSE, warning=FALSE, pairwaise}
-ggpairs(listings_df, columns=11:19)
+ggpairs(listings_df, columns=10:19)
 ```
 
 
