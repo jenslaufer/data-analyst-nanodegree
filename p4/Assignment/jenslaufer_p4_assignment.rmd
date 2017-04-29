@@ -73,12 +73,12 @@ listings_df <- calendar_df %>%
 listings_df <-  listings_df[,c(1,13,16,2,11,12,3,4,5,6,7,8,9,10,14,15,17,18,19)]         
 
 ```
-```{r}
+```{r message=FALSE, warning=FALSE, histogram}
 ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
   geom_histogram(binwidth = 200)+
   scale_y_continuous(limits = c(0,20))
 ```
-```{r}
+```{r message=FALSE, warning=FALSE, yearrevenue}
 ggplot(data=listings_df, mapping = aes(x=average_daily_rate,y=yearly_revenue)) +
   geom_point(alpha=1/10) +
   scale_x_continuous(limit=c(0,250))+
@@ -92,7 +92,7 @@ with(listings_df, cor.test(yearly_revenue, average_daily_rate))
 str(listings_df)
 ```
 
-```{r}
+```{r message=FALSE, warning=FALSE, pairwaise}
 ggpairs(listings_df, columns=11:19)
 ```
 
