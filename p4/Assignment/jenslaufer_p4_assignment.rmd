@@ -33,7 +33,7 @@ listings_df$is_family_preferred = as.logical(listings_df$is_family_preferred == 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, Creation_of_high_level_dataframe}
 
 
- nightly_revenue <- function(available, price) {
+ daily_revenue <- function(available, price) {
     ifelse(available == FALSE, price, 0)
  }
 
@@ -51,25 +51,26 @@ listings_df$is_family_preferred = as.logical(listings_df$is_family_preferred == 
  }
  
  revenue_per_available_room <- function(available, revenue) {
-    revenue / length(available)
+    average_daily_rate(available, revenue) * occupancy(available)
  }
  
  yearly_revenue <- function(available, revenue) {
-    365 * revenue / length(available)
+    365 * revenue_per_available_room(available,revenue)
  }
  
 
 listings_df <- calendar_df %>% 
-          mutate(nightly_revenue=nightly_revenue(available, price.local_price)) %>% 
+          mutate(daily_revenue=daily_revenue(available, price.local_price)) %>% 
           group_by(id) %>% 
           summarize(currency=first(price.local_currency),
+                    revenue=sum(daily_revenue),
                     occupancy=occupancy(available),
-                    average_daily_rate=average_daily_rate(available, sum(nightly_revenue)),
-                    revenue_per_available_room=revenue_per_available_room(available, sum(nightly_revenue)),
-                    yearly_revenue=yearly_revenue(available, sum(nightly_revenue)),
-                    revenue=sum(nightly_revenue)) %>%
+                    average_daily_rate=average_daily_rate(available, sum(daily_revenue)),
+                    revenue_per_available_room=revenue_per_available_room(available, sum(daily_revenue)),
+                    yearly_revenue=yearly_revenue(available, sum(daily_revenue))
+                    ) %>%
           right_join(listings_df)
-          
+listings_df <-  listings_df[,c(1,13,16,2,11,12,3,4,5,6,7,8,9,10,14,15,17,18,19)]         
 
 ```
 ```{r}
@@ -87,7 +88,13 @@ ggplot(data=listings_df, mapping = aes(x=average_daily_rate,y=yearly_revenue)) +
 ```{r}
 with(listings_df, cor.test(yearly_revenue, average_daily_rate))
 ```
+```{r}
+str(listings_df)
+```
 
+```{r}
+ggpairs(listings_df, columns=11:19)
+```
 
 
 > **Tip**: Before you create any plots, it is a good idea to provide a short
