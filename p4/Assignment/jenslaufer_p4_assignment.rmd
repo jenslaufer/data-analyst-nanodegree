@@ -24,8 +24,6 @@ calendar_df <- read.csv('data/airbnb.listing.calendar.dates.bali.csv')
 
 ```{r}
 calendar_df$available = as.logical(calendar_df$available == "true")
-listings_df$instant_bookable = as.logical(listings_df$instant_bookable == "true")
-listings_df$is_family_preferred = as.logical(listings_df$is_family_preferred == "true")
 
 ```
 
@@ -70,13 +68,13 @@ listings_df <- calendar_df %>%
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
                     ) %>%
           right_join(listings_df)
-listings_df <-  listings_df[,c(1,13,16,2,11,12,3,4,5,6,7,8,9,10,14,15,17,18,19)]         
+listings_df <-  listings_df[,c(1,13,16,2,3,4,5,6,7,8,9,10,14,15,17,18,19,11,12)]         
 
 ```
 ```{r message=FALSE, warning=FALSE, histogram}
 ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
-  geom_histogram(binwidth = 200)+
-  scale_y_continuous(limits = c(0,20))
+  geom_histogram(binwidth = 0.07)+
+  scale_x_log10()
 ```
 ```{r message=FALSE, warning=FALSE, yearrevenue}
 ggplot(data=listings_df, mapping = aes(x=average_daily_rate,y=yearly_revenue)) +
@@ -91,10 +89,27 @@ with(listings_df, cor.test(yearly_revenue, average_daily_rate))
 ```{r}
 str(listings_df)
 ```
+```{r}
+ggcorr(listings_df, columns=8:17,palette = "RdBu", label = TRUE)
+```
 
 ```{r message=FALSE, warning=FALSE, pairwaise}
-ggpairs(listings_df, columns=10:19)
+ggpairs(listings_df, columns=8:17)
 ```
+```{r}
+m6 <- lm(formula = yearly_revenue ~ average_daily_rate +
+    person_capacity, data = listings_df)
+
+```
+```{r}
+
+apartment = data.frame(average_daily_rate = 100, person_capacity=6
+                        )
+modelEstimate = predict(m6, newdata = apartment,
+                        interval="prediction", level = .95)
+modelEstimate
+```
+
 
 
 > **Tip**: Before you create any plots, it is a good idea to provide a short
