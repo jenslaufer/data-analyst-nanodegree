@@ -14,6 +14,7 @@ The other day I got my first little job as a data analyst.
 library(ggplot2)
 library(dplyr)
 library(GGally)
+library(gridExtra)
 ```
 
 ```{r echo=FALSE, message=FALSE, Load_the_Data}
@@ -68,17 +69,48 @@ listings_df <- calendar_df %>%
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
                     ) %>%
           right_join(listings_df)
-listings_df <-  listings_df[,c(1,13,16,2,3,4,5,6,7,8,9,10,14,15,17,18,19,11,12)]         
-
+listings_df <-  listings_df[,c(1,13,16,2,3,4,5,6,7,8,9,10,14,15,17,18,19,11,12)]   
+listings_df$star_rating = as.factor(listings_df$star_rating)
+str(listings_df)
 ```
+
+
+
+
+```{r warning=FALSE, message=FALSE}
+
+grid.arrange(qplot(listings_df$occupancy),
+             qplot(listings_df$revenue_per_available_room),
+             qplot(listings_df$average_daily_rate),
+             qplot(listings_df$yearly_revenue),
+             qplot(listings_df$bathrooms),
+             qplot(listings_df$bedrooms),
+             qplot(listings_df$beds),
+             qplot(listings_df$person_capacity),
+             qplot(listings_df$picture_count),
+             qplot(listings_df$reviews_count),
+             qplot(listings_df$room_type),
+             qplot(listings_df$star_rating),
+             qplot(listings_df$instant_bookable),
+             qplot(listings_df$is_family_preferred),
+             ncol = 5)
+```
+
+
+
+
 ```{r message=FALSE, warning=FALSE, histogram}
 ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
-  geom_histogram(binwidth = 0.07)+
+   geom_freqpoly(binwidth=0.07, color=I('red')) +
   scale_x_log10()
+
 ```
+
+
+
 ```{r message=FALSE, warning=FALSE, yearrevenue}
 ggplot(data=listings_df, mapping = aes(x=average_daily_rate,y=yearly_revenue)) +
-  geom_point(alpha=1/10) +
+  geom_point(alpha=1/8, mapping=aes(fill=person_capacity)) +
   scale_x_continuous(limit=c(0,250))+
   scale_y_continuous(limit=c(0,50000))+
   geom_smooth(method = 'lm')
@@ -92,13 +124,17 @@ str(listings_df)
 ```{r}
 ggcorr(listings_df, columns=8:17,palette = "RdBu", label = TRUE)
 ```
+```{r}
+
+```
 
 ```{r message=FALSE, warning=FALSE, pairwaise}
-ggpairs(listings_df, columns=8:17)
+ggpairs(listings_df, columns=8:19)
 ```
 ```{r}
 m6 <- lm(formula = yearly_revenue ~ average_daily_rate +
     person_capacity, data = listings_df)
+mtable(m6)
 
 ```
 ```{r}
