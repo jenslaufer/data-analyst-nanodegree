@@ -3,15 +3,25 @@ output:
   pdf_document: default
   html_document: default
 ---
-Exploration of factors which influence the revenue of an Airbnb listing on Bali by Jens 
-========================================================
 
-Everbody heard about the 
-The other day I got my first little job as a data analyst. 
+# Exploration of factors which influence the yearly revenue of an Airbnb listing on Bali by Jens Laufer
+
+Everybody heard about Airbnb, which is the fastest growing holiday website in the world. 
+
+I am Airbnb host since 2015 and indeed it was one of the factors that lead me into the fascinating world of Data Science as I want to improve my own listings and find new opportunities to invest.
+
+Currently I am helping an agency on Bali, Indonesia to improve their listings on Bali, Indonesia to gain experience with data analysis. 
+
+I want to answer the question what factors influence the yearly revenue of an Airbnb listing on Bali.
+
+The dataset for this project is scraped from Airbnb through there internal REST Api with python scripts, which are not part of this analysis. It includes 1234 listings on Bali and the booking calendar for the next 6 months with about 230,000 entries.
+
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
 library(ggplot2)
+library(tidyr)
 library(dplyr)
 library(GGally)
 library(gridExtra)
@@ -23,14 +33,26 @@ calendar_df <- read.csv('data/airbnb.listing.calendar.dates.bali.csv')
 
 ```
 
-```{r}
+
+```{r echo=FALSE, message=FALSE}
+# I am transforming the available into a Boolean value
 calendar_df$available = as.logical(calendar_df$available == "true")
 
 ```
 
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, Creation_of_high_level_dataframe}
 
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, Creation_of_high_level_dataframe}
+# Based on the "low level" calendar data I am calculating several metrics, 
+# which are important for the hotel industry  (http://www.traveltripper.com/blog/the-most-important-metrics-for-hotel-revenue-managers/)
+# These metrics are:
+# Occupancy (OCC): Number of days a listing is not available / Total number of days
+# Revenue: The total revenue in the period
+# Average daily rate (ADR): Total revenue / Number of days a listing is not available
+# Revenue per availabe room (RevPAR): Total revenue / Total number of days
+# Yearly Revenue (estimated): 365 x Revenue per available room
 
  daily_revenue <- function(available, price) {
     ifelse(available == FALSE, price, 0)
@@ -57,94 +79,50 @@ calendar_df$available = as.logical(calendar_df$available == "true")
     365 * revenue_per_available_room(available,revenue)
  }
  
-
+# Calculation of metrics and join into the listings dataframe
 listings_df <- calendar_df %>% 
           mutate(daily_revenue=daily_revenue(available, price.local_price)) %>% 
           group_by(id) %>% 
           summarize(currency=first(price.local_currency),
-                    revenue=sum(daily_revenue),
                     occupancy=occupancy(available),
                     revenue_per_available_room=revenue_per_available_room(available, sum(daily_revenue)),
                     average_daily_rate=average_daily_rate(available, sum(daily_revenue)),
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
                     ) %>%
-          right_join(listings_df)
-listings_df <-  listings_df[,c(1,13,16,2,3,4,5,6,7,8,9,10,14,15,17,18,19,11,12)]   
+          right_join(listings_df)  
 listings_df$star_rating = as.factor(listings_df$star_rating)
-str(listings_df)
+listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "currency"))]
 ```
 
 
 
 
-```{r warning=FALSE, message=FALSE}
-
-grid.arrange(qplot(listings_df$occupancy),
-             qplot(listings_df$revenue_per_available_room),
-             qplot(listings_df$average_daily_rate),
-             qplot(listings_df$yearly_revenue),
-             qplot(listings_df$bathrooms),
-             qplot(listings_df$bedrooms),
-             qplot(listings_df$beds),
-             qplot(listings_df$person_capacity),
-             qplot(listings_df$picture_count),
-             qplot(listings_df$reviews_count),
-             qplot(listings_df$room_type),
-             qplot(listings_df$star_rating),
-             qplot(listings_df$instant_bookable),
-             qplot(listings_df$is_family_preferred),
-             ncol = 5)
-```
+## Structure of Data Set
 
 
+| Column        | Description           | Scale | Category values |
+| ------------- |---------------------- | ----- | --------------- |
+| yearly_revenue | Estimated Yearly renenue based on revenue in period |continuous |  |
+| bathrooms | Number of bathrooms | continuous |  |
+| beds | Number of beds | continuous |  |
+| instant_bookable| Whether a guest has to inquire to book or not | nominal | 'true', 'false |
+| is_family_preferred| Whether families are preferred or not | nominal | 'true', 'false |
+| person_capacity| Person capacity | continuous|  |
+| picture_count | Number of pictures | continuous |  |
+| reviews_count | Number of reviews | continuous |  |
+| room_type | Type of room | nominal | 'entire home', 'private room', 'shared room'|
+| star_rating | Rating of the room | 'ordinal' | '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0' |
 
 
-```{r message=FALSE, warning=FALSE, histogram}
-ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
-   geom_freqpoly(binwidth=0.07, color=I('red')) +
-  scale_x_log10()
-
-```
-
-
-
-```{r message=FALSE, warning=FALSE, yearrevenue}
-ggplot(data=listings_df, mapping = aes(x=average_daily_rate,y=yearly_revenue)) +
-  geom_point(alpha=1/8, mapping=aes(fill=person_capacity)) +
-  scale_x_continuous(limit=c(0,250))+
-  scale_y_continuous(limit=c(0,50000))+
-  geom_smooth(method = 'lm')
-```
-```{r}
-with(listings_df, cor.test(yearly_revenue, average_daily_rate))
-```
 ```{r}
 str(listings_df)
 ```
-```{r}
-ggcorr(listings_df, columns=8:17,palette = "RdBu", label = TRUE)
-```
-```{r}
 
-```
+The dataset contains 1236 rows with 16 variables, 12 of them are continuous and 4 categorical. 
 
-```{r message=FALSE, warning=FALSE, pairwaise}
-ggpairs(listings_df, columns=8:19)
-```
-```{r}
-m6 <- lm(formula = yearly_revenue ~ average_daily_rate +
-    person_capacity, data = listings_df)
-mtable(m6)
 
-```
-```{r}
 
-apartment = data.frame(average_daily_rate = 100, person_capacity=6
-                        )
-modelEstimate = predict(m6, newdata = apartment,
-                        interval="prediction", level = .95)
-modelEstimate
-```
+
 
 
 
@@ -161,9 +139,82 @@ forget to add a comment after each plot or closely-related group of plots!
 There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
 
-```{r echo=FALSE, Univariate_Plots}
+```{r echo=FALSE, warning=FALSE, message=FALSE, Univariate_Plots}
 
+p1 <- qplot(listings_df$yearly_revenue, geom='histogram')
+p2 <- qplot(factor(''), listings_df$yearly_revenue, geom='boxplot')
+  
+p3 <- ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
+  geom_histogram() + scale_x_log10(breaks=c(0,100,500,1000,2000,5000,7500,10000,15000,20000))
+p4 <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue,x=factor(''))) + 
+  geom_boxplot() + 
+  coord_cartesian(ylim = c(0,15000))
+  
+grid.arrange(p1, p2, p3, p4, nrow = 2)
 ```
+
+We have a positively skewed graph for the yearly revenue, we can also see some outliers with
+a expected yearly income of over ??? 100,000 on the one site and very low income (< ???2000) on the other site. This needs ti ```
+
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, Univariate_Plots_Bedrooms}
+
+beds <- qplot(as.factor(listings_df$beds))
+bedrooms <- qplot(as.factor(listings_df$bedrooms))
+bathrooms <- qplot(as.factor(listings_df$bathrooms))
+person_capacity <- qplot(as.factor(listings_df$person_capacity))
+
+grid.arrange(beds, bedrooms, bathrooms,person_capacity, nrow=2)
+```
+
+
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+instant_bookable <- qplot(listings_df$instant_bookable)
+is_family_preferred <- qplot(listings_df$is_family_preferred)
+star_rating <- qplot(listings_df$star_rating)
+room_type <- qplot(listings_df$room_type)
+grid.arrange(instant_bookable, is_family_preferred, star_rating, room_type, nrow=2)
+```
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+
+p1 <- qplot(listings_df$picture_count)
+p2 <- qplot(as.factor('0'),listings_df$picture_count, geom='boxplot')
+p3 <- ggplot(data=listings_df, mapping=aes(x=picture_count)) +
+      geom_histogram()+
+      scale_x_sqrt()
+p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=picture_count)) +
+      geom_boxplot() +
+      coord_cartesian(ylim=c(0,50))
+
+
+grid.arrange(p1,p2,p3,p4,nrow=2)
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+p1 <- qplot(listings_df$reviews_count)
+p2 <- qplot(as.factor('0'),listings_df$reviews_count, geom='boxplot')
+p3 <- ggplot(data=listings_df, mapping=aes(x=reviews_count)) +
+      geom_histogram(binwidth = 0.5)+
+      scale_x_sqrt()
+p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=reviews_count)) +
+      geom_boxplot() +
+      coord_cartesian(ylim=c(0,40))
+
+
+grid.arrange(p1,p2,p3,p4,nrow=2)
+```
+
+
+
+
+The majority of listing have 1 bedroom, but there are listings with 0 bedrooms, which seems to be unrealistic on the other site there a few listings with more than 4 bedrooms, which must be a massive house.
+
+Most of the listings has 1-6 beds. There must be a problem in the data: We had listings with more than 10 bedrooms but the maximum number of beds is 12.
+
+
 
 > **Tip**: Make sure that you leave a blank line between the start / end of
 each code block and the end / start of your Markdown text so that it is
@@ -199,9 +250,78 @@ yourself to relationships between a main output feature and one of the
 supporting variables. Try to look at relationships between supporting variables
 as well.
 
-```{r echo=FALSE, Bivariate_Plots}
-
+```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots}
+listings_df[ , -which(names(listings_df) %in% 
+                        c("average_daily_rate", "id", "name", 
+                          "occupancy", "revenue_per_available_room", 
+                          "reviews_count", "picture_count", 
+                          "instant_bookable","is_family_preferred", "room_type"))] %>%
+  gather(-yearly_revenue, key = "var", value = "value")  %>%
+  mutate(value = as.factor(as.numeric(value))) %>%
+  ggplot(aes(y = yearly_revenue, x = value)) +
+    geom_boxplot() +
+    scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 10000, 20000, 30000, 50000)) +
+    facet_wrap(~ var, scales = "free") 
 ```
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+listings_df[ , -which(names(listings_df) %in% 
+                        c("average_daily_rate", "id", "name", 
+                          "occupancy", "revenue_per_available_room", 
+                          "picture_count", "instant_bookable", "bedrooms", 
+                          "bathrooms", "beds", "person_capacity", 
+                          "reviews_count", "star_rating"))] %>%
+  gather(-yearly_revenue, key = "var", value = "value") %>%
+  ggplot(aes(y = yearly_revenue, x = value)) +
+    geom_boxplot() +
+    scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+    facet_wrap(~ var, scales = "free") 
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+listings_df$picture_count_bucket <- cut(listings_df$picture_count, breaks = 
+                                          c(0,5,10,15,20,40,60,80,100)) 
+
+p1 <- ggplot(data=listings_df, mapping=aes(x=picture_count, y=yearly_revenue)) +
+      geom_point(alpha=0.2, position = 'jitter') +
+      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      geom_smooth(method='lm')   
+p2 <- ggplot(data=listings_df, mapping=aes(x=picture_count_bucket, y=yearly_revenue)) +
+      geom_boxplot() +
+      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      geom_smooth(method='lm')   
+
+
+grid.arrange(p1, p2, nrow=1)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+listings_df$reviews_count_bucket <- cut(listings_df$reviews_count, breaks = 
+                                          c(0,5,10,15,20,40,60,80,100)) 
+
+p1 <- ggplot(data=listings_df, mapping=aes(x=reviews_count, y=yearly_revenue)) +
+      geom_point(alpha=0.2, position = 'jitter') +
+      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      geom_smooth(method='lm')   
+p2 <- ggplot(data=listings_df, mapping=aes(x=reviews_count_bucket, y=yearly_revenue)) +
+      geom_boxplot() +
+      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      geom_smooth(method='lm')   
+
+
+grid.arrange(p1, p2, nrow=1)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+listing_prop_df <- listings_df[,+which(names(listings_df) %in% 
+                                      c('person_capacity', 'beds', 
+                                        'bedrooms','bathrooms'))]
+ggcorr(listing_prop_df, 
+       palette = "RdYlGn", label=TRUE)
+```
+
+
 
 # Bivariate Analysis
 
