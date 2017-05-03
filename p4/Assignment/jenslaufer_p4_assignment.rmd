@@ -251,11 +251,10 @@ supporting variables. Try to look at relationships between supporting variables
 as well.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, Bivariate_Plots}
-listings_df[ , -which(names(listings_df) %in% 
-                        c("average_daily_rate", "id", "name", 
-                          "occupancy", "revenue_per_available_room", 
-                          "reviews_count", "picture_count", 
-                          "instant_bookable","is_family_preferred", "room_type"))] %>%
+listings_df[ , +which(names(listings_df) %in% 
+                        c('yearly_revenue','person_capacity', 'beds', 
+                                        'bedrooms','bathrooms',
+                                        'star_rating'))] %>%
   gather(-yearly_revenue, key = "var", value = "value")  %>%
   mutate(value = as.factor(as.numeric(value))) %>%
   ggplot(aes(y = yearly_revenue, x = value)) +
@@ -270,6 +269,16 @@ listings_df[ , -which(names(listings_df) %in%
                           "picture_count", "instant_bookable", "bedrooms", 
                           "bathrooms", "beds", "person_capacity", 
                           "reviews_count", "star_rating"))] %>%
+  gather(-yearly_revenue, key = "var", value = "value") %>%
+  ggplot(aes(y = yearly_revenue, x = value)) +
+    geom_boxplot() +
+    scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+    facet_wrap(~ var, scales = "free") 
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+listings_df[ , +which(names(listings_df) %in% 
+                        c("yearly_revenue","instant_bookable", "room_type"))] %>%
   gather(-yearly_revenue, key = "var", value = "value") %>%
   ggplot(aes(y = yearly_revenue, x = value)) +
     geom_boxplot() +
@@ -315,8 +324,11 @@ grid.arrange(p1, p2, nrow=1)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 listing_prop_df <- listings_df[,+which(names(listings_df) %in% 
-                                      c('person_capacity', 'beds', 
-                                        'bedrooms','bathrooms'))]
+                                      c('yearly_revenue','person_capacity', 'beds', 
+                                        'bedrooms','bathrooms',
+                                        'picture_count', 'reviews_count',
+                                        'star_rating',"instant_bookable", "room_type"
+                                        ))]
 ggcorr(listing_prop_df, 
        palette = "RdYlGn", label=TRUE)
 ```
