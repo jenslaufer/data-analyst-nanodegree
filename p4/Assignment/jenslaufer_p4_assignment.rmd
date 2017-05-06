@@ -1,10 +1,11 @@
 ---
+title: Exploration of factors which influence the yearly revenue of an Airbnb listing
+  on Bali by Jens Laufer
 output:
   pdf_document: default
+  html_notebook: default
   html_document: default
 ---
-
-# Exploration of factors which influence the yearly revenue of an Airbnb listing on Bali by Jens Laufer
 
 Everybody heard about Airbnb, which is the fastest growing holiday website in the world. 
 
@@ -14,7 +15,7 @@ Currently I am helping an agency on Bali, Indonesia to improve their listings on
 
 I want to answer the question what factors influence the yearly revenue of an Airbnb listing on Bali.
 
-The dataset for this project is scraped from Airbnb through there internal REST Api with python scripts, which are not part of this analysis. It includes 1234 listings on Bali and the booking calendar for the next 6 months with about 230,000 entries.
+The dataset for this project is scraped from Airbnb through there internal REST Api with python scripts, which are not part of this analysis. It includes 1236 listings on Bali and the booking calendar ofthe calendar for the next 6 months with about 230,000 entries.
 
 
 
@@ -91,6 +92,7 @@ listings_df <- calendar_df %>%
                     ) %>%
           right_join(listings_df)  
 listings_df$star_rating = as.factor(listings_df$star_rating)
+#I am removing some unused columns
 listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "currency"))]
 ```
 
@@ -102,12 +104,17 @@ listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "
 
 | Column        | Description           | Scale | Category values |
 | ------------- |---------------------- | ----- | --------------- |
-| yearly_revenue | Estimated Yearly renenue based on revenue in period |continuous |  |
+| id | Airbnb listing ID | unique key |  |
+| name | Title of Airbnb Listing | unique key |  |
+| yearly_revenue | Estimated Yearly revenue of a listing based on revenue in period |continuous |  |
+| occupancy | Occupancy of listing in period |continuous |  |
+| average_daily_rate | Average rate per day a guest paid in period |continuous |  |
 | bathrooms | Number of bathrooms | continuous |  |
+| bedrooms | Number of bedrooms | continuous |  |
 | beds | Number of beds | continuous |  |
+| person_capacity| Person capacity | continuous|  |
 | instant_bookable| Whether a guest has to inquire to book or not | nominal | 'true', 'false |
 | is_family_preferred| Whether families are preferred or not | nominal | 'true', 'false |
-| person_capacity| Person capacity | continuous|  |
 | picture_count | Number of pictures | continuous |  |
 | reviews_count | Number of reviews | continuous |  |
 | room_type | Type of room | nominal | 'entire home', 'private room', 'shared room'|
@@ -118,45 +125,49 @@ listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "
 str(listings_df)
 ```
 
-The dataset contains 1236 rows with 16 variables, 12 of them are continuous and 4 categorical. 
+The dataset contains 1236 rows with 16 variables, 12 of them are continuous and 6 categorical. 
 
 
-
-
-
-
-
-> **Tip**: Before you create any plots, it is a good idea to provide a short
-introduction into the dataset that you are planning to explore. Replace this
-quoted text with that general information!
 
 # Univariate Plots Section
 
-> **Tip**: In this section, you should perform some preliminary exploration of
-your dataset. Run some summaries of the data and create univariate plots to
-understand the structure of the individual variables in your dataset. Don't
-forget to add a comment after each plot or closely-related group of plots!
-There should be multiple code chunks and text sections; the first one below is
-just to help you get started.
+## Yearly revenue (Outcome variable)
+
+As I am interesting in the factors which influence the Yearly Revenue 'yearly_income' is the outcome variable.
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, Univariate_Plots}
 
-p1 <- qplot(listings_df$yearly_revenue, geom='histogram')
+p1 <- qplot(listings_df$yearly_revenue)
 p2 <- qplot(factor(''), listings_df$yearly_revenue, geom='boxplot')
   
 p3 <- ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
-  geom_histogram() + scale_x_log10(breaks=c(0,100,500,1000,2000,5000,7500,10000,15000,20000))
+  geom_histogram() + 
+  scale_x_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')
+                ) +
+  coord_cartesian(xlim=c(100, 100000))
+
+
 p4 <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue,x=factor(''))) + 
   geom_boxplot() + 
-  coord_cartesian(ylim = c(0,15000))
+  coord_cartesian(ylim=c(0,15000))
   
 grid.arrange(p1, p2, p3, p4, nrow = 2)
+
 ```
 
-We have a positively skewed graph for the yearly revenue, we can also see some outliers with
-a expected yearly income of over ??? 100,000 on the one site and very low income (< ???2000) on the other site. This needs ti ```
+In the first row I plotted the histogram and a boxplot of yearly revenue unpolished. 
+
+It is a positively skewed long tailed graph, we can also see some extreme outliers with
+a expected yearly income of over ???100,000.. 
+
+In the second row I did a log tranformation to get a nearly gaussian curve. 
+
+The second boxplot visualizes the median, lower and upper quartile of the yearly revenue.
 
 
+
+## Number of beds, bedrooms, bathrooms, person capacity
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, Univariate_Plots_Bedrooms}
 
@@ -168,7 +179,17 @@ person_capacity <- qplot(as.factor(listings_df$person_capacity))
 grid.arrange(beds, bedrooms, bathrooms,person_capacity, nrow=2)
 ```
 
+I visualized the variables 'beds', 'bedrooms', 'bathrooms' and person_capacity as bar charts by transforming
+these continuous variables into categorical variables.
 
+The values of these variables are very limited so they can treated as categorical.
+
+These variables are somehow related to each other as all persons need a bed and beds are located in bedrooms. If unit has a higher person capacity it has most probably more beds, bedrooms  and bathrooms.
+
+What we can see from data is that the majority of units has a person capacity of 2 and has 1 bedroom with 1 bed and 1 bathroom.
+
+
+## Instant bookable, Preferation of families, Rating and Room type
 
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
@@ -178,28 +199,30 @@ star_rating <- qplot(listings_df$star_rating)
 room_type <- qplot(listings_df$room_type)
 grid.arrange(instant_bookable, is_family_preferred, star_rating, room_type, nrow=2)
 ```
+
+Most of the listings prefer the instant_bookable option, as the hosts don't want to deal with too many inquiries and the guests like that they are able to finalize the booking immediatly.
+
+Most of the listings are not prefering families. These might be due the fact, that they simple don't have the capacity to host a family. Remember that most of the listings just have a person capacity of 2.
+
+The majority of the listings have rating of 4.5 or 5 star or no rating at all. The reason for the good ratings is that Airbnb normally kicks you, if your rating is lower than 4. There are many listings without a rating yet. These listings are never booked or quiet new.
+
+Most of the listings are either an entire home or a private room. There hardly any shared rooms on Bali.
+
+
+
+
+## Picture count
+
+
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 
 p1 <- qplot(listings_df$picture_count)
 p2 <- qplot(as.factor('0'),listings_df$picture_count, geom='boxplot')
 p3 <- ggplot(data=listings_df, mapping=aes(x=picture_count)) +
-      geom_histogram()+
-      scale_x_sqrt()
+      geom_histogram(binwidth = 0.45)+
+      scale_x_sqrt(breaks=c(0,10,20,30,40,50)) +
+      coord_cartesian(xlim=c(5,50))
 p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=picture_count)) +
-      geom_boxplot() +
-      coord_cartesian(ylim=c(0,50))
-
-
-grid.arrange(p1,p2,p3,p4,nrow=2)
-```
-
-```{r echo=FALSE, warning=FALSE, message=FALSE}
-p1 <- qplot(listings_df$reviews_count)
-p2 <- qplot(as.factor('0'),listings_df$reviews_count, geom='boxplot')
-p3 <- ggplot(data=listings_df, mapping=aes(x=reviews_count)) +
-      geom_histogram(binwidth = 0.5)+
-      scale_x_sqrt()
-p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=reviews_count)) +
       geom_boxplot() +
       coord_cartesian(ylim=c(0,40))
 
@@ -207,12 +230,41 @@ p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=reviews_count)) +
 grid.arrange(p1,p2,p3,p4,nrow=2)
 ```
 
+In the first row I plotted the picture count as histogram and a boxplot unpolished.
+
+As the picture count is a bit positively skewed I app,ied a square root transformation to normalize the graph. The second boxplot is to illustare the median, the lower and upper quartile.
+
+The most listings have between 10-30 pictures with a median of about 20.
 
 
 
-The majority of listing have 1 bedroom, but there are listings with 0 bedrooms, which seems to be unrealistic on the other site there a few listings with more than 4 bedrooms, which must be a massive house.
+## Reviews count
 
-Most of the listings has 1-6 beds. There must be a problem in the data: We had listings with more than 10 bedrooms but the maximum number of beds is 12.
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+p1 <- qplot(listings_df$reviews_count) + 
+        scale_x_continuous(breaks=seq(0,150,20))
+p2 <- qplot(as.factor('0'),listings_df$reviews_count, geom='boxplot')
+p3 <- qplot(listings_df$reviews_count, binwidth=1) + 
+        scale_x_sqrt(breaks=seq(0,100,10)) +
+        coord_cartesian(xlim=c(5,70))
+p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=reviews_count)) +
+        geom_boxplot() +
+        coord_cartesian(ylim=c(0,40))
+
+
+grid.arrange(p1, p2, p3, p4, nrow=2)
+```
+
+
+
+
+First I plotted the reviews count unpolished.
+
+The distribution is long tailed.
+
+
+
+
 
 
 

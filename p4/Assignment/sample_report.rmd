@@ -1,0 +1,269 @@
+---
+title: ''
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document: default
+---
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+LOCATION_NAME <-  'Bali, Indonesia'
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(GGally)
+library(gridExtra)
+```
+
+```{r echo=FALSE, message=FALSE, Load_the_Data}
+listings_df <- read.csv('data/airbnb.listings.bali.csv')
+calendar_df <- read.csv('data/airbnb.listing.calendar.dates.bali.csv')
+
+```
+
+
+```{r echo=FALSE, message=FALSE}
+calendar_df$available = as.logical(calendar_df$available == "true")
+
+```
+
+
+
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, Creation_of_high_level_dataframe}
+
+ daily_revenue <- function(available, price) {
+    ifelse(available == FALSE, price, 0)
+ }
+
+ average_daily_rate <- function(available, revenue) {
+   if(length(which(available==FALSE)) > 0){
+      revenue / length(which(available==FALSE))
+   }
+   else{
+      0
+   }
+ }
+
+ occupancy <- function(available) {
+    length(which(available==FALSE)) / length(available)
+ }
+ 
+ revenue_per_available_room <- function(available, revenue) {
+    average_daily_rate(available, revenue) * occupancy(available)
+ }
+ 
+ yearly_revenue <- function(available, revenue) {
+    365 * revenue_per_available_room(available,revenue)
+ }
+ 
+# Calculation of metrics and join into the listings dataframe
+listings_df <- calendar_df %>% 
+          mutate(daily_revenue=daily_revenue(available, price.local_price)) %>% 
+          group_by(id) %>% 
+          summarize(currency=first(price.local_currency),
+                    occupancy=occupancy(available),
+                    revenue_per_available_room=revenue_per_available_room(available, sum(daily_revenue)),
+                    average_daily_rate=average_daily_rate(available, sum(daily_revenue)),
+                    yearly_revenue=yearly_revenue(available, sum(daily_revenue))
+                    ) %>%
+          right_join(listings_df)  
+listings_df$star_rating = as.factor(listings_df$star_rating)
+listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "currency"))]
+```
+
+# Airbnb market analysis for `r LOCATION_NAME`
+
+
+## Yearly revenue
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+median_yearly_revenue <- round(median(listings_df$yearly_revenue,na.rm = TRUE), digits=0)
+upper_yearly_revenue <- round(quantile(listings_df$yearly_revenue, probs=c(0.75), na.rm = TRUE), digits=0)
+lower_yearly_revenue <- round(quantile(listings_df$yearly_revenue, probs=c(0.25), na.rm = TRUE), digits=0)
+```
+
+The median for yearly revenue: EUR `r as.integer(median_yearly_revenue)`
+
+50% of all listings has a yearly revenue between 
+EUR `r as.integer(lower_yearly_revenue)` and EUR `r as.integer(upper_yearly_revenue)`
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+upper <- quantile(subset(listings_df, room_type=='entire home')$yearly_revenue, probs=c(0.8), na.rm = TRUE)
+
+
+p1 <- ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
+  geom_histogram(alpha=0.3,fill='red', color='black') +
+  scale_x_log10(breaks=c(100,200,500,1000,2000,5000,10000,20000,50000,100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+  labs(x='Estimated yearly revenue', y='Number of listings', fill='Room Type', title='Distribution of yearly revenue of Airbnb listing in Bali, Indonesia')
+
+p2 <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue,x=as.factor(''))) +
+             geom_boxplot() +
+             coord_cartesian(ylim=c(0,upper_yearly_revenue))+
+  labs(x='Room Type', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue.png", grid.arrange(p1, p2, nrow=2))
+
+grid.arrange(p1, p2, nrow=2)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+upper <- quantile(subset(listings_df, room_type=='entire home')$yearly_revenue, probs=c(0.8), na.rm = TRUE)
+
+
+p1 <- ggplot(data=listings_df, mapping=aes(x=yearly_revenue, fill=room_type)) +
+  geom_histogram(alpha=0.3) +
+  scale_x_log10(breaks=c(100,200,500,1000,2000,5000,10000,20000,50000,100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+  labs(x='Estimated yearly revenue', y='Number of listings', fill='Room Type', title='Distribution of yearly revenue of Airbnb listing by room type in Bali, Indonesia')
+
+p2 <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue,x=room_type)) +
+             geom_boxplot() +
+             coord_cartesian(ylim=c(0,upper))+
+  labs(x='Room Type', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_by_room_type.png", grid.arrange(p1, p2, nrow=2))
+
+grid.arrange(p1, p2, nrow=2)
+```
+
+
+## Occupancy
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+median_occupancy <- round(median(listings_df$occupancy,na.rm = TRUE)*100, digits=1)
+upper_occupancy <- round(quantile(listings_df$occupancy, probs=c(0.75), na.rm = TRUE) * 100, digits=1)
+lower_occupancy <- round(quantile(listings_df$occupancy, probs=c(0.25), na.rm = TRUE) * 100, digits=1)
+```
+
+The median for occupancy: `r as.integer(median_occupancy)`%
+
+50% of all listings has a occupancy between 
+`r as.integer(lower_occupancy)`% and `r as.integer(upper_occupancy)`%
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+upper <- quantile(subset(listings_df, room_type=='entire home')$occupancy, probs=c(0.8), na.rm = TRUE) *100
+
+
+p1 <- ggplot(data=listings_df, mapping=aes(x=occupancy*100)) +
+  geom_histogram(alpha=0.3,fill='red', color='blue')
+
+p2 <- ggplot(data=listings_df, mapping=aes(y=occupancy *100,x=as.factor(''))) +
+             geom_boxplot() +
+             coord_cartesian(ylim=c(0,upper_occupancy))+
+  labs( y='Occupancy')
+             
+ggsave(file="occupancy.png", grid.arrange(p1, p2, nrow=2))
+
+grid.arrange(p1, p2, nrow=2)
+```
+
+
+```{r  echo=FALSE, message=FALSE, warning=FALSE}
+lower <- quantile(listings_df$average_daily_rate, probs=c(0.0), na.rm = TRUE)
+upper <- quantile(listings_df$average_daily_rate, probs=c(0.9), na.rm = TRUE)
+
+p1 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=occupancy * 100)) +
+        geom_point(alpha=0.5, aes(size=yearly_revenue)) +
+   labs(x='Average Daily Rate (ADR)', y='Occupancy (OCC) in %', title='Occupancy vs Average Daily Rate') 
+
+p2 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=occupancy * 100)) +
+        geom_point(alpha=0.5, mapping=aes(size=yearly_revenue, fill=room_type), shape=21) +
+   coord_cartesian(xlim=c(lower, upper)) + 
+   scale_size_continuous(range = c(0, 20), breaks = c(0,1000,10000,50000)) +
+   labs(x='Average Daily Rate (ADR)', y='Occupancy (OCC) in %', title='Occupancy vs Average Daily Rate') 
+  
+p3 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=yearly_revenue)) +
+        geom_point(alpha=0.5, mapping=aes(size=revenue_per_available_room, fill=room_type), shape=21) +
+   coord_cartesian(xlim=c(lower, upper), ylim=c(0,80000)) + 
+   scale_size_continuous(range = c(0, 20), breaks = c(10,20,50,100,200,500)) +
+   labs(x='Average Daily Rate (ADR)', y='Occupancy (OCC) in %', title='Occupancy vs Average Daily Rate') 
+  
+grid.arrange(p1,p2, nrow=2)
+ggsave(file="occ_adr.png", p2)
+p3
+```
+
+
+
+
+## Misc
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+top_year_revenue_listings <- listings_df %>% arrange(desc(yearly_revenue)) %>% top_n(n=10, wt=yearly_revenue)
+
+ggplot(data=listings_df, mapping= aes(x=occupancy * 100, y=yearly_revenue)) +
+        geom_point(alpha=1/2, aes(fill=person_capacity, size=average_daily_rate, shape=room_type)) +
+        geom_hline(yintercept= median(subset(listings_df, !is.na(yearly_revenue))$yearly_revenue), linetype= 'dotted') +
+        geom_vline(xintercept = median(subset(listings_df, !is.na(occupancy))$occupancy), linetype= 'dotted') +
+        geom_text(data=top_year_revenue_listings,
+                  mapping=aes(x=occupancy * 100, y=yearly_revenue, label=name)) +
+        scale_y_log10(breaks=c(100,200,500,1000,2000,5000,10000,20000,50000,100000,200000)) +
+        scale_size_continuous(range = c(1, 20), breaks = c(0,50,100,500)) +
+        scale_fill_gradientn(colours = terrain.colors(50)) +
+        scale_shape_manual(values=c(21,22,23)) + theme_bw() 
+    
+```
+
+
+
+
+```{r  echo=FALSE, message=FALSE, warning=FALSE}
+lower <- quantile(listings_df$average_daily_rate, probs=c(0.0), na.rm = TRUE)
+upper <- quantile(listings_df$average_daily_rate, probs=c(0.9), na.rm = TRUE)
+
+p1 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=occupancy * 100)) +
+        geom_point(alpha=0.5, aes(size=yearly_revenue)) +
+   labs(x='Average Daily Rate (ADR)', y='Occupancy (OCC) in %', title='Occupancy vs Average Daily Rate') 
+
+p2 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=occupancy * 100)) +
+        geom_point(alpha=0.5, mapping=aes(size=yearly_revenue, fill=room_type), shape=21) +
+   coord_cartesian(xlim=c(lower, upper)) + 
+   scale_size_continuous(range = c(0, 20), breaks = c(0,1000,10000,50000)) +
+   labs(x='Average Daily Rate (ADR)', y='Occupancy (OCC) in %', title='Occupancy vs Average Daily Rate') 
+  
+p3 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=yearly_revenue)) +
+        geom_point(alpha=0.5, mapping=aes(size=revenue_per_available_room, fill=room_type), shape=21) +
+   coord_cartesian(xlim=c(lower, upper), ylim=c(0,80000)) + 
+   scale_size_continuous(range = c(0, 20), breaks = c(10,20,50,100,200,500)) +
+   labs(x='Average Daily Rate (ADR)', y='Occupancy (OCC) in %', title='Occupancy vs Average Daily Rate') 
+  
+grid.arrange(p1,p2, nrow=2)
+ggsave(file="occ_adr.png", p2)
+p3
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+top_year_revenue_listings <- listings_df %>% arrange(desc(yearly_revenue)) %>% top_n(n=10, wt=yearly_revenue)
+
+ggplot(data=listings_df, mapping= aes(x=occupancy * 100, y=yearly_revenue)) +
+        geom_point(alpha=1/2, aes(fill=person_capacity, size=average_daily_rate, shape=room_type)) +
+        geom_hline(yintercept= median(subset(listings_df, !is.na(yearly_revenue))$yearly_revenue), linetype= 'dotted') +
+        geom_vline(xintercept = median(subset(listings_df, !is.na(occupancy))$occupancy), linetype= 'dotted') +
+        geom_text(data=top_year_revenue_listings,
+                  mapping=aes(x=occupancy * 100, y=yearly_revenue, label=name)) +
+        scale_y_log10(breaks=c(100,200,500,1000,2000,5000,10000,20000,50000,100000,200000)) +
+        scale_size_continuous(range = c(1, 20), breaks = c(0,50,100,500)) +
+        scale_fill_gradientn(colours = terrain.colors(50)) +
+        scale_shape_manual(values=c(21,22,23)) + theme_bw() 
+    
+```
+
+
