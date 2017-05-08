@@ -75,6 +75,18 @@ listings_df <- calendar_df %>%
           right_join(listings_df)  
 listings_df$star_rating = as.factor(listings_df$star_rating)
 listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "currency"))]
+
+listings_df$reviews_count_bucket <- cut(listings_df$reviews_count, 
+                                        breaks =c(0,20,40,60,10000), 
+                                        labels = c('-20','20-40','40-60','60+')) 
+listings_df$picture_count_bucket <- cut(listings_df$picture_count, 
+                                        breaks =c(0,10,20,30,40,50,10000), 
+                                        labels = c('-10','10-20','20-30','30-40','40-50','50+'))
+listings_df$adr_bucket <- cut(listings_df$average_daily_rate, 
+                                        breaks =c(0,40,60,80,100,120,140,180,220,300,400,500,1000000), 
+                                        labels = 
+                                c('-40','40-60','60-80','80-100',
+                                  '100-120','120-140','140-180','180-220','220-300','300-400','400-500','500+')) 
 ```
 
 # Airbnb market analysis for `r LOCATION_NAME`
@@ -109,15 +121,114 @@ p1 <- ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
   labs(x='Yearly revenue', y='Number of listings', fill='Room Type', title='Distribution of yearly revenue of Airbnb listing in Bali, Indonesia')
 
 p2 <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue,x=as.factor(''))) +
-             geom_boxplot(alpha=0.3, fill= 'blue') +
-             coord_cartesian(ylim=c(0,upper_yearly_revenue * 1.25)) +
-  labs(x='Room Type', y='Yearly revenue')
+             geom_boxplot(alpha=0.3, fill= 'blue') +  
+             scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+             labs(x='', y='Yearly revenue')
              
 ggsave(file="yearly_revenue.png", grid.arrange(p1, p2, nrow=2))
 
 grid.arrange(p1, p2, nrow=2)
+p2
 ```
 
+
+### Yearly revenue by Average Daily Rate
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+yr_adr_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=adr_bucket)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= adr_bucket)) +   
+              scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+              labs(x='Average Daily Rate', fill='Average Daily Rate', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_by_adr.png", yr_adr_pl)
+yr_adr_pl
+```
+
+
+
+### Yearly revenue by person capacity
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+yr_pc_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=as.factor(person_capacity))) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= as.factor(person_capacity))) +    
+              scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+              labs(x='Person Capacity', fill='Person Capacity',y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_per_person_capacity.png", yr_pc_pl)
+yr_pc_pl
+```
+
+
+### Yearly revenue by room type
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+yr_rt_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=room_type)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= room_type)) +   
+              scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+              labs(x='Room Type', fill='Room Type', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_by_room_type.png", yr_rt_pl)
+yr_rt_pl
+```
+
+
+### Yearly revenue by Rating
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+yr_sr_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=star_rating)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= star_rating)) +   
+              scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+              labs(x='Star rating', fill='Star rating', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_by_star_rating.png", yr_sr_pl)
+yr_sr_pl
+```
+
+
+### Yearly revenue by Revenue Count
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+yr_rc_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=reviews_count_bucket)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= reviews_count_bucket)) +   
+              scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+              labs(x='Revenue Count', fill='Revenue Count', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_by_revenue_count.png", yr_rc_pl)
+yr_rc_pl
+```
+
+
+### Yearly revenue by Picture Count
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+yr_pc_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=picture_count_bucket)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= picture_count_bucket)) +   
+              scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+              labs(x='Picture Count', fill='Picture Count', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_by_revenue_count.png", yr_pc_pl)
+yr_pc_pl
+```
 
 ## Occupancy
 
@@ -158,6 +269,95 @@ p4 <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=as.factor(''))) 
 ggsave(file="occupancy.png", grid.arrange(p3, p4, nrow=2))
 
 grid.arrange(p3, p4, nrow=2)
+```
+
+### Occupancy by Average Daily Rate
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+occ_adr_pl <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=adr_bucket)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= adr_bucket)) + 
+              labs(x='Average Daily Rate', fill='Average Daily Rate', y='Occupancy in %')
+             
+ggsave(file="occ_by_adr.png", occ_adr_pl)
+occ_adr_pl
+```
+
+
+### Occupancy by person capacity
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+occ_pc_pl <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=as.factor(person_capacity))) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= as.factor(person_capacity))) + 
+              labs(x='Person Capacity', fill='Person Capacity',y='Occupancy in %')
+             
+ggsave(file="occupancy_per_person_capacity.png", occ_pc_pl)
+occ_pc_pl
+```
+
+
+
+### Occupancy by Room Type
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+occ_rt_pl <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=room_type)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= room_type)) + 
+              labs(x='Room type', fill='Room Type',y='Occupancy in %')
+             
+ggsave(file="occupancy_per_person_capacity.png", occ_rt_pl)
+occ_rt_pl
+```
+
+
+
+
+### Occupancy by Star Rating
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+occ_sr_pl <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=star_rating)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= star_rating)) + 
+              labs(x='Star rating', fill='Star rating',y='Occupancy in %')
+             
+ggsave(file="occupancy_per_star_rating.png", occ_sr_pl)
+occ_sr_pl
+```
+
+
+### Occupancy by Revenue Count
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+occ_rc_pl <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=reviews_count_bucket)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= reviews_count_bucket)) +   
+              labs(x='Revenue Count', fill='Revenue Count', y='Occupancy in %')
+             
+ggsave(file="occupancy_by_revenue_count.png", occ_rc_pl)
+occ_rc_pl
+```
+
+
+
+### Occupancy by Picture Count
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+occ_pc_pl <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=picture_count_bucket)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= picture_count_bucket)) +   
+              labs(x='Pciture Count', fill='Pciture Count', y='Occupancy in %')
+             
+ggsave(file="occupancy_by_picture_count.png", occ_pc_pl)
+occ_pc_pl
 ```
 
 
