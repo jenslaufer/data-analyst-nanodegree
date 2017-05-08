@@ -2,9 +2,9 @@
 title: Exploration of factors which influence the yearly revenue of an Airbnb listing
   on Bali by Jens Laufer
 output:
-  pdf_document: default
-  html_notebook: default
   html_document: default
+  html_notebook: default
+  pdf_document: default
 ---
 
 Everybody heard about Airbnb, which is the fastest growing holiday website in the world. 
@@ -15,7 +15,7 @@ Currently I am helping an agency on Bali, Indonesia to improve their listings on
 
 I want to answer the question what factors influence the yearly revenue of an Airbnb listing on Bali.
 
-The dataset for this project is scraped from Airbnb through there internal REST Api with python scripts, which are not part of this analysis. It includes 1236 listings on Bali and the booking calendar ofthe calendar for the next 6 months with about 230,000 entries.
+The dataset for this project is scraped from Airbnb through there internal REST Api with python scripts, which are not part of this analysis. It includes 1236 listings on Bali and the booking calendar for the next 6 months with about 230,000 entries.
 
 
 
@@ -28,14 +28,14 @@ library(GGally)
 library(gridExtra)
 ```
 
-```{r echo=FALSE, message=FALSE, Load_the_Data}
+```{r echo=FALSE, message=FALSE, warning=FALSE, Data_Import}
 listings_df <- read.csv('data/airbnb.listings.bali.csv')
 calendar_df <- read.csv('data/airbnb.listing.calendar.dates.bali.csv')
 
 ```
 
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, Data_Modification}
 # I am transforming the available into a Boolean value
 calendar_df$available = as.logical(calendar_df$available == "true")
 
@@ -45,7 +45,7 @@ calendar_df$available = as.logical(calendar_df$available == "true")
 
 
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, Creation_of_high_level_dataframe}
+```{r echo=FALSE, warning=FALSE, message=FALSE, Data_Wrangling}
 # Based on the "low level" calendar data I am calculating several metrics, 
 # which are important for the hotel industry  (http://www.traveltripper.com/blog/the-most-important-metrics-for-hotel-revenue-managers/)
 # These metrics are:
@@ -118,14 +118,15 @@ listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "
 | picture_count | Number of pictures | continuous |  |
 | reviews_count | Number of reviews | continuous |  |
 | room_type | Type of room | nominal | 'entire home', 'private room', 'shared room'|
-| star_rating | Rating of the room | 'ordinal' | '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0' |
+| star_rating | Rating of the room | ordinal | '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0' |
 
 
 ```{r}
 str(listings_df)
 ```
 
-The dataset contains 1236 rows with 16 variables, 12 of them are continuous and 6 categorical. 
+The dataset contains 1236 rows with 16 variables, 11 of them are continuous and 5 categorical. 
+
 
 
 
@@ -133,7 +134,7 @@ The dataset contains 1236 rows with 16 variables, 12 of them are continuous and 
 
 ## Yearly revenue (Outcome variable)
 
-As I am interesting in the factors which influence the Yearly Revenue 'yearly_income' is the outcome variable.
+As I am interesting in the factors which influence the Yearly Revenue, therefore is 'yearly_income' the outcome variable.
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, Univariate_Plots}
 
@@ -141,7 +142,8 @@ p1 <- qplot(listings_df$yearly_revenue)
 p2 <- qplot(factor(''), listings_df$yearly_revenue, geom='boxplot')
   
 p3 <- ggplot(data=listings_df, mapping=aes(x=yearly_revenue)) +
-  geom_histogram() + 
+  geom_histogram(binwidth = 0.1, alpha=0.6, color='white') + 
+  geom_density(aes(y=..count../10), color='red') +
   scale_x_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
                 labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')
                 ) +
@@ -159,7 +161,7 @@ grid.arrange(p1, p2, p3, p4, nrow = 2)
 In the first row I plotted the histogram and a boxplot of yearly revenue unpolished. 
 
 It is a positively skewed long tailed graph, we can also see some extreme outliers with
-a expected yearly income of over ???100,000.. 
+a expected yearly income of over EUR100,000.. 
 
 In the second row I did a log tranformation to get a nearly gaussian curve. 
 
@@ -219,7 +221,8 @@ Most of the listings are either an entire home or a private room. There hardly a
 p1 <- qplot(listings_df$picture_count)
 p2 <- qplot(as.factor('0'),listings_df$picture_count, geom='boxplot')
 p3 <- ggplot(data=listings_df, mapping=aes(x=picture_count)) +
-      geom_histogram(binwidth = 0.45)+
+      geom_histogram(binwidth = 0.48, alpha=0.6, color='white')+
+      geom_density(aes(y=..count../2), color='red') +
       scale_x_sqrt(breaks=c(0,10,20,30,40,50)) +
       coord_cartesian(xlim=c(5,50))
 p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=picture_count)) +
@@ -244,8 +247,8 @@ The most listings have between 10-30 pictures with a median of about 20.
 p1 <- qplot(listings_df$reviews_count) + 
         scale_x_continuous(breaks=seq(0,150,20))
 p2 <- qplot(as.factor('0'),listings_df$reviews_count, geom='boxplot')
-p3 <- qplot(listings_df$reviews_count, binwidth=1) + 
-        scale_x_sqrt(breaks=seq(0,100,10)) +
+p3 <- qplot(listings_df$reviews_count, binwidth=.64) + 
+        scale_x_log10(breaks=seq(0,100,10)) +
         coord_cartesian(xlim=c(5,70))
 p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=reviews_count)) +
         geom_boxplot() +
@@ -260,26 +263,16 @@ grid.arrange(p1, p2, p3, p4, nrow=2)
 
 First I plotted the reviews count unpolished.
 
-The distribution is long tailed.
+The distribution is very long tailed. Therefore we applied a log10 transformation. With binwidth of 0.65 we are able to transform into a kind of normal distribution.
+
+We visulalized the distritbution as well as boxplots. The median of reviews count is 10. The 25% quartile at about 2 and the 75% quartile at 31. There are outliers with reviews count over 75.
 
 
 
-
-
-
-
-> **Tip**: Make sure that you leave a blank line between the start / end of
-each code block and the end / start of your Markdown text so that it is
-formatted nicely in the knitted text. Note as well that text on consecutive
-lines is treated as a single space. Make sure you have a blank line between
-your paragraphs so that they too are formatted for easy readability.
 
 # Univariate Analysis
 
-> **Tip**: Now that you've completed your univariate explorations, it's time to
-reflect on and summarize what you've found. Use the questions below to help you
-gather your observations and add your own if you have other thoughts!
-
+The dataset has 1236 oberservations on 15 variables. 
 ### What is the structure of your dataset?
 
 ### What is/are the main feature(s) of interest in your dataset?
@@ -346,6 +339,7 @@ listings_df$picture_count_bucket <- cut(listings_df$picture_count, breaks =
 p1 <- ggplot(data=listings_df, mapping=aes(x=picture_count, y=yearly_revenue)) +
       geom_point(alpha=0.2, position = 'jitter') +
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      scale_x_log10() +
       geom_smooth(method='lm')   
 p2 <- ggplot(data=listings_df, mapping=aes(x=picture_count_bucket, y=yearly_revenue)) +
       geom_boxplot() +
@@ -364,6 +358,7 @@ listings_df$reviews_count_bucket <- cut(listings_df$reviews_count, breaks =
 p1 <- ggplot(data=listings_df, mapping=aes(x=reviews_count, y=yearly_revenue)) +
       geom_point(alpha=0.2, position = 'jitter') +
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      scale_x_log10() +
       geom_smooth(method='lm')   
 p2 <- ggplot(data=listings_df, mapping=aes(x=reviews_count_bucket, y=yearly_revenue)) +
       geom_boxplot() +
