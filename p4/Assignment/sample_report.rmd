@@ -1,9 +1,9 @@
 ---
 title: ''
 output:
-  pdf_document: default
-  html_notebook: default
   html_document: default
+  html_notebook: default
+  pdf_document: default
 ---
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE, libs}
@@ -446,7 +446,7 @@ ggsave(file="adr_by_person_capacity.png", adr_pc_pl)
 adr_pc_pl
 ```
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 top_performer <-  function(price_class){
    listings <- listings_df %>% 
                              filter(price_category==price_class) %>%
@@ -486,7 +486,7 @@ plot_performers <- function(listings, price_category){
 
 
 ### Cheap price category
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 price_category <-  'cheap'
 ```
 
@@ -511,7 +511,7 @@ plot_performers(top_performering_listings, price_category)
 
 
 ### Budget price category
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 price_category <-  'budget'
 ```
@@ -538,7 +538,7 @@ plot_performers(top_performering_listings, price_category)
 
 
 ### Midclass price category
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 price_category <-  'midclass'
 ```
@@ -564,7 +564,7 @@ plot_performers(top_performering_listings, price_category)
 
 
 ### Upper price category
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 price_category <-  'upper'
 ```
@@ -590,7 +590,7 @@ plot_performers(top_performering_listings, price_category)
 
 
 ### Luxury price category
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 price_category <-  'luxury'
 ```
