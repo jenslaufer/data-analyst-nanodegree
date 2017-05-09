@@ -400,6 +400,34 @@ grid.arrange(p5, p6, nrow=2)
 ```
 
 
+### Average Daily rate by room type
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+adr_rt_pl <- ggplot(data=listings_df, mapping=aes(y=average_daily_rate, x=room_type)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= room_type)) + 
+              scale_y_continuous(breaks=seq(0,600,30)) +
+              labs(x='Room Type', fill='Room Type', y='Average Daily Rate')
+             
+ggsave(file="adr_by_room_type.png", adr_rt_pl)
+adr_rt_pl
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+adr_pc_pl <- ggplot(data=listings_df, mapping=aes(y=average_daily_rate, x=as.factor(person_capacity))) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= as.factor(person_capacity))) + 
+              scale_y_continuous(breaks=seq(0,1000,50)) +
+              labs(x='Room Type', fill='Person Capacity', y='Average Daily Rate')
+             
+ggsave(file="adr_by_person_capacity.png", adr_pc_pl)
+adr_pc_pl
+```
+
+
 # Top performing listings
 
 
