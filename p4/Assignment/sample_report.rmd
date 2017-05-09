@@ -87,6 +87,10 @@ listings_df$adr_bucket <- cut(listings_df$average_daily_rate,
                                         labels = 
                                 c('-40','40-60','60-80','80-100',
                                   '100-120','120-140','140-180','180-220','220-300','300-400','400-500','500+')) 
+listings_df$price_category = cut(listings_df$average_daily_rate, 
+                                        breaks =c(0,20,60,120,200,100000), 
+                                        labels = 
+                                c('cheap','budget','midclass','upper','luxury')) 
 ```
 
 # Airbnb market analysis for `r LOCATION_NAME`
@@ -181,6 +185,21 @@ ggsave(file="yearly_revenue_by_room_type.png", yr_rt_pl)
 yr_rt_pl
 ```
 
+### Yearly revenue by price category
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+yr_pc_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=price_category)) +
+              geom_boxplot(alpha=0.3, mapping=aes(fill= price_category)) +   
+              scale_y_log10(breaks=c(100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000), 
+                labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
+              labs(x='Price category', fill='Price category', y='Yearly revenue')
+             
+ggsave(file="yearly_revenue_by_price_category.png", yr_pc_pl)
+yr_pc_pl
+```
+
+
 
 ### Yearly revenue by Rating
 
@@ -226,7 +245,7 @@ yr_pc_pl <- ggplot(data=listings_df, mapping=aes(y=yearly_revenue, x=picture_cou
                 labels=c('0.1k','0.2k','0.5k','1k','2k','5k','10k','20k','50k','100k')) +
               labs(x='Picture Count', fill='Picture Count', y='Yearly revenue')
              
-ggsave(file="yearly_revenue_by_revenue_count.png", yr_pc_pl)
+ggsave(file="yearly_revenue_by_picture_count.png", yr_pc_pl)
 yr_pc_pl
 ```
 
@@ -309,7 +328,7 @@ occ_rt_pl <- ggplot(data=listings_df, mapping=aes(y=occupancy * 100, x=room_type
               geom_boxplot(alpha=0.3, mapping=aes(fill= room_type)) + 
               labs(x='Room type', fill='Room Type',y='Occupancy in %')
              
-ggsave(file="occupancy_per_person_capacity.png", occ_rt_pl)
+ggsave(file="occupancy_per_room_type.png", occ_rt_pl)
 occ_rt_pl
 ```
 
@@ -421,44 +440,177 @@ adr_rt_pl
 adr_pc_pl <- ggplot(data=listings_df, mapping=aes(y=average_daily_rate, x=as.factor(person_capacity))) +
               geom_boxplot(alpha=0.3, mapping=aes(fill= as.factor(person_capacity))) + 
               scale_y_continuous(breaks=seq(0,1000,50)) +
-              labs(x='Room Type', fill='Person Capacity', y='Average Daily Rate')
+              labs(x='Person Capacity', fill='Person Capacity', y='Average Daily Rate')
              
 ggsave(file="adr_by_person_capacity.png", adr_pc_pl)
 adr_pc_pl
 ```
 
+```{r}
+top_performer <-  function(price_class){
+   listings <- listings_df %>% 
+                             filter(price_category==price_class) %>%
+                             arrange(desc(yearly_revenue)) %>% 
+                             top_n(n=10, wt=yearly_revenue)
+   listings$occupancy = round(listings$occupancy*100, digits = 1)
+   listings$average_daily_rate = round(listings$average_daily_rate,
+                                                       digits = 0)
+   listings$yearly_revenue = round(listings$yearly_revenue, 
+                                                    digits = 0)
+   listings
+}
+
+print_table <- function(listings){
+   kable(listings[ , c(1,11,5,2,4)], 
+      col.names = c('Id', 'Name', 'Yearly Revenue', 'Occupancy', 'Average Daily Rate'))
+}
+
+plot_performers <- function(listings, price_category){
+   title <- paste("Top performing listings in", price_category, 
+                  "price category in", LOCATION_NAME, sep = ' ')
+   ggplot(data=listings, mapping=aes(x=average_daily_rate,y=yearly_revenue)) +
+         geom_point(aes(size=revenue_per_available_room,fill=person_capacity), shape=21)+
+         scale_size_continuous(range = c(1, 15)) +
+         scale_fill_gradientn(colours = terrain.colors(20)) +
+         geom_text(data=listings,
+                  mapping=aes(x=average_daily_rate, y=yearly_revenue, label=name)) + 
+         labs(x='Average Daily Rate (ADR)', y='Yearly Revenue in EUR', fill='Person Capacity', 
+              size='Revenue per available room (RevPar)', title=title)
+}
+```
+
+
+
 
 # Top performing listings
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-top_performering_listings <- listings_df %>%
-                             arrange(desc(yearly_revenue)) %>% 
-                             top_n(n=10, wt=yearly_revenue)
-top_performering_listings$occupancy = round(top_performering_listings$occupancy*100, digits = 1)
-top_performering_listings$average_daily_rate = round(top_performering_listings$average_daily_rate, digits = 0)
-top_performering_listings$yearly_revenue = round(top_performering_listings$yearly_revenue, digits = 0)
+### Cheap price category
+```{r}
+price_category <-  'cheap'
 ```
 
-Amounts in EUR
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-kable(top_performering_listings[ , c(1,11,5,2,4)], 
-      col.names = c('Id', 'Name', 'Yearly Revenue', 'Occupancy', 'Average Daily Rate'))
+
+top_performering_listings <- top_performer(price_category)
 ```
 
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+print_table(top_performering_listings)
+```
+^Amounts in EUR/Occupancy in %^
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
+plot_performers(top_performering_listings, price_category)
+      
+```
 
-ggplot(data=top_performering_listings, mapping=aes(x=average_daily_rate,y=yearly_revenue)) +
-      geom_point(aes(size=revenue_per_available_room,fill=person_capacity), shape=21)+
-      scale_size_continuous(range = c(1, 15)) +
-      scale_fill_gradientn(colours = terrain.colors(20)) +
-      geom_text(data=top_performering_listings,
-                  mapping=aes(x=average_daily_rate, y=yearly_revenue, label=name)) + 
-      labs(x='Average Daily Rate (ADR)', y='Yearly Revenue in EUR', fill='Person Capacity', size='Revenue per available room (RevPar)', title='Top performing listings in Bali, Indonesia') 
+
+### Budget price category
+```{r}
+
+price_category <-  'budget'
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+top_performering_listings <- top_performer(price_category)
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+print_table(top_performering_listings)
+```
+^Amounts in EUR/Occupancy in %^
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
+plot_performers(top_performering_listings, price_category)
+      
+```
+
+
+
+### Midclass price category
+```{r}
+
+price_category <-  'midclass'
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+top_performering_listings <- top_performer(price_category)
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+print_table(top_performering_listings)
+```
+^Amounts in EUR/Occupancy in %^
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
+plot_performers(top_performering_listings, price_category)
+      
+```
+
+
+### Upper price category
+```{r}
+
+price_category <-  'upper'
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+top_performering_listings <- top_performer(price_category)
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+print_table(top_performering_listings)
+```
+^Amounts in EUR/Occupancy in %^
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
+plot_performers(top_performering_listings, price_category)
+      
+```
+
+
+### Luxury price category
+```{r}
+
+price_category <-  'luxury'
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+top_performering_listings <- top_performer(price_category)
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+print_table(top_performering_listings)
+```
+^Amounts in EUR/Occupancy in %^
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
+plot_performers(top_performering_listings, price_category)
       
 ```
 
