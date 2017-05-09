@@ -2,12 +2,12 @@
 title: ''
 output:
   pdf_document:
-    pandoc_args: [ 
-      "--latex-engine", "xelatex" 
-    ]
+    latex_engine: pdflatex
   html_notebook: default
   html_document: default
+  word_document: default
 ---
+
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE, libs}
 library(ggthemes)
@@ -16,7 +16,6 @@ library(tidyr)
 library(dplyr)
 library(GGally)
 library(gridExtra)
-library(knitr)
 ```
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE, constants}
@@ -464,8 +463,9 @@ top_performer <-  function(price_class){
 }
 
 print_table <- function(listings){
-   kable(listings[ , c(1,11,5,2,4)], 
-     col.names = c('Id', 'Name', 'Yearly Revenue', 'Occupancy', 'Average Daily Rate'))
+  print_df <- listings[ , c(1,11,5,2,4)]
+  colnames(print_df) <- c('Id', 'Name', 'Yearly Revenue', 'Occupancy', 'Average Daily Rate')
+  grid.table(print_df, rows = NULL)
 }
 
 plot_performers <- function(listings, price_category){
@@ -504,10 +504,10 @@ top_performering_listings <- top_performer(price_category)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=4}
 print_table(top_performering_listings)
 ```
-^Amounts in EUR/Occupancy in %^
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
@@ -530,10 +530,10 @@ top_performering_listings <- top_performer(price_category)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=4}
 print_table(top_performering_listings)
 ```
-^Amounts in EUR/Occupancy in %^
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
@@ -557,13 +557,13 @@ top_performering_listings <- top_performer(price_category)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=4}
 print_table(top_performering_listings)
 ```
-^Amounts in EUR/Occupancy in %^
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=4}
 plot_performers(top_performering_listings, price_category)
       
 ```
@@ -583,10 +583,10 @@ top_performering_listings <- top_performer(price_category)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=4}
 print_table(top_performering_listings)
 ```
-^Amounts in EUR/Occupancy in %^
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
@@ -609,11 +609,11 @@ top_performering_listings <- top_performer(price_category)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=9, fig.height=4}
 print_table(top_performering_listings)
 ```
 
-^ Amounts in EUR/Occupancy in % ^
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
