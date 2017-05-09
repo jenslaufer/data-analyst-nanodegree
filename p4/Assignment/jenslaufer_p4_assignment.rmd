@@ -2,9 +2,9 @@
 title: Exploration of factors which influence the yearly revenue of an Airbnb listing
   on Bali by Jens Laufer
 output:
-  html_document: default
-  html_notebook: default
   pdf_document: default
+  html_notebook: default
+  html_document: default
 ---
 
 Everybody heard about Airbnb, which is the fastest growing holiday website in the world. 
@@ -86,48 +86,27 @@ listings_df <- calendar_df %>%
           group_by(id) %>% 
           summarize(currency=first(price.local_currency),
                     occupancy=occupancy(available),
-                    revenue_per_available_room=revenue_per_available_room(available, sum(daily_revenue)),
-                    average_daily_rate=average_daily_rate(available, sum(daily_revenue)),
+                    revenue_per_available_room=revenue_per_available_room(
+                      available, sum(daily_revenue)),
+                    average_daily_rate=average_daily_rate(available, 
+                                                          sum(daily_revenue)),
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
                     ) %>%
           right_join(listings_df)  
 listings_df$star_rating = as.factor(listings_df$star_rating)
 #I am removing some unused columns
-listings_df <-  listings_df[ , -which(names(listings_df) %in% c("picture_url", "currency"))]
+listings_df <-  listings_df[ , -which(names(listings_df) %in% 
+                                        c("picture_url", "currency"))]
+
+
+listings_df$picture_count_bucket <- cut(listings_df$picture_count, breaks = 
+                                          c(0,5,10,15,20,40,60,80,100)) 
+
+
+listings_df$reviews_count_bucket <- cut(listings_df$reviews_count, breaks = 
+                                          c(0,5,10,15,20,40,60,80,100)) 
+
 ```
-
-
-
-
-## Structure of Data Set
-
-
-| Column        | Description           | Scale | Category values |
-| ------------- |---------------------- | ----- | --------------- |
-| id | Airbnb listing ID | unique key |  |
-| name | Title of Airbnb Listing | unique key |  |
-| yearly_revenue | Estimated Yearly revenue of a listing based on revenue in period |continuous |  |
-| occupancy | Occupancy of listing in period |continuous |  |
-| average_daily_rate | Average rate per day a guest paid in period |continuous |  |
-| bathrooms | Number of bathrooms | continuous |  |
-| bedrooms | Number of bedrooms | continuous |  |
-| beds | Number of beds | continuous |  |
-| person_capacity| Person capacity | continuous|  |
-| instant_bookable| Whether a guest has to inquire to book or not | nominal | 'true', 'false |
-| is_family_preferred| Whether families are preferred or not | nominal | 'true', 'false |
-| picture_count | Number of pictures | continuous |  |
-| reviews_count | Number of reviews | continuous |  |
-| room_type | Type of room | nominal | 'entire home', 'private room', 'shared room'|
-| star_rating | Rating of the room | ordinal | '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0' |
-
-
-```{r}
-str(listings_df)
-```
-
-The dataset contains 1236 rows with 16 variables, 11 of them are continuous and 5 categorical. 
-
-
 
 
 # Univariate Plots Section
@@ -160,8 +139,8 @@ grid.arrange(p1, p2, p3, p4, nrow = 2)
 
 In the first row I plotted the histogram and a boxplot of yearly revenue unpolished. 
 
-It is a positively skewed long tailed graph, we can also see some extreme outliers with
-a expected yearly income of over EUR100,000.. 
+It is a positively skewed long tailed graph, you can also see some extreme outliers with
+a expected yearly income of over EUR100,000.
 
 In the second row I did a log tranformation to get a nearly gaussian curve. 
 
@@ -188,7 +167,7 @@ The values of these variables are very limited so they can treated as categorica
 
 These variables are somehow related to each other as all persons need a bed and beds are located in bedrooms. If unit has a higher person capacity it has most probably more beds, bedrooms  and bathrooms.
 
-What we can see from data is that the majority of units has a person capacity of 2 and has 1 bedroom with 1 bed and 1 bathroom.
+What you can see from data is that the majority of units has a person capacity of 2 and has 1 bedroom with 1 bed and 1 bathroom.
 
 
 ## Instant bookable, Preferation of families, Rating and Room type
@@ -216,7 +195,7 @@ Most of the listings are either an entire home or a private room. There hardly a
 ## Picture count
 
 
-```{r echo=FALSE, warning=FALSE, message=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE,fig.width=12, fig.height=8}
 
 p1 <- qplot(listings_df$picture_count)
 p2 <- qplot(as.factor('0'),listings_df$picture_count, geom='boxplot')
@@ -228,9 +207,11 @@ p3 <- ggplot(data=listings_df, mapping=aes(x=picture_count)) +
 p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=picture_count)) +
       geom_boxplot() +
       coord_cartesian(ylim=c(0,40))
+p6 <- qplot(listings_df$picture_count_bucket)
 
 
-grid.arrange(p1,p2,p3,p4,nrow=2)
+grid.arrange(p1, p2, p6, p3,
+             p4, nrow=2)
 ```
 
 In the first row I plotted the picture count as histogram and a boxplot unpolished.
@@ -243,7 +224,7 @@ The most listings have between 10-30 pictures with a median of about 20.
 
 ## Reviews count
 
-```{r echo=FALSE, warning=FALSE, message=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=8}
 p1 <- qplot(listings_df$reviews_count) + 
         scale_x_continuous(breaks=seq(0,150,20))
 p2 <- qplot(as.factor('0'),listings_df$reviews_count, geom='boxplot')
@@ -253,9 +234,10 @@ p3 <- qplot(listings_df$reviews_count, binwidth=.64) +
 p4 <- ggplot(data=listings_df, mapping=aes(x=as.factor('0'), y=reviews_count)) +
         geom_boxplot() +
         coord_cartesian(ylim=c(0,40))
+p5 <- qplot(listings_df$reviews_count_bucket)
 
 
-grid.arrange(p1, p2, p3, p4, nrow=2)
+grid.arrange(p1, p2, p5, p3, p4, nrow=2)
 ```
 
 
@@ -272,11 +254,58 @@ We visulalized the distritbution as well as boxplots. The median of reviews coun
 
 # Univariate Analysis
 
-The dataset has 1236 oberservations on 15 variables. 
-### What is the structure of your dataset?
 
-### What is/are the main feature(s) of interest in your dataset?
 
+## Structure of Data Set
+
+
+There are two datsets used within this analysis: One dataset with the meta data of
+1236 Airbnb listings and a second one with the booking calendar for 189 days of each listing. 
+
+I aggregated some additional variables from second dataset: 
+
+   - Occupancy: Number of days a listing was not available divided by total number of days
+   - Average Daily Rate: The average of all rates guests were paying for a place
+   - Revenue per available room: Average Daily rate time occupancy
+   - Yearly Revenue: Revenue per available room times 365. Estimation of revenue in a year.
+   
+I also created two additional categorical variables for the picture and review count by creating buckets to better see trends for these continous variables.
+   
+
+
+| Column        | Description           | Scale | Category values |
+| ------------- |---------------------- | ----- | --------------- |
+| id | Airbnb listing ID | unique key |  |
+| name | Title of Airbnb Listing | unique key |  |
+| yearly_revenue | Estimated Yearly revenue of a listing based on revenue in period |continuous |  |
+| occupancy | Occupancy of listing in period |continuous |  |
+| average_daily_rate | Average rate per day a guest paid in period |continuous |  |
+| bathrooms | Number of bathrooms | continuous |  |
+| bedrooms | Number of bedrooms | continuous |  |
+| beds | Number of beds | continuous |  |
+| person_capacity| Person capacity | continuous|  |
+| instant_bookable| Whether a guest has to inquire to book or not | nominal | 'true', 'false |
+| is_family_preferred| Whether families are preferred or not | nominal | 'true', 'false |
+| picture_count | Number of pictures | continuous |  |
+| reviews_count | Number of reviews | continuous |  |
+| room_type | Type of room | nominal | 'entire home', 'private room', 'shared room'|
+| star_rating | Rating of the room | ordinal | '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0' |
+
+
+```{r}
+str(listings_df)
+```
+I merged the aggregated data into the original dataset to get the dataset I am using. It includes 1236 oberservations on 18 variables.
+
+As a Airbnb host you are mainly interested in the revenue you can earn with a place. Therefore the variable is outcome variable. Goal is to identify the features that influence this outcome variables 
+and develop a prediction model.
+
+There variables in the datset that definitely influence the yearly revenue. 
+You can charge more for a place that can host more persons (person_capacity) or an
+entire home instead of private or even shared room (room_type). It also makes a difference
+if a place is instantly bookable or can host a family (family_prefered). When 
+
+It would be also interesting to group some of the categories together.
 ### What other features in the dataset do you think will help support your \
 investigation into your feature(s) of interest?
 
@@ -327,14 +356,15 @@ listings_df[ , +which(names(listings_df) %in%
   gather(-yearly_revenue, key = "var", value = "value") %>%
   ggplot(aes(y = yearly_revenue, x = value)) +
     geom_boxplot() +
+    geom_hline(yintercept = 986.90) +
+    geom_hline(yintercept = 2375.00) +
+    geom_hline(yintercept = 5434.00) +
     scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
     facet_wrap(~ var, scales = "free") 
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-listings_df$picture_count_bucket <- cut(listings_df$picture_count, breaks = 
-                                          c(0,5,10,15,20,40,60,80,100)) 
 
 p1 <- ggplot(data=listings_df, mapping=aes(x=picture_count, y=yearly_revenue)) +
       geom_point(alpha=0.2, position = 'jitter') +
@@ -351,10 +381,6 @@ grid.arrange(p1, p2, nrow=1)
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-
-listings_df$reviews_count_bucket <- cut(listings_df$reviews_count, breaks = 
-                                          c(0,5,10,15,20,40,60,80,100)) 
-
 p1 <- ggplot(data=listings_df, mapping=aes(x=reviews_count, y=yearly_revenue)) +
       geom_point(alpha=0.2, position = 'jitter') +
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
