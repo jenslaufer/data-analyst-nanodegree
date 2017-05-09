@@ -1,9 +1,12 @@
 ---
 title: ''
 output:
-  html_document: default
+  pdf_document:
+    pandoc_args: [ 
+      "--latex-engine", "xelatex" 
+    ]
   html_notebook: default
-  pdf_document: default
+  html_document: default
 ---
 
 ```{r message=FALSE, warning=FALSE, echo=FALSE, libs}
@@ -462,13 +465,14 @@ top_performer <-  function(price_class){
 
 print_table <- function(listings){
    kable(listings[ , c(1,11,5,2,4)], 
-      col.names = c('Id', 'Name', 'Yearly Revenue', 'Occupancy', 'Average Daily Rate'))
+     col.names = c('Id', 'Name', 'Yearly Revenue', 'Occupancy', 'Average Daily Rate'))
 }
 
 plot_performers <- function(listings, price_category){
+   filename <- paste('top_performing_', price_category, '.png', sep='')
    title <- paste("Top performing listings in", price_category, 
                   "price category in", LOCATION_NAME, sep = ' ')
-   ggplot(data=listings, mapping=aes(x=average_daily_rate,y=yearly_revenue)) +
+   p1 <- ggplot(data=listings, mapping=aes(x=average_daily_rate,y=yearly_revenue)) +
          geom_point(aes(size=revenue_per_available_room,fill=person_capacity), shape=21)+
          scale_size_continuous(range = c(1, 15)) +
          scale_fill_gradientn(colours = terrain.colors(20)) +
@@ -476,6 +480,8 @@ plot_performers <- function(listings, price_category){
                   mapping=aes(x=average_daily_rate, y=yearly_revenue, label=name)) + 
          labs(x='Average Daily Rate (ADR)', y='Yearly Revenue in EUR', fill='Person Capacity', 
               size='Revenue per available room (RevPar)', title=title)
+   ggsave(file=filename, p1)
+   p1
 }
 ```
 
@@ -606,7 +612,8 @@ top_performering_listings <- top_performer(price_category)
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 print_table(top_performering_listings)
 ```
-^Amounts in EUR/Occupancy in %^
+
+^ Amounts in EUR/Occupancy in % ^
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6}
