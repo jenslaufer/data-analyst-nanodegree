@@ -364,10 +364,14 @@ ggcorr(listings_df[ , -which(names(listings_df) %in% c("id"))],
        palette = "RdYlGn", label=TRUE)
 ```
 
-First I am interested in the features that influence the yearly revenue. There is a correlation coefficent of 1 between the yearly revenue and the revenue per available room, but you have to keep in mind that the yearly revenue is calculated is with revenue per available room. So this correlation is "natural". There is a strong correlation between the average daily rate 
+First I am interested in the features that influence the yearly revenue. There is a correlation coefficent of 1 between the yearly revenue and the revenue per available room, but you have to keep in mind that the yearly revenue is calculated with revenue per available room. So this correlation is "natural". There is a strong correlation between the average daily rate and yearly revenue as well with the occupancy and the yearly revenue. This is what you expect: The more you charge the higher the revenue and the more days a place is occupied the more you earn.
+But a higher rate might also drop the occupancy, especially if your place is overpriced in compare to similiar places. There is correlation between the average daily rate and the occupancy, but it is not as strong as you might expect. There is a strong relationship between the yearly revenue and the size of a place in terms of person capacity, number of beds, bathrooms and bedrooms. The number of pictures and number of reviews are having a weak relationship to the yearly revenue.
 
 
 You can see a strong relationship between number of bedrooms, bathrooms, beds and person_capacity as they all kind of metrics which describe the size of a place.
+```{r}
+cor.test(listings_df$occupancy, listings_df$star_rating)
+```
 
 
 
