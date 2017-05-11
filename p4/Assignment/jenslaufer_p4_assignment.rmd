@@ -2,9 +2,9 @@
 title: Exploration of factors which influence the yearly revenue of an Airbnb listing
   on Bali by Jens Laufer
 output:
-  html_document: default
-  html_notebook: default
   pdf_document: default
+  html_notebook: default
+  html_document: default
 ---
 
 Everybody heard about Airbnb, which is the fastest growing holiday website in the world. 
@@ -88,6 +88,7 @@ listings_df <- calendar_df %>%
                     occupancy=occupancy(available),
                     revenue_per_available_room=revenue_per_available_room(
                       available, sum(daily_revenue)),
+                    average_offered_rate=mean(price.local_price),
                     average_daily_rate=average_daily_rate(available, 
                                                           sum(daily_revenue)),
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
@@ -100,15 +101,15 @@ listings_df <-  listings_df[ , -which(names(listings_df) %in%
 
 
 listings_df$picture_count_bucket <- cut(listings_df$picture_count, breaks = 
-                                          c(0,5,10,15,20,40,60,80,100)) 
+                                          c(0,5,10,15,20,40,60,80,100000)) 
 
 
 listings_df$reviews_count_bucket <- cut(listings_df$reviews_count, breaks = 
-                                          c(0,5,10,15,20,40,60,80,100)) 
+                                          c(0,5,10,15,20,40,60,80,100000)) 
 
 
 listings_df$rate_category = cut(listings_df$average_daily_rate, 
-                                        breaks =c(0,20,60,120,200,100000), 
+                                        breaks =c(0,30,70,120,200,100000), 
                                         labels = 
                                 c('cheap','budget','midclass','upper','luxury')) 
 
@@ -154,7 +155,7 @@ The second boxplot visualizes the median, lower and upper quartile of the yearly
 
 ## Average Daily Rate
 
-```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=6, Univariate_Plots_ADR}
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=10, Univariate_Plots_ADR}
 adr <- qplot(subset(listings_df, average_daily_rate > 0)$average_daily_rate)
 
 adr_mag <- qplot(listings_df$average_daily_rate, binwidth=3) +
@@ -164,12 +165,16 @@ adr_box <- qplot(c(''), listings_df$average_daily_rate, geom='boxplot')
 adr_box_magn <- qplot(c(''), listings_df$average_daily_rate, geom='boxplot') +
             coord_cartesian(ylim=c(10,90))
 
-grid.arrange(adr, adr_box, adr_mag, adr_box_magn, nrow=2)
+rate_category <- qplot(listings_df$rate_category)
+
+grid.arrange(adr, adr_box, adr_mag, adr_box_magn, rate_category, nrow=3)
 
 ```
 
-The graph of the daily price is a long tailed. I did a square root transformation and zoomed into the
-rates between 
+The graph of the daily price is a long tailed. I did zoomed in into the
+rates between 0 and 250 to better analyse this area.
+
+The most listings are in lower rate segment. You can see this as well from the histogram for the rate category.
 
 The box plot are illustrating the median, upper and lower quartile. The median average daily rate is about EUR 37 the lower quartile is at about 20 the upper quartile at about 80.
 
@@ -206,9 +211,8 @@ instant_bookable <- qplot(listings_df$instant_bookable)
 is_family_preferred <- qplot(listings_df$is_family_preferred)
 star_rating <- qplot(listings_df$star_rating)
 room_type <- qplot(listings_df$room_type)
-rate_category <- qplot(listings_df$rate_category)
 grid.arrange(instant_bookable, is_family_preferred, 
-             star_rating, room_type, rate_category, nrow=2)
+             star_rating, room_type, nrow=2)
 ```
 
 Most of the listings prefer the instant_bookable option, as the hosts don't want to deal with too many inquiries and the guests like that they are able to finalize the booking immediatly.
@@ -219,7 +223,6 @@ The majority of the listings have rating of 4.5 or 5 star or no rating at all. T
 
 Most of the listings are either an entire home or a private room. There hardly any shared rooms on Bali.
 
-The majority o listings are in the budget and midclass rate segment. This is what you expect. 
 
 
 
@@ -301,10 +304,10 @@ I aggregated some additional variables from the second dataset:
 
    - Occupancy: Number of days a listing was not available divided by total number of days
    - Average Daily Rate: The average of all rates guests were paying for a place
-   - Revenue per available room: Average Daily rate time occupancy
+   - Revenue per available room: Average Daily rate times occupancy
    - Yearly Revenue: Revenue per available room times 365. Estimation of revenue in a year.
    
-I also created two additional categorical variables for the picture and review count by creating buckets to better see trends for these continous variables.
+I also created three additional categorical variables for the picture and review count by creating buckets to better see trends for these continous variables. The third variable I created categorizes the listings into diffrent rate categories.
    
 
 
@@ -315,6 +318,7 @@ I also created two additional categorical variables for the picture and review c
 | yearly_revenue | Estimated Yearly revenue of a listing based on revenue in period |continuous |  |
 | occupancy | Occupancy of listing in period |continuous |  |
 | average_daily_rate | Average rate per day a guest paid in period |continuous |  |
+| rate_category | Rate category based on average daily rate | ordinal  |'cheap','budget','midclass','upper','luxury'  |
 | bathrooms | Number of bathrooms | continuous |  |
 | bedrooms | Number of bedrooms | continuous |  |
 | beds | Number of beds | continuous |  |
@@ -322,7 +326,9 @@ I also created two additional categorical variables for the picture and review c
 | instant_bookable| Whether a guest has to inquire to book or not | nominal | 'true', 'false |
 | is_family_preferred| Whether families are preferred or not | nominal | 'true', 'false |
 | picture_count | Number of pictures | continuous |  |
+| picture_count_bucket | Buckets for different numbers of pictures | nominal | '-10', '10-20'... '> 80'|
 | reviews_count | Number of reviews | continuous |  |
+| reviews_count_bucket | Buckets for different numbers of reviews | nominal | '-10', '10-20'... '> 80'|
 | room_type | Type of room | nominal | 'entire home', 'private room', 'shared room'|
 | star_rating | Rating of the room | ordinal | '1.0', '1.5', '2.0', '2.5', '3.0', '3.5', '4.0', '4.5', '5.0' |
 
@@ -330,10 +336,9 @@ I also created two additional categorical variables for the picture and review c
 ```{r}
 str(listings_df)
 ```
-I merged the aggregated data into the original dataset to get the dataset I am using. It includes 1236 oberservations on 19 variables.
+I merged the aggregated data into the original dataset to get the dataset I am using througout this analysis. It includes 1236 oberservations on 19 variables.
 
-As a Airbnb host you are mainly interested in the revenue you can earn with a place. Therefore the variable is outcome variable. Goal is to identify the features that influence this outcome variable 
-and develop a prediction model.
+As a Airbnb host you are mainly interested in the revenue you can earn with a place. Therefore this variable the is outcome variable. Goal is to identify the features that influence this outcome variable and develop a prediction model.
 
 There variables in the datset that definitely influence the yearly revenue. 
 You can charge more for a place that can host more persons (person_capacity) or an
@@ -341,27 +346,31 @@ entire home instead of private or even shared room (room_type). It also makes a 
 if a place is instantly bookable or can host a family (family_prefered). If your listing 
 has more ratings and better ratings the bookings should go up. 
 
-We need to examine how big the influence of the different variables is.
+I am interested how big the influence of the different variables is.
 
 It would be also interesting to group some of the categories together, as they are strongly related
 to each other. As said before number of bedrooms, bathrooms and beds are stronglys related to person_capacity as well the room type.
-### What other features in the dataset do you think will help support your \
-investigation into your feature(s) of interest?
 
-### Did you create any new variables from existing variables in the dataset?
-
-### Of the features you investigated, were there any unusual distributions? \
-Did you perform any operations on the data to tidy, adjust, or change the form \
-of the data? If so, why did you do this?
+I did a log transformation on the yearly revenue as it is a positively skewed long tail graph to transform it into a more gaussian curve to better analyse the curve. I also did transformations 
+on the picture_count (Square root) and on reviews_count (log10)  for the same reasons.
 
 
 # Bivariate Plots Section
 
-> **Tip**: Based on what you saw in the univariate plots, what relationships
-between variables might be interesting to look at in this section? Don't limit
-yourself to relationships between a main output feature and one of the
-supporting variables. Try to look at relationships between supporting variables
-as well.
+I am plotting  a correlation of all variables to get a first impression of the relations between the variables:
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=10}
+ggcorr(listings_df[ , -which(names(listings_df) %in% c("id"))], 
+       palette = "RdYlGn", label=TRUE)
+```
+
+First I am interested in the features that influence the yearly revenue. There is a correlation coefficent of 1 between the yearly revenue and the revenue per available room, but you have to keep in mind that the yearly revenue is calculated is with revenue per available room. So this correlation is "natural". There is a strong correlation between the average daily rate 
+
+
+You can see a strong relationship between number of bedrooms, bathrooms, beds and person_capacity as they all kind of metrics which describe the size of a place.
+
+
+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6, Bivariate_Plots}
 listings_df[ , +which(names(listings_df) %in% 
@@ -395,9 +404,6 @@ listings_df[ , +which(names(listings_df) %in%
   gather(-yearly_revenue, key = "var", value = "value") %>%
   ggplot(aes(y = yearly_revenue, x = value)) +
     geom_boxplot() +
-    geom_hline(yintercept = 986.90) +
-    geom_hline(yintercept = 2375.00) +
-    geom_hline(yintercept = 5434.00) +
     scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
     facet_wrap(~ var, scales = "free") 
 ```
