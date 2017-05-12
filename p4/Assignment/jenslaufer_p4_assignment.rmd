@@ -94,7 +94,6 @@ listings_df <- calendar_df %>%
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
                     ) %>%
           right_join(listings_df)  
-listings_df$star_rating = as.factor(listings_df$star_rating)
 #I am removing some unused columns
 listings_df <-  listings_df[ , -which(names(listings_df) %in% 
                                         c("picture_url", "currency"))]
@@ -202,6 +201,9 @@ These variables are somehow related to each other as all persons need a bed and 
 
 What you can see from data is that the majority of units has a person capacity of 2 and has 1 bedroom with 1 bed and 1 bathroom.
 
+As the person_capacity is linked to the number number of bathrooms and bedrooms I am calculation a ratio between the number of beds, bathrooms and bedrooms.
+
+
 
 ## Instant bookability, Preferation of families, Star Rating, Room type and Rate category 
 
@@ -209,7 +211,7 @@ What you can see from data is that the majority of units has a person capacity o
 ```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=6}
 instant_bookable <- qplot(listings_df$instant_bookable)
 is_family_preferred <- qplot(listings_df$is_family_preferred)
-star_rating <- qplot(listings_df$star_rating)
+star_rating <- qplot(as.factor(listings_df$star_rating))
 room_type <- qplot(listings_df$room_type)
 grid.arrange(instant_bookable, is_family_preferred, 
              star_rating, room_type, nrow=2)
@@ -336,15 +338,13 @@ I also created three additional categorical variables for the picture and review
 ```{r}
 str(listings_df)
 ```
-I merged the aggregated data into the original dataset to get the dataset I am using througout this analysis. It includes 1236 oberservations on 19 variables.
+I merged the aggregated data into the original dataset to get the dataset I am using throughout this analysis. It includes 1236 oberservations on 19 variables.
 
-As a Airbnb host you are mainly interested in the revenue you can earn with a place. Therefore this variable the is outcome variable. Goal is to identify the features that influence this outcome variable and develop a prediction model.
+As a Airbnb host you are mainly interested in the revenue you can earn with a place. Therefore this variable is the outcome variable. Goal is to identify the features that influence this outcome variable and develop a prediction model.
 
-There variables in the datset that definitely influence the yearly revenue. 
-You can charge more for a place that can host more persons (person_capacity) or an
-entire home instead of private or even shared room (room_type). It also makes a difference
-if a place is instantly bookable or can host a family (family_prefered). If your listing 
-has more ratings and better ratings the bookings should go up. 
+There variables in the datset that definitely influence the yearly revenue. There is a moderate linear relationship
+between the number of bedrooms, bathrooms, beds and person capacity. This is not a surprise:
+You can charge more for a place that can host more persons (person_capacity) which has more bathrooms, bedrooms and beds.
 
 I am interested how big the influence of the different variables is.
 
@@ -364,16 +364,18 @@ ggcorr(listings_df[ , -which(names(listings_df) %in% c("id"))],
        palette = "RdYlGn", label=TRUE)
 ```
 
-First I am interested in the features that influence the yearly revenue. There is a correlation coefficent of 1 between the yearly revenue and the revenue per available room, but you have to keep in mind that the yearly revenue is calculated with revenue per available room. So this correlation is "natural". There is a strong correlation between the average daily rate and yearly revenue as well with the occupancy and the yearly revenue. This is what you expect: The more you charge the higher the revenue and the more days a place is occupied the more you earn.
-But a higher rate might also drop the occupancy, especially if your place is overpriced in compare to similiar places. There is correlation between the average daily rate and the occupancy, but it is not as strong as you might expect. There is a strong relationship between the yearly revenue and the size of a place in terms of person capacity, number of beds, bathrooms and bedrooms. The number of pictures and number of reviews are having a weak relationship to the yearly revenue.
+First I am interested in the features that influence the yearly revenue. There is a correlation coefficent of 1 between the yearly revenue and the revenue per available room, but you have to keep in mind that the yearly revenue is calculated with the revenue per available room. So this correlation is "natural". There is a strong correlation between the average daily rate and yearly revenue as well with the occupancy and the yearly revenue. This is what you expect: The more you charge the higher the revenue and the more days a place is occupied the more you earn. But a higher rate might also drop the occupancy, especially if your place is overpriced in compare to similiar places. 
+
+There is correlation between the average daily rate and the occupancy, but it is not as strong as you might expect. There is a strong relationship between the yearly revenue and the size of a place in terms of person capacity, number of beds, bathrooms and bedrooms. This is also what you expect: Bigger places can charge more. 
+
+The number of pictures and number of reviews are having a weak relationship to the yearly revenue.
+
+You can see a strong relationship between number of bedrooms, bathrooms, beds and person_capacity as they all kind of metrics which describe the size of a place. 
+
+The Occupancy has a weak relationship with the reviews_count and picture_count: More Pictures and more reviews is resulting in a higher occupancy.
 
 
-You can see a strong relationship between number of bedrooms, bathrooms, beds and person_capacity as they all kind of metrics which describe the size of a place.
-```{r}
-cor.test(listings_df$occupancy, listings_df$star_rating)
-```
-
-
+## Person Capacity, Number of bathrooms, bedrooms and beds
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6, Bivariate_Plots}
@@ -388,6 +390,10 @@ listings_df[ , +which(names(listings_df) %in%
     scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 10000, 20000, 30000, 50000)) +
     facet_wrap(~ var, scales = "free") 
 ```
+
+
+
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 listings_df[ , -which(names(listings_df) %in% 
                         c("average_daily_rate", "id", "name", 
