@@ -9,7 +9,7 @@ output:
 
 Everybody heard about Airbnb, which is the fastest growing holiday website in the world. 
 
-I am Airbnb host since 2015 and indeed it was one of the factors that lead me into the fascinating world of Data Science as I want to improve my own listings and find new opportunities to invest.
+I am Airbnb host since 2015 and indeed it was one of the factors that lead me into the fascinating world of data science as I want to improve my own listings and find new opportunities to invest.
 
 Currently I am helping an agency on Bali, Indonesia to improve their listings  to gain experience with data analysis. 
 
@@ -150,7 +150,8 @@ a expected yearly income of over EUR100,000.
 
 In the second row I did a log tranformation to get a nearly gaussian curve. 
 
-The second boxplot visualizes the median, lower and upper quartile of the yearly revenue.
+The second boxplot visualizes the median, lower and upper quartile of the yearly revenue by changing 
+the limits of the plot.
 
 ## Average Daily Rate
 
@@ -170,10 +171,12 @@ grid.arrange(adr, adr_box, adr_mag, adr_box_magn, rate_category, nrow=3)
 
 ```
 
-The graph of the daily price is a long tailed. I did zoomed in into the
-rates between 0 and 250 to better analyse this area.
+The graph of the daily price is a long tailed. I zoomed in into the
+rates between 0 and 250 to better see what's going on in this range.
 
-The most listings are in lower rate segment. You can see this as well from the histogram for the rate category.
+I categorized the rates into 5 categories to get another view onto the data.
+
+The most listings are in the lower rate segment. You can see this as well from the histogram for the rate category.
 
 The box plot are illustrating the median, upper and lower quartile. The median average daily rate is about EUR 37 the lower quartile is at about 20 the upper quartile at about 80.
 
@@ -195,13 +198,11 @@ grid.arrange(beds, bedrooms, bathrooms,person_capacity, nrow=2)
 I visualized the variables 'beds', 'bedrooms', 'bathrooms' and person_capacity as bar charts by transforming
 these continuous variables into categorical variables.
 
-The values of these variables are very limited so they can treated as categorical.
+The values of these variables are very limited so they can be treated as categorical.
 
-These variables are somehow related to each other as all persons need a bed and beds are located in bedrooms. If unit has a higher person capacity it has most probably more beds, bedrooms  and bathrooms.
+These variables are related to each other as all persons need a bed and beds are located in bedrooms. If unit has a higher person capacity it has most probably more beds, bedrooms  and bathrooms.
 
 What you can see from data is that the majority of units has a person capacity of 2 and has 1 bedroom with 1 bed and 1 bathroom.
-
-As the person_capacity is linked to the number number of bathrooms and bedrooms I am calculation a ratio between the number of beds, bathrooms and bedrooms.
 
 
 
@@ -217,7 +218,7 @@ grid.arrange(instant_bookable, is_family_preferred,
              star_rating, room_type, nrow=2)
 ```
 
-Most of the listings prefer the instant_bookable option, as the hosts don't want to deal with too many inquiries and the guests like that they are able to finalize the booking immediatly.
+Most of hosts prefer the option that their listings are instant bookable, as they don't want to deal with too many inquiries and the guests likethat they are able to finalize the booking immediatly.
 
 Most of the listings are not prefering families. These might be due the fact, that they simple don't have the capacity to host a family. Remember that most of the listings just have a person capacity of 2.
 
@@ -253,11 +254,11 @@ grid.arrange(p1, p2, p6, p3,
 
 In the first row I plotted the picture count as histogram and a boxplot unpolished.
 
-As the picture count is a bit positively skewed I app,ied a square root transformation to get a gaussian distribution the graph. The second boxplot illustrates the median, the lower and upper quartile.
+As the picture count is a bit positively skewed I applied a square root transformation to get a gaussian distribution the graph. The second boxplot illustrates the median, the lower and upper quartile.
 
 The most listings have between 10-30 pictures with a median of about 20. There is a peak in the picture count bucket bar chart for a number between 20 and 40.
 
-This is due the reason that Airbnb reccomends to have about 20-30 photos. This is also the number of photos what a professional photograher from Airbnb is shooting for you.
+This is due the reason that Airbnb reccomends to have about 20-30 photos. This is also the number of photos what a professional photographer from Airbnb  (you are getting it for free) is shooting for you.
 
 
 
@@ -284,7 +285,7 @@ grid.arrange(p1, p2, p5, p3, p4, nrow=2)
 
 First I plotted the reviews count unpolished.
 
-The distribution is very long tailed. Therefore we applied a log10 transformation. With binwidth of 0.65 we are able to transform into a kind of normal distribution.
+The distribution is very long tailed. Therefore I applied a log10 transformation with binwidth of 0.65 we are able to transform into a kind of normal distribution.
 
 I visualized the distribution as well as boxplots. The median of reviews count is 10. The 25% quartile at about 2 and the 75% quartile at 31. There are outliers with reviews count over 75.
 
@@ -309,7 +310,7 @@ I aggregated some additional variables from the second dataset:
    - Revenue per available room: Average Daily rate times occupancy
    - Yearly Revenue: Revenue per available room times 365. Estimation of revenue in a year.
    
-I also created three additional categorical variables for the picture and review count by creating buckets to better see trends for these continous variables. The third variable I created categorizes the listings into diffrent rate categories.
+I also created three additional categorical variables for the picture and review count by creating buckets to better see trends for these continous variables. The third variable I created categorizes the listings into different rate categories.
    
 
 
@@ -338,15 +339,14 @@ I also created three additional categorical variables for the picture and review
 ```{r}
 str(listings_df)
 ```
+
 I merged the aggregated data into the original dataset to get the dataset I am using throughout this analysis. It includes 1236 oberservations on 19 variables.
 
 As a Airbnb host you are mainly interested in the revenue you can earn with a place. Therefore this variable is the outcome variable. Goal is to identify the features that influence this outcome variable and develop a prediction model.
 
-There variables in the datset that definitely influence the yearly revenue. There is a moderate linear relationship
-between the number of bedrooms, bathrooms, beds and person capacity. This is not a surprise:
-You can charge more for a place that can host more persons (person_capacity) which has more bathrooms, bedrooms and beds.
+There variables in the dataset that definitely influence the yearly revenue. There must be relationship between the number of bedrooms, bathrooms, beds and person capacity. It is interesting to analyse this deeper.
 
-I am interested how big the influence of the different variables is.
+I am interested how big the influence of the different variables are.
 
 It would be also interesting to group some of the categories together, as they are strongly related
 to each other. As said before number of bedrooms, bathrooms and beds are stronglys related to person_capacity as well the room type.
@@ -366,16 +366,32 @@ ggcorr(listings_df[ , -which(names(listings_df) %in% c("id"))],
 
 First I am interested in the features that influence the yearly revenue. There is a correlation coefficent of 1 between the yearly revenue and the revenue per available room, but you have to keep in mind that the yearly revenue is calculated with the revenue per available room. So this correlation is "natural". There is a strong correlation between the average daily rate and yearly revenue as well with the occupancy and the yearly revenue. This is what you expect: The more you charge the higher the revenue and the more days a place is occupied the more you earn. But a higher rate might also drop the occupancy, especially if your place is overpriced in compare to similiar places. 
 
-There is correlation between the average daily rate and the occupancy, but it is not as strong as you might expect. There is a strong relationship between the yearly revenue and the size of a place in terms of person capacity, number of beds, bathrooms and bedrooms. This is also what you expect: Bigger places can charge more. 
+There is correlation between the average daily rate and the occupancy, but it is not as strong as you might expect. 
 
-The number of pictures and number of reviews are having a weak relationship to the yearly revenue.
+The number of pictures and number of reviews are having a weak relationship to the yearly revenue. But it has positive influence onto the yearly revenue to have more pciture and reviews.
 
-You can see a strong relationship between number of bedrooms, bathrooms, beds and person_capacity as they all kind of metrics which describe the size of a place. 
+You can see a strong relationship between number of bedrooms, bathrooms, beds and person_capacity as they all kind of metrics which describe the size of a place. This is also what you expect: Bigger places can charge more. 
 
-The Occupancy has a weak relationship with the reviews_count and picture_count: More Pictures and more reviews is resulting in a higher occupancy.
+The Occupancy has a weak relationship with the reviews_count and picture_count: More Pictures and more reviews is resulting in a slightly higher occupancy.
 
 
 ## Person Capacity, Number of bathrooms, bedrooms and beds
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6, Bivariate_Plots}
+listings_df[ , +which(names(listings_df) %in% 
+                        c('yearly_revenue','person_capacity', 'beds', 
+                                        'bedrooms','bathrooms',
+                                        'star_rating'))] %>%
+  gather(-yearly_revenue, key = "var", value = "value")  %>%
+  mutate(value = as.numeric(value)) %>%
+  ggplot(aes(y = yearly_revenue, x = value)) +
+    geom_point(alpha=1/12, position = 'jitter') +
+    scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 10000, 20000, 30000, 50000)) +
+    facet_wrap(~ var, scales = "free") 
+```
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=6, Bivariate_Plots}
@@ -391,6 +407,19 @@ listings_df[ , +which(names(listings_df) %in%
     facet_wrap(~ var, scales = "free") 
 ```
 
+You can see that the more bathrooms a place has the more you can earn up to a certain limit. This can be seen in the scatter plot and on the boxplot. There not many places with more than 3 bathrooms. Therefore you cannot say anything for these places.
+
+You can see that the yearly revenue is higher the more bedrooms a listing has up to a limit of 4. Over 4 there is not enough data.
+
+You can see that the yearly revenue is higher the more beds a listing has up to a limit of 4. Over 4 there is not enough data.
+
+The higher the person capacity the higher is the yearly revenue. The limit here is 6-8. We cannot say too much about places over 8.
+
+I have to keep these limits in mind for the validity of our prediction model. 
+
+Something else what I noticed is that, it is better to have a place with a even number.
+
+The better your star rating the better is your revenue. Having no rating at all is better than having a rating of 4 and lower.
 
 
 
