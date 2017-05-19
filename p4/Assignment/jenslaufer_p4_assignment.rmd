@@ -88,7 +88,6 @@ listings_df <- calendar_df %>%
                     occupancy=occupancy(available),
                     revenue_per_available_room=revenue_per_available_room(
                       available, sum(daily_revenue)),
-                    average_offered_rate=mean(price.local_price),
                     average_daily_rate=average_daily_rate(available, 
                                                           sum(daily_revenue)),
                     yearly_revenue=yearly_revenue(available, sum(daily_revenue))
@@ -110,7 +109,7 @@ listings_df$reviews_count_bucket <- cut(listings_df$reviews_count, breaks =
 listings_df$rate_category = cut(listings_df$average_daily_rate, 
                                         breaks =c(0,30,70,120,200,100000), 
                                         labels = 
-                                c('cheap','budget','midclass','upper','luxury')) 
+                                c('<30','30-70','70-120','120-200','>200')) 
 
 ```
 
@@ -180,6 +179,22 @@ The most listings are in the lower rate segment. You can see this as well from t
 
 The box plot are illustrating the median, upper and lower quartile. The median average daily rate is about EUR 37 the lower quartile is at about 20 the upper quartile at about 80.
 
+
+
+# Occupancy
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.width=12, fig.height=10}
+occupancy <- qplot(subset(listings_df, occupancy > 0)$occupancy, binwidth=0.03)
+
+occupany_boxplot <-qplot(x=c(''), subset(listings_df, occupancy > 0)$occupancy, geom='boxplot')
+
+grid.arrange(occupancy, occupany_boxplot)
+```
+
+We have a slightly positily skewed cure. One maximum is at about 25 % and one at about about 5%.
+
+The box plot shows that the median is at about 30% occupancy and the lower and upper quartile at about 14% and at about 50%.
 
 
 
@@ -357,7 +372,7 @@ on the picture_count (Square root) and on reviews_count (log10)  for the same re
 
 # Bivariate Plots Section
 
-I am plotting  a correlation of all variables to get a first impression of the relations between the variables:
+I am plotting  a correlation matrix of all variables to get a first impression of the relations between the variables:
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=12, fig.height=10}
 ggcorr(listings_df[ , -which(names(listings_df) %in% c("id"))], 
@@ -374,38 +389,54 @@ You can see a strong relationship between number of bedrooms, bathrooms, beds an
 
 The Occupancy has a weak relationship with the reviews_count and picture_count: More Pictures and more reviews is resulting in a slightly higher occupancy.
 
-# Average Daily Rate (ADR), offered rate
+
+
+# Yearly Revenue vs Average Daily Rate (ADR)
 
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=18, fig.height=9}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=20}
+p0 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=yearly_revenue)) +
+      geom_point(alpha=0.2, position = 'jitter')
 p1 <- ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=yearly_revenue)) +
-      geom_point(alpha=0.2, position = 'jitter', mapping=aes(fill=occupancy), shape=21) +
+      geom_point(alpha=0.1) +
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
-      scale_x_log10() +
+      scale_x_log10(breaks=seq(0,100,10)) +
       scale_fill_continuous(low='red', high='green') +
       geom_smooth(method='lm')   
 p2 <- ggplot(data=listings_df, mapping=aes(x=rate_category, y=yearly_revenue)) +
-      geom_point(alpha=0.4, position = 'jitter', color='orange') +
+      geom_point(alpha=0.4, position = 'jitter', color='blue') +
       geom_boxplot(alpha=0.2) +
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) 
 
-grid.arrange(p1, p2, nrow=1)
+grid.arrange(p0, p1, p2, nrow=3)
 ```
 
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=18, fig.height=9}
-p1 <- ggplot(data=listings_df, mapping=aes(x=average_offered_rate, y=yearly_revenue)) +
-      geom_point(alpha=0.2, position = 'jitter') +
-      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
-      scale_x_log10() +
-      geom_smooth(method='lm')  
+I plotted first the yearly revenue vs the average daily rate (ADR). You can see that much, as there is a lot of overplotting
+in the area with low revenue and low rates.
 
-grid.arrange(p1, nrow=1)
+Therefore I did a log10 transformation on the x and y axis. Now you can see more details. You can see the correlation between the average daily rate (ADR) and the yearly revenue. You can see these vertical lines. The are on a certain amount, as people rather charge 60 than 53. But it also eye catching that these lines 
+
+I assigned the different listings into several rate categories. You can see as well the trend that the more you charge the higher the yearly revenue
+
+
+## Average Daily Rate vs Occupancy
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=20}
+p0 <- ggplot(listings_df, mapping=aes(x=average_daily_rate, y=occupancy)) +
+        geom_point() +
+        scale_x_log10() +
+        geom_smooth(method='lm')
+
+grid.arrange(p0)
 ```
 
+You can see a correlation between the average daily rate and the occupancy, but the relation is not as strong as you might think. There must be other factors than the price that are linked to the occupancy.
 
-## Person Capacity, Number of bathrooms, bedrooms and beds
+
+## Yearly Revenue vs Person Capacity, Number of bathrooms, bedrooms and beds
 
 
 
@@ -417,7 +448,7 @@ listings_df[ , +which(names(listings_df) %in%
   gather(-yearly_revenue, key = "var", value = "value")  %>%
   mutate(value = as.factor(as.numeric(value))) %>%
   ggplot(aes(y = yearly_revenue, x = value)) +
-    geom_point(alpha=0.4, position = 'jitter', color='orange') +
+    geom_point(alpha=0.1, position = 'jitter', color='blue') +
     geom_boxplot(alpha=0.2) +
     scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 10000, 20000, 30000, 50000)) +
     facet_wrap(~ var, scales = "free") 
@@ -444,7 +475,7 @@ listings_df[ , +which(names(listings_df) %in%
                         c("yearly_revenue", "is_family_preferred", "star_rating", "instant_bookable", "room_type"))] %>%
   gather(-yearly_revenue, key = "var", value = "value") %>%
   ggplot(aes(y = yearly_revenue, x = value)) +
-    geom_point(alpha=0.4, position = 'jitter', color='orange') +
+    geom_point(alpha=0.25, position = 'jitter', color='blue') +
     geom_boxplot(alpha=0.2) +
     scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
     facet_wrap(~ var, scales = "free") 
@@ -461,7 +492,7 @@ p1 <- ggplot(data=listings_df, mapping=aes(x=picture_count, y=yearly_revenue)) +
       scale_x_log10() +
       geom_smooth(method='lm')   
 p2 <- ggplot(data=listings_df, mapping=aes(x=picture_count_bucket, y=yearly_revenue)) +
-      geom_point(alpha=0.4, position = 'jitter', color='orange') +
+      geom_point(alpha=0.25, position = 'jitter', color='blue') +
       geom_boxplot(alpha=0.2) +
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) 
 
@@ -475,7 +506,7 @@ p1 <- ggplot(data=listings_df, mapping=aes(x=reviews_count, y=yearly_revenue)) +
       scale_x_log10() +
       geom_smooth(method='lm')   
 p2 <- ggplot(data=listings_df, mapping=aes(x=reviews_count_bucket, y=yearly_revenue)) +
-      geom_point(alpha=0.4, position = 'jitter', color='orange') +
+      geom_point(alpha=0.25, position = 'jitter', color='blue') +
       geom_boxplot(alpha=0.2) +
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
       geom_smooth(method='lm')   
@@ -538,49 +569,51 @@ strengths and limitations of your model.
 
 
 
-```{r, fig.height=10, fig.width=18, message=FALSE, warning=FALSE}
-
-ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=occupancy)) +
-      geom_point(alpha=0.6, position = 'jitter', mapping=aes(fill=yearly_revenue), shape=21, size=3) +
-      scale_fill_continuous(low='red', high='green', trans='log10') +
-      scale_x_continuous(limits=c(0,100)) +
-      #scale_x_log10() +
-      geom_smooth(method='lm')   
-```
-
-```{r, fig.height=10, fig.width=18, message=FALSE, warning=FALSE}
-
-ggplot(data=listings_df, mapping=aes(x=average_offered_rate, y=occupancy)) +
-      geom_point(alpha=0.6, position = 'jitter', mapping=aes(fill=yearly_revenue), shape=21, size=3) +
-      scale_fill_continuous(low='red', high='green', trans='log10') +
-      scale_x_continuous(limits=c(0,100)) +
-      #scale_x_log10() +
-      geom_smooth(method='lm')   
-```
-```{r}
-cor.test(listings_df$average_offered_rate, listings_df$occupancy)
-```
 
 
 
 
 ```{r, fig.height=10, fig.width=18, message=FALSE, warning=FALSE}
-ggplot(data=listings_df, mapping=aes(x=average_offered_rate, y=yearly_revenue)) +
-      geom_point(alpha=0.6, position = 'jitter', mapping=aes(fill=occupancy), shape=21, size=3) +
+ggplot(data=listings_df, mapping=aes(x=as.factor(person_capacity), y=yearly_revenue)) +
+      geom_point(alpha=0.6, position = 'jitter', mapping=aes(fill=average_daily_rate), shape=21, size=3) +
+      geom_boxplot(alpha=0.2)+
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
-      scale_x_log10() +
-      scale_fill_continuous(low='red', high='green') +
-      geom_smooth(method='lm')   
+      scale_fill_continuous(low='red', high='green', trans='log10')
 ```
 
+
+
 ```{r, fig.height=10, fig.width=18, message=FALSE, warning=FALSE}
-ggplot(data=listings_df, mapping=aes(x=average_daily_rate, y=yearly_revenue)) +
-      geom_point(alpha=0.6, position = 'jitter', mapping=aes(fill=occupancy), shape=21, size=3) +
+ggplot(data=listings_df, mapping=aes(x=as.factor(person_capacity), y=yearly_revenue)) +
+      geom_point(alpha=0.6, position = 'jitter', mapping=aes(fill=occupancy *100), shape=21, size=4) +
+      geom_boxplot(alpha=0.0, size=0.7)+
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
-      scale_x_log10() +
-      scale_fill_continuous(low='red', high='green') +
-      geom_smooth(method='lm')   
+      scale_fill_gradient(low='red', high='green')
 ```
+
+
+
+```{r, fig.height=10, fig.width=18, message=FALSE, warning=FALSE}
+ggplot(data=listings_df, mapping=aes(x=as.factor(person_capacity), y=yearly_revenue)) +
+      geom_point(alpha=0.4, position = 'jitter', mapping=aes(fill=rate_category), shape=21, size=5) +
+      geom_boxplot(alpha=0.2)+
+      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      scale_fill_manual(values=c('red','orange','yellow','green','darkgreen'))
+```
+
+
+```{r, fig.height=10, fig.width=18, message=FALSE, warning=FALSE}
+listings_df$occupancy_category = cut(listings_df$occupancy,
+                                        breaks =c(0,0.2,0.4,0.6,0.8,1.0), 
+                                        labels = 
+                                c('<20%','20-40%','40-60%','60-80%','>80%')) 
+ggplot(data=listings_df, mapping=aes(x=as.factor(person_capacity), y=yearly_revenue)) +
+      geom_point(alpha=0.5, position = 'jitter', mapping=aes(fill=occupancy_category), shape=21, size=5) +
+      geom_boxplot(alpha=0.0, size=0.8)+
+      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      scale_fill_manual(values=c('red','orange','yellow','green','darkgreen'))
+```
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
