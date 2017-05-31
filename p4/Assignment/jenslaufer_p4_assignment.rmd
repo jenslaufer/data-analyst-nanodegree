@@ -2,7 +2,7 @@
 title: Exploration of factors which influence the yearly revenue of an Airbnb listing
   on Bali by Jens Laufer
 output:
-  pdf_document: default
+  pdf_document: default 
   html_notebook: default
   html_document: default
 ---
@@ -578,7 +578,7 @@ ggplot(data=listings_df, mapping=aes(x=as.factor(person_capacity), y=yearly_reve
       geom_point(alpha=0.6, position = 'jitter', mapping=aes(fill=average_daily_rate), shape=21, size=3) +
       geom_boxplot(alpha=0.2)+
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
-      scale_fill_continuous(low='red', high='green', trans='log10')
+      scale_fill_continuous(low='red', high='green', trans='log10') 
 ```
 
 
@@ -612,6 +612,16 @@ ggplot(data=listings_df, mapping=aes(x=as.factor(person_capacity), y=yearly_reve
       geom_boxplot(alpha=0.0, size=0.8)+
       scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
       scale_fill_manual(values=c('red','orange','yellow','green','darkgreen'))
+```
+
+```{r, fig.height=10, fig.width=18, message=FALSE, warning=FALSE} 
+ggplot(data=listings_df, mapping=aes(x=as.factor(person_capacity), y=yearly_revenue)) +
+      geom_point(alpha=0.7, position = 'jitter', mapping=aes(fill=occupancy_category), shape=21, size=2) +
+      geom_boxplot(alpha=0.0, size=0.8)+
+      scale_y_log10(breaks=c(500, 750, 1000, 2500, 5000, 7500, 10000, 20000, 30000, 50000)) +
+      scale_shape_manual(values=c(21,22,23,24,25)) +
+      scale_fill_manual(values=c('red','orange','yellow','green','darkgreen')) +
+      facet_wrap(~rate_category)
 ```
 
 
