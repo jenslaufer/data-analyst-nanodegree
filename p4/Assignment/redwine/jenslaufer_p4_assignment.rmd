@@ -19,13 +19,30 @@ a margin line to help you keep track of this guideline!
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
 library(ggplot2)
 library(dplyr)
+library(tidyr)
 library(gridExtra)
 ```
 
 ```{r echo=FALSE, Load_the_Data}
 df = read.csv('./data/wineQualityReds.csv')
-
 ```
+
+```{r echo=FALSE, Data_Modification}
+df$quality <- as.factor(df$quality)
+```
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, data_structure}
+str(df)
+```
+
+The dataset contains 1599 observations on 13  variables.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, example}
+head(df)
+```
+
+
 
 > **Tip**: Before you create any plots, it is a good idea to provide a short
 introduction into the dataset that you are planning to explore. Replace this
@@ -40,9 +57,20 @@ forget to add a comment after each plot or closely-related group of plots!
 There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
 
-```{r echo=FALSE, Univariate_Plots}
-
+```{r echo=FALSE, Univariate_Plots_Quality}
+ggplot(data=df, mapping = aes(x=quality)) +
+  geom_bar()
 ```
+
+```{r echo=FALSE, Univariate_Plots_Other_Variables}
+  df %>%
+  gather(-quality, key = "var", value = "value")  %>%
+  ggplot(aes(x = value)) +
+    geom_point() 
+```
+
+
+
 
 > **Tip**: Make sure that you leave a blank line between the start / end of
 each code block and the end / start of your Markdown text so that it is
