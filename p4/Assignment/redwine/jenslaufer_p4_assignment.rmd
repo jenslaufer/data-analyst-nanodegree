@@ -27,9 +27,6 @@ library(gridExtra)
 df = read.csv('./data/wineQualityReds.csv')
 ```
 
-```{r echo=FALSE, Data_Modification}
-df$quality <- as.factor(df$quality)
-```
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, data_structure}
@@ -57,17 +54,90 @@ forget to add a comment after each plot or closely-related group of plots!
 There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
 
-```{r echo=FALSE, Univariate_Plots_Quality}
-ggplot(data=df, mapping = aes(x=quality)) +
-  geom_bar()
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=10, fig.width=20, warning=FALSE, Multivariate_Plots}
+  df %>%
+  gather(-X, key = "var", value = "value")  %>%
+  ggplot(aes(x = value)) +
+    geom_histogram() +
+    facet_wrap(~var, scales = "free") 
 ```
 
-```{r echo=FALSE, Univariate_Plots_Other_Variables}
-  df %>%
-  gather(-quality, key = "var", value = "value")  %>%
-  ggplot(aes(x = value)) +
-    geom_point() 
+
+```{r echo=FALSE, warning=FASE, message=FALSE, Data_Modification}
+df$quality <- as.factor(df$quality)
 ```
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality}
+df %>%
+  ggplot(mapping=aes(x=quality)) +
+    geom_bar()
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>%
+  ggplot(mapping=aes(x=alcohol)) +
+    geom_histogram(binwidth = 0.01) +
+    scale_x_log10(breaks=c(8,10,11,12,13,14))
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>% 
+  ggplot(mapping=aes(x=chlorides)) +
+    geom_histogram(binwidth = 0.03) +
+    scale_x_log10(breaks=c(0.01,0.02,0.05, 0.1, 0.2, 0.5))
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>% 
+  ggplot(mapping=aes(x=citric.acid)) +
+    geom_histogram(binwidth = 0.03) +
+    scale_x_log10(breaks=c(0.01,0.02,0.05, 0.1, 0.2, 0.5))
+```
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>%
+  ggplot(mapping=aes(x=fixed.acidity)) +
+    geom_histogram(binwidth = 0.01) +
+    scale_x_log10()
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>%
+  ggplot(mapping=aes(x=free.sulfur.dioxide)) +
+    geom_histogram(binwidth = 0.06) +
+    scale_x_log10()
+```
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>%
+  ggplot(mapping=aes(x=residual.sugar)) +
+    geom_histogram(binwidth = 0.025) +
+    scale_x_log10(breaks=c(1,2,5,10))
+```
+
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>% 
+  ggplot(mapping=aes(x=sulphates)) +
+    geom_histogram(binwidth = 0.017) +
+    scale_x_log10(breaks=c(0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2))
+```
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>% 
+  ggplot(mapping=aes(x=total.sulfur.dioxide)) +
+    geom_histogram(binwidth = 0.035) +
+    scale_x_log10(breaks=c(0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2))
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+df %>% 
+  ggplot(mapping=aes(x=volatile.acidity)) +
+    geom_histogram(binwidth = 0.033) +
+    scale_x_log10(breaks=c(0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2))
+```
+
 
 
 
