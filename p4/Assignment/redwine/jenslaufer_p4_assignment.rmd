@@ -21,6 +21,7 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(gridExtra)
+library(GGally)
 ```
 
 ```{r echo=FALSE, Load_the_Data}
@@ -33,7 +34,7 @@ df = read.csv('./data/wineQualityReds.csv')
 str(df)
 ```
 
-The dataset contains 1599 observations on 13  variables.
+The dataset contains 1599 observations on 13 variables.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, example}
 head(df)
@@ -47,12 +48,7 @@ quoted text with that general information!
 
 # Univariate Plots Section
 
-> **Tip**: In this section, you should perform some preliminary exploration of
-your dataset. Run some summaries of the data and create univariate plots to
-understand the structure of the individual variables in your dataset. Don't
-forget to add a comment after each plot or closely-related group of plots!
-There should be multiple code chunks and text sections; the first one below is
-just to help you get started.
+Let's first quickly plot the distritutions of all variables, to get a first impression. As they are all quantitative data, I do this with histograms.
 
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=10, fig.width=20, warning=FALSE, Multivariate_Plots}
@@ -62,18 +58,33 @@ just to help you get started.
     geom_histogram() +
     facet_wrap(~var, scales = "free") 
 ```
+PH and density are normally distributed.  The quality is discrete, but I am transforming it into qualitive data. I am also creating a quality variable with ordinal scale. 
+
+chlorides, residual.sugar are long tailed. alcohol, fixed.acidity, free.sulfur.dioxide, sulphate, total.sulfur.dioxide and volatile.acidity are positively skewed.
+
+citric.acid needs to be analysed more as it has a lot peaks. Especially there many 0 values.
+
 
 
 ```{r echo=FALSE, warning=FASE, message=FALSE, Data_Modification}
-df$quality <- as.factor(df$quality)
+df$quality_factor <- factor(df$quality, levels=seq(1,10,1), ordered = TRUE)
+df$quality_bucket <- cut(df$quality, c(0,4,6,10), labels=c('low', 'average', 'high'))
 ```
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality}
 df %>%
-  ggplot(mapping=aes(x=quality)) +
+  ggplot(mapping=aes(x=quality_factor)) +
     geom_bar()
 ```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality}
+df %>%
+  ggplot(mapping=aes(x=quality_bucket)) +
+    geom_bar()
+```
+
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>%
@@ -176,8 +187,31 @@ yourself to relationships between a main output feature and one of the
 supporting variables. Try to look at relationships between supporting variables
 as well.
 
-```{r echo=FALSE, Bivariate_Plots}
 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots}
+df[, -which(names(df) %in% c('X'))] %>%
+   ggcorr(palette = "RdYlGn", label=TRUE)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots}
+df %>%
+  gather(-X, -quality_factor, -quality_bucket, -quality, key = "var", value = "value")  %>%
+  ggplot(aes(x = quality, y = value)) +
+    geom_point(alpha=0.2, position = 'jitter', color='orange') +
+    geom_smooth(method='lm') +
+    facet_wrap(~var, scales = "free") 
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots}
+df %>%
+  gather(-X, -quality_factor, -quality_bucket, -quality, key = "var", value = "value")  %>%
+  ggplot(aes(x = quality_bucket, y=value)) +
+    geom_point(alpha=0.1, position = 'jitter', color='blue') +
+    geom_boxplot(alpha=0.5) +
+    facet_wrap(~var, scales = "free") 
 ```
 
 # Bivariate Analysis
