@@ -1,20 +1,10 @@
 ---
-title: "Redwine quality analysis"
+title: "Redwine quality analysis by Jens Laufer 2017/06/15"
 output: html_notebook
 ---
 
+Many people talk about the quality of wine, but actual
 
-TITLE by YOUR_NAME_HERE
-========================================================
-
-> **Tip**: You will see quoted sections like this throughout the template to
-help you construct your report. Make sure that you remove these notes before
-you finish and submit your project!
-
-> **Tip**: One of the requirements of this project is that your code follows
-good formatting techniques, including limiting your lines to 80 characters or
-less. If you're using RStudio, go into Preferences \> Code \> Display to set up
-a margin line to help you keep track of this guideline!
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
 library(ggplot2)
@@ -42,10 +32,6 @@ head(df)
 
 
 
-> **Tip**: Before you create any plots, it is a good idea to provide a short
-introduction into the dataset that you are planning to explore. Replace this
-quoted text with that general information!
-
 # Univariate Plots Section
 
 Let's first quickly plot the distritutions of all variables, to get a first impression. As they are all quantitative data, I do this with histograms.
@@ -58,33 +44,46 @@ Let's first quickly plot the distritutions of all variables, to get a first impr
     geom_histogram() +
     facet_wrap(~var, scales = "free") 
 ```
-PH and density are normally distributed.  The quality is discrete, but I am transforming it into qualitive data. I am also creating a quality variable with ordinal scale. 
-
-chlorides, residual.sugar are long tailed. alcohol, fixed.acidity, free.sulfur.dioxide, sulphate, total.sulfur.dioxide and volatile.acidity are positively skewed.
+ 
+ - ** Normally distributed **: PH and density  
+ - ** Long tailed **: Chlorides, Residual Sugar
+ - ** Positively Skewed **: alcohol, fixed.acidity, free.sulfur.dioxide, sulphate, total.sulfur.dioxide and volatile.acidity 
+ 
 
 citric.acid needs to be analysed more as it has a lot peaks. Especially there many 0 values.
 
-
+We also create a new variable for spoiled and non-spoiled wines. According to https://glossary.wein-plus.eu/schwefelsaeure a wine is spoiled if the sufalt is higher than 0.92 g
 
 ```{r echo=FALSE, warning=FASE, message=FALSE, Data_Modification}
+
 df$quality_factor <- factor(df$quality, levels=seq(1,10,1), ordered = TRUE)
 df$quality_bucket <- cut(df$quality, c(0,4,6,10), labels=c('low', 'average', 'high'))
+df$is_spoiled <- ifelse(df$sulphates <= 0.92, FALSE, TRUE)
 ```
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality1}
 df %>%
   ggplot(mapping=aes(x=quality_factor)) +
     geom_bar()
 ```
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality}
+```{r}
+df %>% 
+   ggplot(mapping=aes(x=is_spoiled)) +
+   geom_bar() +
+   scale_y_continuous(breaks=seq(0, 1500, 100))
+```
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality2}
 df %>%
   ggplot(mapping=aes(x=quality_bucket)) +
     geom_bar()
 ```
 
-
+### Alcohol
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>%
@@ -93,54 +92,84 @@ df %>%
     scale_x_log10(breaks=c(8,10,11,12,13,14))
 ```
 
+I am transforming the alcohol distribution by a log10 transformation. 
+
+### Chlorides
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+
 df %>% 
+  filter(chlorides > quantile(chlorides, probs=c(0.03)), 
+         chlorides < quantile(chlorides, probs=c(0.97))) %>%
   ggplot(mapping=aes(x=chlorides)) +
-    geom_histogram(binwidth = 0.03) +
-    scale_x_log10(breaks=c(0.01,0.02,0.05, 0.1, 0.2, 0.5))
+    geom_histogram(binwidth = 0.022) +
+    scale_x_log10(breaks=c(0.05, 0.07, 0.08, 0.1, 0.15, 0.2))
+
 ```
+
+# Citric Acid
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>% 
   ggplot(mapping=aes(x=citric.acid)) +
-    geom_histogram(binwidth = 0.03) +
-    scale_x_log10(breaks=c(0.01,0.02,0.05, 0.1, 0.2, 0.5))
+    geom_histogram(binwidth = 0.01) 
 ```
+
+It is interesting taht we see peaks at 0.25, 0.5. You can see that winemakers are adding it during fermantation.
+
+### Fixed Acidity
+
+
+
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>%
   ggplot(mapping=aes(x=fixed.acidity)) +
-    geom_histogram(binwidth = 0.01) +
-    scale_x_log10()
+    geom_histogram(binwidth = 0.016) +
+    scale_x_log10(breaks=seq(1,18,1)) 
 ```
+
+### Free Sulfur Dioxide
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>%
   ggplot(mapping=aes(x=free.sulfur.dioxide)) +
-    geom_histogram(binwidth = 0.06) +
-    scale_x_log10()
+    geom_histogram(binwidth = 0.4) +
+    scale_x_sqrt(breaks=c(1,2,5,10,15,20,25,30,40,50,70))
 ```
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>%
+  filter(residual.sugar > quantile(residual.sugar, probs=c(0.025)), 
+         residual.sugar < quantile(residual.sugar, probs=c(0.975))) %>%
   ggplot(mapping=aes(x=residual.sugar)) +
-    geom_histogram(binwidth = 0.025) +
-    scale_x_log10(breaks=c(1,2,5,10))
+    geom_histogram(binwidth = 0.021) +
+    scale_x_log10(breaks=seq(1,10,1))
 ```
 
-
+### Sulphates
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>% 
+  filter(sulphates > quantile(sulphates, probs=c(0.02)), 
+         sulphates < quantile(sulphates, probs=c(0.98))) %>%
   ggplot(mapping=aes(x=sulphates)) +
-    geom_histogram(binwidth = 0.017) +
-    scale_x_log10(breaks=c(0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2))
+    geom_histogram(binwidth = 0.021) +
+    scale_x_log10(breaks=seq(0,2,0.1))
 ```
+
+### Total Sulfur Dioxide
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>% 
+  filter(total.sulfur.dioxide > quantile(total.sulfur.dioxide, probs=c(0.02)), 
+         total.sulfur.dioxide < quantile(total.sulfur.dioxide, probs=c(0.98))) %>%
   ggplot(mapping=aes(x=total.sulfur.dioxide)) +
-    geom_histogram(binwidth = 0.035) +
-    scale_x_log10(breaks=c(0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 2))
+    geom_histogram(binwidth = 0.09) +
+    scale_x_log10(breaks=c(10,20,30,40,50,60,70,80,90,100,110,120,150))
 ```
+
+### Volatile Acidity
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>% 
@@ -193,6 +222,9 @@ as well.
 df[, -which(names(df) %in% c('X'))] %>%
    ggcorr(palette = "RdYlGn", label=TRUE)
 ```
+alcohol, sulphates, volatile.acidy
+
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots}
 df %>%
@@ -209,10 +241,25 @@ df %>%
 df %>%
   gather(-X, -quality_factor, -quality_bucket, -quality, key = "var", value = "value")  %>%
   ggplot(aes(x = quality_bucket, y=value)) +
-    geom_point(alpha=0.1, position = 'jitter', color='blue') +
+    geom_point(alpha=0.3, position = 'jitter', color='orange') +
     geom_boxplot(alpha=0.5) +
     facet_wrap(~var, scales = "free") 
 ```
+
+```{r, fig.height=30, fig.width=20}
+ggpairs(df, columns = c('citric.acid', 'fixed.acidity', 'volatile.acidity', 'pH'))
+
+```
+
+```{r}
+
+df[,+which(names(df) %in% c('sulphates', 'total.sulfur.dioxide', 'free.sulfur.dioxide'))] %>%
+  ggpairs()
+
+```
+
+
+
 
 # Bivariate Analysis
 
