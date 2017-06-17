@@ -1,9 +1,21 @@
 ---
 title: "Redwine quality analysis by Jens Laufer 2017/06/15"
-output: html_notebook
+output:
+  html_document: default
+  html_notebook: default
+  pdf_document: default
 ---
 
-Many people talk about the quality of wine, but actual
+## About
+
+There are lot of myths about the quality of wine and what influences it. 
+
+Within this data analysis physicochemical variables which are having an influence on the quality of red wine are examined. The quality of wine was rated by at least 3 wine experts. 
+
+The dataset used within these data set is from can be [downloaded here](https://www.kaggle.com/piyushgoyal443/red-wine-dataset/downloads/red-wine-dataset.zip). 
+
+The dataset contains 1599 red wines and 13 variables.
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
@@ -24,7 +36,29 @@ df = read.csv('./data/wineQualityReds.csv')
 str(df)
 ```
 
-The dataset contains 1599 observations on 13 variables.
+
+### Description of attributes:
+
+
+| Variable | Description | Unit | Data Type | Scale | Type |
+| -------- | ----------- | ---- | --------- | ----- | ---- |
+| X | Index of observation | | Unique Index | | |
+| fixed acidity | lost acids involved with wine or fixed or nonvolatile (do not evaporate readily)| $g / l$ | Quantitative | Ratio | Input |
+| volatile acidity | the amount of acetic acid in wine, which at too high of levels can lead to an unpleasant, vinegar taste | $g / l$ | Quantitative | Ratio | Input |
+| citric acid | found in small quantities, citric acid can add 'freshness' and flavor to wines | $g / l$ | Quantitative | Ratio | Input |
+| residual sugar | the amount of sugar remaining after fermentation stops, it's rare to find wines with less than 1 gram/liter and wines with greater than 45 grams/liter are considered sweet | $g / l$ | Quantitative | Ratio | Input |
+| chlorides (sodium chloride) | the amount of salt in the wine | $g / l$ | Quantitative | Ratio | Input |
+| free sulfur dioxide | the free form of SO2 exists in equilibrium between molecular SO2 (as a dissolved gas) and bisulfite ion; it prevents microbial growth and the oxidation of wine | $mg / l$ | Quantitative | Ratio | Input |
+| total sulfur dioxide | amount of free and bound forms of S02; in low concentrations, SO2 is mostly undetectable in wine, but at free SO2 concentrations over 50 ppm, SO2 becomes evident in the nose and taste of wine | $mg / l$ | Quantitative | Ratio | Input |
+| density | the density of water is close to that of water depending on the percent alcohol and sugar content | $g / cm^3$ | Quantitative | Ratio | Input |
+| pH | describes how acidic or basic a wine is on a scale from 0 (very acidic) to 14 (very basic); most wines are between 3-4 on the pH scale | | Quantitative | Interval | Input |
+| sulphates (potassium sulphate) | a wine additive which can contribute to sulfur dioxide gas (S02) levels, wich acts as an antimicrobial and antioxidant | $g / cm^3$ | Quantitative | Ratio | Input |
+| alcohol | the percent alcohol content of the wine | $Vol. \%$ | Quantitative |  Ratio | Input |
+| quality | quality rating from at least 3 wine experts | score between 0 and 10 | Qualitative | Ordinal | Output |
+
+
+
+### Sample Data
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, example}
 head(df)
@@ -34,7 +68,8 @@ head(df)
 
 # Univariate Plots Section
 
-Let's first quickly plot the distritutions of all variables, to get a first impression. As they are all quantitative data, I do this with histograms.
+
+To get a first impression the distributions of all variables are plotted. As they are all quantitative data, this is done with histograms. The 'quality' will later transformed into a ordinal categorical variable.
 
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=10, fig.width=20, warning=FALSE, Multivariate_Plots}
@@ -52,13 +87,24 @@ Let's first quickly plot the distritutions of all variables, to get a first impr
 
 citric.acid needs to be analysed more as it has a lot peaks. Especially there many 0 values.
 
-We also create a new variable for spoiled and non-spoiled wines. According to https://glossary.wein-plus.eu/schwefelsaeure a wine is spoiled if the sufalt is higher than 0.92 g
+Based on [https://grapesandwine.cals.cornell.edu/sites/grapesandwine.cals.cornell.edu/files/shared/documents/Research-Focus-2011-3.pdf
+](Sulphur Dioxide Content of Wines: the Role of Winemaking
+and Carbonyl Compounds) there is maximum of sulphur dioxide in red wines of 150 mg/l for wines with a residual sugar level < 5 g/l and 200 mg/l with for residual sugar level > 5 g/l.
+We created therfore a new categorical variable (is.max.total.sulfur.dioxide.exceed) for wines that exceed this limit. We are using the limit as the wines are from Portugal.
 
-```{r echo=FALSE, warning=FASE, message=FALSE, Data_Modification}
+
+Based on [http://waterhouse.ucdavis.edu/whats-in-wine/volatile-acidity](Volatile Acidity in Wine) the limit for volatile acidity is 1.2 g/l in the US (and the EU) for red wine. A wine is spoiled above this limit.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, Data_Modification}
 
 df$quality_factor <- factor(df$quality, levels=seq(1,10,1), ordered = TRUE)
 df$quality_bucket <- cut(df$quality, c(0,4,6,10), labels=c('low', 'average', 'high'))
-df$is_spoiled <- ifelse(df$sulphates <= 0.92, FALSE, TRUE)
+df$is.max.total.sulfur.dioxide.exceed <- ifelse((df$total.sulfur.dioxide > 150 &
+                                                  df$residual.sugar < 5) |
+                                                  (df$total.sulfur.dioxide
+                                                  > 200 &
+                                                  df$residual.sugar > 5) , TRUE, FALSE)
+df$is.max.volatile.acidity <- ifelse((df$volatile.acidity > 1.2) , TRUE, FALSE)
 ```
 
 
@@ -68,16 +114,26 @@ df %>%
     geom_bar()
 ```
 
+
 ```{r}
-df %>% 
-   ggplot(mapping=aes(x=is_spoiled)) +
-   geom_bar() +
-   scale_y_continuous(breaks=seq(0, 1500, 100))
+df %>%
+  filter(is.max.total.sulfur.dioxide.exceed == TRUE) %>%
+  ggplot(mapping=aes(x=quality_factor)) +
+   geom_bar()
+  
 ```
+There 7 wines which exceeds the limit for total sulphur dioxide. It's is suprising that 2 of these wines are high quality wines. Either these wines are for export outsite the EU or the winemakers are adding the sulfur dioxide to preserve it.
 
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality2}
+df %>%
+  filter(is.max.volatile.acidity == TRUE) %>%
+  ggplot(mapping=aes(x=quality_factor)) +
+    geom_bar()
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality3}
 df %>%
   ggplot(mapping=aes(x=quality_bucket)) +
     geom_bar()
@@ -88,8 +144,7 @@ df %>%
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>%
   ggplot(mapping=aes(x=alcohol)) +
-    geom_histogram(binwidth = 0.01) +
-    scale_x_log10(breaks=c(8,10,11,12,13,14))
+    geom_histogram(binwidth = 0.5) 
 ```
 
 I am transforming the alcohol distribution by a log10 transformation. 
@@ -218,7 +273,7 @@ as well.
 
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots_Correlation}
 df[, -which(names(df) %in% c('X'))] %>%
    ggcorr(palette = "RdYlGn", label=TRUE)
 ```
@@ -226,12 +281,12 @@ alcohol, sulphates, volatile.acidy
 
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots_scatter}
 df %>%
   gather(-X, -quality_factor, -quality_bucket, -quality, key = "var", value = "value")  %>%
   ggplot(aes(x = quality, y = value)) +
-    geom_point(alpha=0.2, position = 'jitter', color='orange') +
-    geom_smooth(method='lm') +
+    geom_point(alpha=0.3, position = 'jitter', color='orange') +
+    geom_smooth() +
     facet_wrap(~var, scales = "free") 
 ```
 
@@ -285,7 +340,24 @@ create here are justified by the plots you explored in the previous section. If
 you plan on creating any mathematical models, this is the section where you
 will do that.
 
-```{r echo=FALSE, Multivariate_Plots}
+```{r echo=FALSE, fig.height=10, fig.width=20}
+
+df %>%
+  ggplot(mapping=aes(x=alcohol, y=volatile.acidity, group=quality_bucket)) +
+  geom_point(alpha=0.8, mapping=aes(fill=quality_factor), size=5, shape=21) +
+  scale_fill_brewer(palette ='BuGn') +
+  geom_boxplot(alpha=0.3) +
+  facet_grid(~quality_bucket)
+
+```
+
+```{r echo=FALSE, fig.height=10, fig.width=20}
+
+df %>%
+  ggplot(mapping=aes(x=sulphates, y=alcohol)) +
+  geom_point(alpha=0.7, mapping=aes(fill=quality_factor), size=5, shape=21) +
+  scale_fill_brewer(palette ='RdYlGn') +
+  facet_grid(~quality_bucket)
 
 ```
 
