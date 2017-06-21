@@ -1,9 +1,9 @@
 ---
 title: "Redwine quality analysis by Jens Laufer 2017/06/15"
 output:
-  html_document: default
-  html_notebook: default
   pdf_document: default
+  html_notebook: default
+  html_document: default
 ---
 
 ## About
@@ -90,14 +90,14 @@ __Positively Skewed__: alcohol, fixed.acidity, free.sulfur.dioxide, sulphate, to
 __Uniform__: citric.acid
 
 
-Based on [Sulphur Dioxide Content of Wines: the Role of Winemaking
-and Carbonyl Compounds](https://grapesandwine.cals.cornell.edu/sites/grapesandwine.cals.cornell.edu/files/shared/documents/Research-Focus-2011-3.pdf
+Based on [[Sulphur Dioxide Content of Wines: the Role of Winemaking
+and Carbonyl Compounds]](https://grapesandwine.cals.cornell.edu/sites/grapesandwine.cals.cornell.edu/files/shared/documents/Research-Focus-2011-3.pdf
 ) there is a limit for sulphur dioxide in red wines in the European Union of 150 mg/l for wines with a residual sugar level < 5 g/l and 200 mg/l for residual sugar level > 5 g/l.
 
-A new categorical variable (is.max.total.sulfur.dioxide.exceed) for wines that exceed this limit is therefore created. We are using the limits from the EU as the wines are from Portugal.
+A new categorical variable (is.max.total.sulfur.dioxide.exceed) for wines that exceed this limit is therefore created. The limits from the EU are used as the wines are from Portugal.
 
 
-Based on [Volatile Acidity in Wine](http://waterhouse.ucdavis.edu/whats-in-wine/volatile-acidity) the limit for volatile acidity is 1.2 g/l in the US (and the EU) for red wine. A wine is spoiled above this limit. A new categorical (is.max.volatile.acidity) is created.
+Based on [[Volatile Acidity in Wine]](http://waterhouse.ucdavis.edu/whats-in-wine/volatile-acidity) the limit for volatile acidity is 1.2 g/l in the US (and the EU) for red wine. A wine is spoiled above this limit. A new categorical (is.max.volatile.acidity) is created.
 
 Based on [Wine Sweetness](https://en.wikipedia.org/wiki/Sweetness_of_wine#Residual_sugar) a new categorical variable for wine sweetness is also created. 
 
@@ -234,15 +234,15 @@ There are peaks at 0, 0.02, 0.24, 0.26, 0.49.
 
 Naturally there is about 0.1 g/l or less citric acid in red wine. So the peaks of 0 and 0.02 are actually natural citric acidity. 
 
-Winemakers add citric acid to give the wine more freshness or to stabilize the wine according to [Wine Science](https://books.google.de/books?id=9En27zEnVgwC&pg=PA367&lpg=PA367&dq=reduction+metal+wine+citric+acid&source=bl&ots=wplhimu9xq&sig=43hhIlDeYJ74-EROlBsOJQyRraU&hl=en&sa=X&ved=0ahUKEwjys-G__cnUAhXHY1AKHQxnBvMQ6AEITjAG#v=onepage&q=reduction%20metal%20wine%20citric%20acid&f=false). Citric acid limits the occurrence of ferric casse. They typically add between 0.5 and 0.8 g/l for stabilisation. The peak at 0.49 might due this addition.
+Winemakers add citric acid to give the wine more freshness or to stabilize the wine according to [[Wine Science]](https://books.google.de/books?id=9En27zEnVgwC&pg=PA367&lpg=PA367&dq=reduction+metal+wine+citric+acid&source=bl&ots=wplhimu9xq&sig=43hhIlDeYJ74-EROlBsOJQyRraU&hl=en&sa=X&ved=0ahUKEwjys-G__cnUAhXHY1AKHQxnBvMQ6AEITjAG#v=onepage&q=reduction%20metal%20wine%20citric%20acid&f=false). Citric acid limits the occurrence of ferric casse. They typically add between 0.5 and 0.8 g/l for stabilisation. The peak at 0.49 might due this addition.
 
-On the other hand according  to [Säuerung](http://www.dlr.rlp.de/Internet/global/themen.nsf/0/5B71C70F91852E04C12576500027D0E9/$FILE/2009-10-09%20KIS%20%207.pdf) a citric acid concentration over 0.3-0.4 g/l has a bad influence on the taste. 
+On the other hand according  to [[Säuerung]](http://www.dlr.rlp.de/Internet/global/themen.nsf/0/5B71C70F91852E04C12576500027D0E9/$FILE/2009-10-09%20KIS%20%207.pdf) a citric acid concentration over 0.3-0.4 g/l has a bad influence on the taste. 
 
 
 
 ### Fixed Acidity
 
-According to [Acids in Wine](https://en.wikipedia.org/wiki/Acids_in_wine) most of the acids in wine are fixed acids. In the grapes tartaric, malic and citric acid is found. During winemaking butyric, lactic and succinic acids are playing a role.
+According to [[Acids in Wine]](https://en.wikipedia.org/wiki/Acids_in_wine) most of the acids in wine are fixed acids. In the grapes tartaric, malic and citric acid is found. During winemaking butyric, lactic and succinic acids are playing a role.
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
@@ -257,7 +257,7 @@ summary(df$fixed.acidity)
 ```
 
 
-We are getting a nearly normal distribution with a log10 transformation. Most of the wines are having a fixed acidity between 7.10 and 9.20 g/l and median of 7.90 g/l.
+A log10 transformation was applied to get a almost normal distribution. Most of the wines are having a fixed acidity between 7.10 and 9.20 g/l and median of 7.90 g/l.
 
 
 ### Free Sulfur Dioxide
@@ -299,6 +299,8 @@ summary(df$residual.sugar)
 
 
 A log10 transformation is done to get a normal distribution plot. Most wines are having a residual.sugar between 1.9 and 2.6 g/l with a median of 2.2 g/l.
+
+There could not found signs in the distribution, if fermantation stopped naturally or was stopped.
 
 
 ### Sulphates
@@ -349,7 +351,7 @@ df %>%
 
 
 
-There 7 wines which exceeds the limit for total sulphur dioxide. It's suprising that 2 of these wines are high quality wines. Either these wines are for export outsite the EU or the winemakers are adding the sulfur dioxide to preserve it.
+There are 7 wines which exceeds the limit for total sulphur dioxide.
 
 
 
@@ -383,30 +385,30 @@ df %>%
 There are for 4 wines which exceeds the limit for volatile acidity. 
 
 
-> **Tip**: Make sure that you leave a blank line between the start / end of
-each code block and the end / start of your Markdown text so that it is
-formatted nicely in the knitted text. Note as well that text on consecutive
-lines is treated as a single space. Make sure you have a blank line between
-your paragraphs so that they too are formatted for easy readability.
-
 # Univariate Analysis
 
-> **Tip**: Now that you've completed your univariate explorations, it's time to
-reflect on and summarize what you've found. Use the questions below to help you
-gather your observations and add your own if you have other thoughts!
+The dataset contains 1599 observations with 13 variables. 'quality' is the outcome variable, as the study is examining the influence of physicochemical properties on wines. 'X' is a unique key, so it can be skipped The other variables are income variables. Some new variables were created:
 
-### What is the structure of your dataset?
+   - **quality_factor**: quality as categorical variable with a ordinale scale
+   
+   - **quality_bucket**: quality as categorical variable with levels 'low', 'average' and 'high'
+   
+   - **sweetness**: categorical variable for wine sweetness based on residual sugar levels
+   
+   - **is.max.total.sulfur.dioxide.exceed**: binary variable for wines with total sulfur dioxide levels over the limit
+   
+   - **is.max.volatile.acidity**: binary variable for wines wwith volatile acidity over the limit
+   
+Most of the variables were positively skewed or long tail distritutions, a log10 tranformation was mostly done to get a kind of normal distribution. 
 
-### What is/are the main feature(s) of interest in your dataset?
+The distribution of citric acid was unusual with some spikes. The spikes are coming most probably because some wine makers are adding citric acid to the wine and the wine has as well natural ciric acidity.
 
-### What other features in the dataset do you think will help support your \
-investigation into your feature(s) of interest?
+There were 7 wines which are exceeding the limits for volatile acidity and 4 wines exceeding the limit for total sulfur exceeding. It will be interesting especially how these 11 wines are rated from the wine experts. 
 
-### Did you create any new variables from existing variables in the dataset?
+Some of the variables are related like alcohol and residual sugar or pH, volatile and free acidity, citric acidity  or sulphates, total sulfur dioxide and free total sulfur dioxide. It's interested how these variables are correlated.
 
-### Of the features you investigated, were there any unusual distributions? \
-Did you perform any operations on the data to tidy, adjust, or change the form \
-of the data? If so, why did you do this?
+From the income variables some of the variables are suspected to have more influence on the wines than others: It's suspected that chlorides and sulphates are having an influences as the are salts, as well as all kind of acidity, the residual sugar and alcohol as all these "components" might be tasted.
+
 
 
 # Bivariate Plots Section
@@ -459,12 +461,13 @@ df %>%
 
 There are for 4 wines which exceeds the limit for volatile acidity.
 
-These wines are having are rated with low and lower average. It seems that too much volatile acidity can be tasted.
+These wines are having are rated with low and lower average. It seems that too much volatile acidity can be tasted. 
+
 
 
 ### Free Sulphur Dioxide vs Qaulity
 
-Free SO2 concentrations over 50 ppm of SO2 becomes evident in the nose and taste of wine, therefore we are checking the quality factors for wines over this limit.
+Free SO2 concentrations over 50 ppm of SO2 becomes evident in the nose and taste of wine, therefore the quality factors for wines over this limit are checked.
 
 
 There could not be found a proof for this
