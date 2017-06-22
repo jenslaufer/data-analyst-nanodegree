@@ -399,7 +399,7 @@ The dataset contains 1599 observations with 13 variables. 'quality' is the outco
    
    - **is.max.volatile.acidity**: binary variable for wines wwith volatile acidity over the limit
    
-Most of the variables were positively skewed or long tail distritutions, a log10 tranformation was mostly done to get a kind of normal distribution. 
+Most of the variables were positively skewed or long tail distritutions, therefore log10 tranformations were mostly applied to get a kind of normal distribution. 
 
 The distribution of citric acid was unusual with some spikes. The spikes are coming most probably because some wine makers are adding citric acid to the wine and the wine has as well natural ciric acidity.
 
@@ -429,20 +429,24 @@ alcohol, sulphates, volatile.acidy
 
 
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots_scatter}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots_Scatter}
 df %>%
-  gather(-X, -quality_factor, -quality_bucket, -quality, key = "var", value = "value")  %>%
-  ggplot(aes(x = quality, y = value)) +
+  gather(-X, -quality_factor, -quality_bucket, 
+         -quality, -is.max.total.sulfur.dioxide.exceed,
+         -is.max.volatile.acidity, -sweetness, key = "var", value = "value")  %>%
+  ggplot(aes(x = quality_factor, y = value)) +
     geom_point(alpha=0.3, position = 'jitter', color='orange') +
-    geom_smooth() +
-    facet_wrap(~var, scales = "free") 
+    geom_boxplot(alpha=0.5) +
+    facet_wrap(~var, scales = 'free') 
 ```
 
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots}
 df %>%
-  gather(-X, -quality_factor, -quality_bucket, -quality, key = "var", value = "value")  %>%
+  gather(-X, -quality_factor, -quality_bucket, 
+         -quality, -is.max.total.sulfur.dioxide.exceed,
+         -is.max.volatile.acidity, -sweetness, key = "var", value = "value")  %>%
   ggplot(aes(x = quality_bucket, y=value)) +
     geom_point(alpha=0.3, position = 'jitter', color='orange') +
     geom_boxplot(alpha=0.5) +
@@ -450,6 +454,16 @@ df %>%
 ```
 
 ### Volatile Acidity vs Quality
+
+```{r, fig.height=10, fig.width=20}
+df %>%
+  ggplot(mapping=aes(x=quality, y=volatile.acidity)) +
+  geom_point(alpha=0.2, position = 'jitter', mapping=aes(fill=quality_bucket), size=7, shape=21) +
+  geom_smooth(method = 'lm')
+```
+
+
+
 
 ```{r}
 df %>%
