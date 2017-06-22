@@ -425,7 +425,6 @@ as well.
 df[, -which(names(df) %in% c('X'))] %>%
    ggcorr(palette = "RdYlGn", label=TRUE)
 ```
-alcohol, sulphates, volatile.acidy
 
 
 
@@ -453,16 +452,27 @@ df %>%
     facet_wrap(~var, scales = "free") 
 ```
 
+
+### Alcohol vs Quality
+
+```{r, fig.height=10, fig.width=20}
+df %>%
+  ggplot(mapping=aes(x=quality, y=alcohol)) +
+  geom_point(alpha=0.2, position = 'jitter', size=7) +
+  geom_smooth(method = 'lm') +
+  scale_x_continuous(breaks=seq(1,10,1))
+```
+
+
 ### Volatile Acidity vs Quality
 
 ```{r, fig.height=10, fig.width=20}
 df %>%
   ggplot(mapping=aes(x=quality, y=volatile.acidity)) +
-  geom_point(alpha=0.2, position = 'jitter', mapping=aes(fill=quality_bucket), size=7, shape=21) +
-  geom_smooth(method = 'lm')
+  geom_point(alpha=0.2, position = 'jitter', size=7) +
+  geom_smooth(method = 'lm') +
+  scale_x_continuous(breaks=seq(1,10,1))
 ```
-
-
 
 
 ```{r}
@@ -473,24 +483,68 @@ df %>%
 ```
 
 
+
 There are for 4 wines which exceeds the limit for volatile acidity.
 
 These wines are having are rated with low and lower average. It seems that too much volatile acidity can be tasted. 
 
 
+### Sulphates vs Quality
 
-### Free Sulphur Dioxide vs Qaulity
-
-Free SO2 concentrations over 50 ppm of SO2 becomes evident in the nose and taste of wine, therefore the quality factors for wines over this limit are checked.
-
-
-There could not be found a proof for this
-```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
+```{r, fig.height=10, fig.width=20, message=FALSE, warning=FALSE}
 df %>%
-  filter(free.sulfur.dioxide > 50) %>%
-  ggplot(mapping=aes(x=quality_bucket)) +
-    geom_bar()
+  ggplot(mapping=aes(x=quality, y=sulphates)) +
+  geom_point(alpha=0.2, position = 'jitter', size=4) +
+  geom_smooth(method='lm') +
+  scale_x_continuous(breaks=seq(0,10,1))
+  
 ```
+
+
+
+
+
+### citric.acidity vs quality 
+
+
+```{r, fig.height=10, fig.width=20, message=FALSE, warning=FALSE}
+
+df %>%
+  ggplot(mapping=aes(x=quality, y=citric.acid)) +
+  geom_point(alpha=0.2, position = 'jitter', size=6) +
+  geom_smooth(method='lm') +
+  scale_x_continuous(breaks=seq(0, 10, 1)) +
+  scale_y_continuous(breaks=seq(0, 1, 0.1))
+```
+
+
+
+
+### total.sufur.dioxide vs quality
+
+```{r, fig.height=10, fig.width=20, message=FALSE, warning=FALSE}
+df %>%
+  ggplot(mapping=aes(x=quality, y=total.sulfur.dioxide)) +
+  geom_point(alpha=0.2, position = 'jitter', size=4) +
+  geom_smooth(method='lm') +
+  scale_x_continuous(breaks=seq(0,10,1))
+  
+```
+
+```{r, fig.height=10, fig.width=20, message=FALSE, warning=FALSE}
+df %>%
+  filter(is.max.total.sulfur.dioxide.exceed == TRUE) %>%
+  ggplot(mapping=aes(x=quality_bucket)) +
+  geom_bar()
+```
+
+
+### density vs quality
+
+```{r, fig.height=10, fig.width=20, message=FALSE, warning=FALSE}
+
+```
+
 
 
 
