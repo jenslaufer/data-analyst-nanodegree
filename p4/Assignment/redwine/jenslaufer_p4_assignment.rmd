@@ -129,21 +129,33 @@ df %>%
     geom_bar()
 ```
 
-```{r}
-summary(df$quality)
-```
+
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10, Univariate_Quality3}
-df %>%
+p1 <- df %>%
   ggplot(mapping=aes(x=quality_bucket)) +
     geom_bar()
+
+p2 <- df %>% 
+  mutate(total=n()) %>%
+  group_by(quality_bucket, total) %>%
+  summarise(num=n()) %>%
+  mutate(pct=num/total * 100) %>%
+  ggplot(mapping=aes(x=c(''), y=pct, fill=quality_bucket)) +
+     geom_bar(stat='identity') +
+     geom_text(mapping=aes(label=paste(round(pct,0),"%",sep="")),
+               position=position_stack(vjust=0.5)) +
+     scale_y_continuous(breaks=c(), trans='reverse') +
+     scale_x_discrete(breaks=c()) 
+
+grid.arrange(p1, p2, ncol=2)
 ```
 ```{r}
 table(df$quality_bucket)
 ```
 
 
-Most of the wines are average. There are some high quality and low quality wines.
+Most of the wines (82%) are rated average. There are some high quality (14%) and low quality (4%) wines.
 
 There are no wines with quality below 3 and no wines above 8. Most wine fall into the quality factor 5-6. The median of the quality is 6.
 
@@ -425,7 +437,8 @@ as well.
 df[, -which(names(df) %in% c('X'))] %>%
    ggcorr(palette = "RdYlGn", label=TRUE)
 ```
-
+fixed.acidity
+citric.acid, residual.sugar, alcohol
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=10, fig.width=20, Bivariate_Plots_Scatter}
@@ -501,6 +514,37 @@ df %>%
 ```
 
 
+# Sweetness vs Quality
+```{r}
+
+df %>%
+  ggplot(mapping=aes(x=quality, y=sweetness)) +
+  geom_point(alpha=0.2, position = 'jitter', size=2) +
+  scale_x_continuous(breaks=seq(0, 10, 1)) 
+```
+
+
+
+```{r}
+df %>% 
+  group_by(quality_bucket) %>%
+  mutate(num_quality=n()) %>%
+  group_by(quality_bucket, sweetness, num_quality) %>%
+  summarise(num=n()) %>%
+  mutate(pct=num/num_quality * 100) %>%
+  ggplot(mapping=aes(x=quality_bucket, y=pct, fill=sweetness)) +
+     geom_bar(stat='identity') +
+     geom_text(mapping=aes(label=paste(round(pct,0),"%",sep="")),
+               position=position_stack(vjust=0.5)) +
+     scale_y_continuous(breaks=c()) +
+     coord_flip() +
+     theme(panel.grid = element_blank(),panel.background = element_blank(),
+           axis.title.x=element_blank(),
+           axis.text.x=element_blank(),
+           axis.ticks.x=element_blank(),
+           axis.title.y=element_blank(),
+           axis.ticks.y=element_blank())
+```
 
 
 
@@ -542,9 +586,26 @@ df %>%
 ### density vs quality
 
 ```{r, fig.height=10, fig.width=20, message=FALSE, warning=FALSE}
-
+df %>%
+  ggplot(mapping=aes(x=quality, y=total.sulfur.dioxide)) +
+  geom_point(alpha=0.2, position = 'jitter', size=4) +
+  geom_smooth(method='lm') +
+  scale_x_continuous(breaks=seq(0,10,1)) +
+  scale_y_continuous(breaks=seq(0, 300, 25))
 ```
 
+# Density vs Alcohol, 
+
+```{r, fig.height=10, fig.width=20, message=FALSE, warning=FALSE}
+
+df[, +which(names(df) %in% c('density','fixed.acidity',
+        'citric.acid', 'residual.sugar', 'alcohol'))] %>%
+  gather(-density, key = "var", value = "value")  %>%
+  ggplot(aes(x = density, y=value)) +
+    geom_point(alpha=0.1, color='black', size=3) +
+    geom_smooth(method = 'lm') +
+    facet_wrap(~var, scales = "free") 
+```
 
 
 
