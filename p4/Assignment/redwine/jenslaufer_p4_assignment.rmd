@@ -469,11 +469,18 @@ df %>%
 ### Alcohol vs Quality
 
 ```{r, fig.height=10, fig.width=20}
-df %>%
+p1 <- df %>%
   ggplot(mapping=aes(x=quality, y=alcohol)) +
-  geom_point(alpha=0.2, position = 'jitter', size=7) +
+  geom_point(alpha=0.2, position = 'jitter', size=4) +
   geom_smooth(method = 'lm') +
-  scale_x_continuous(breaks=seq(1,10,1))
+  scale_x_continuous(breaks=seq(1,10,1)) +
+  scale_y_continuous(breaks=seq(0,15,0.25))
+p2 <- df %>%
+  ggplot(mapping=aes(x=quality_bucket, y=alcohol)) +
+  geom_point(alpha=0.2, position = 'jitter', size=4) +
+  geom_smooth(method = 'lm') +
+  scale_x_continuous(breaks=seq(1,10,1)) +
+  scale_y_continuous(breaks=seq(0,15,0.25))
 ```
 
 
@@ -534,7 +541,7 @@ df %>%
   mutate(pct=num/num_quality * 100) %>%
   ggplot(mapping=aes(x=quality_bucket, y=pct, fill=sweetness)) +
      geom_bar(stat='identity') +
-     geom_text(mapping=aes(label=paste(round(pct,0),"%",sep="")),
+     geom_text(mapping=aes(label=paste(round(pct,1),"%",sep="")),
                position=position_stack(vjust=0.5)) +
      scale_y_continuous(breaks=c()) +
      coord_flip() +
