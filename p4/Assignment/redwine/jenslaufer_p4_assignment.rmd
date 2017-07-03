@@ -12,7 +12,7 @@ There are a lot of myths about the quality of wine and what influences it.
 
 Within this data analysis physicochemical properties which are having an influence on the quality of red wine are examined. 
 
-The dataset used within these data analysis is from [[Cortez et al., 2009]](http://www3.dsi.uminho.pt/pcortez/wine/) and can be downloaded here:  [winequality.zip](http://www3.dsi.uminho.pt/pcortez/wine/winequality.zip). 
+The dataset used within this data analysis is from [[Cortez et al., 2009]](http://www3.dsi.uminho.pt/pcortez/wine/) and can be downloaded here:  [winequality.zip](http://www3.dsi.uminho.pt/pcortez/wine/winequality.zip). 
 
 The dataset contains 1599 red wines and 13 variables from Portugal. The quality was rated by at least 3 wine experts. 
 
@@ -60,14 +60,6 @@ str(df)
 
 
 
-### Sample Data Entries
-
-```{r echo=FALSE, message=FALSE, warning=FALSE, example}
-kable(head(df))
-```
-
-
-
 # Univariate Plots Section
 
 
@@ -95,7 +87,7 @@ Based on [[Sulphur Dioxide Content of Wines: the Role of Winemaking
 and Carbonyl Compounds]](https://grapesandwine.cals.cornell.edu/sites/grapesandwine.cals.cornell.edu/files/shared/documents/Research-Focus-2011-3.pdf
 ) there is a limit for sulphur dioxide in red wines in the European Union of 150 mg/l for wines with a residual sugar level < 5 g/l and 200 mg/l for residual sugar level > 5 g/l.
 
-A new categorical variable (is.max.total.sulfur.dioxide.exceed) for wines that exceed this limit is therefore created. The limits from the EU are used as the wines are from Portugal.
+A new categorical variable (is.max.total.sulfur.dioxide.exceed) for wines which exceed this limit is therefore created. The limits from the EU are used as the wines are from Portugal.
 
 
 Based on [[Volatile Acidity in Wine]](http://waterhouse.ucdavis.edu/whats-in-wine/volatile-acidity) the limit for volatile acidity is 1.2 g/l in the US (and the EU) for red wine. A wine is spoiled above this limit. A new categorical (is.max.volatile.acidity) is created.
@@ -146,7 +138,9 @@ df %>%
      scale_y_continuous(breaks=c(), trans='reverse') +
      scale_x_discrete(breaks=c()) +
      coord_flip() +
-     labs(x='')
+     labs(x='', y='') +
+     theme(panel.grid = element_blank(), 
+           panel.background = element_blank())
 
 ```
 
@@ -185,7 +179,7 @@ df %>%
 ```
 
 
-```{r }
+```{r, message=FALSE, warning=FALSE}
 summary(df$alcohol)
 ```
 
@@ -361,7 +355,7 @@ There are 7 wines which exceed the limit for total sulphur dioxide.
 
 ### Volatile Acidity
 
-According to [[Acids in wine]](https://en.wikipedia.org/wiki/Acids_in_wine#Citric_acid) most of acids in wines are fixed acids with the exception of acetic acids, mostly found in vinegar, which is volatile and can contribute to the wine fault known. As mentioned before there are limits for the concentration of volatile acids in wine.
+According to [[Acids in wine]](https://en.wikipedia.org/wiki/Acids_in_wine#Citric_acid) most of acids in wines are fixed acids with the exception of acetic acids, mostly found in vinegar, which is volatile and can contribute to the wine fault known as volatile acidity. As mentioned before there are limits for the concentration of volatile acids in wine.
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, echo=FALSE, message=FALSE, warning=FALSE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
@@ -386,7 +380,7 @@ df %>%
 ```
 
 
-There are for 4 wines which exceeds the limit for volatile acidity. 
+There are for 4 wines which exceed the limit for volatile acidity. 
 
 
 # Univariate Analysis
@@ -405,13 +399,13 @@ The dataset contains 1599 observations with 13 variables. 'quality' is the outco
    
 Most of the variables were positively skewed or long tail distritutions, therefore log10 tranformations were mostly applied to get a kind of normal distribution. 
 
-The distribution of citric acid was unusual with some spikes. The spikes are coming most probably because some wine makers are adding citric acid to the wine and the wine has as well natural ciric acidity.
+The distribution of citric acid was unusual with some spikes. The spikes are coming most probably because some wine makers are adding citric acid to the wine and wine has as well natural ciric acidity.
 
 There were 7 wines which are exceeding the limits for volatile acidity and 4 wines exceeding the limit for total sulfur exceeding. It will be interesting especially how these 11 wines are rated from the wine experts. 
 
-Some of the variables are related like alcohol and residual sugar or pH, volatile and free acidity, citric acidity  or sulphates, total sulfur dioxide and free total sulfur dioxide. It's interested how these variables are correlated.
+Some of the variables are related like alcohol and residual sugar or pH, volatile and free acidity, citric acidity  or sulphates, total sulfur dioxide and free total sulfur dioxide. It's interesting how these variables are correlated.
 
-From the income variables some of the variables are suspected to have more influence on the wines than others: It's suspected that chlorides and sulphates are having an influences as the are salts, as well as all kind of acidity, the residual sugar and alcohol as all these "components" might be tasted.
+From the input variables some of the variables are suspected to have more influence on the wines than others: It's suspected that chlorides and sulphates are having an influences as the are salts, as well as all kind of acidity, the residual sugar and alcohol as all these "components" might be tasted.
 
 
 
@@ -504,11 +498,11 @@ p3 <- df %>%
   geom_bar() 
 grid.arrange(p1, p2, p3, ncol=2)
 ```
-There is moderate a downhill correlation between the quality and volatile acidity. The better the quality of a wine the less volatile acidity it has. The volatile acidity is mostly vinegar acid, which can be tasted as a wine fault.
+There is a moderate downhill correlation between the quality and volatile acidity. The better the quality of a wine the less volatile acidity can be expected. The volatile acidity is mostly vinegar acid, which can be tasted as a wine fault.
 
 By law the maximum for volatile acidity is 1.2 g/l (red line), but wines should not have more than 0.6 g/l (orange line), as concentrations above this concentration can be tasted. (see [[Weinäure]](https://de.wikipedia.org/wiki/S%C3%A4ure_(Wein))) It can be seen that the median of the low quality wines is above 0.6 g/l.
 
-There are for 4 wines which exceeds the limit for volatile acidity. These wines are rated low and average. This also supports the thesis that too much volatile acidity can be tasted.
+There are for 4 wines which exceed the limit for volatile acidity. These wines are rated low and average. This also supports the thesis that too much volatile acidity can be tasted.
 
 
 
@@ -536,10 +530,11 @@ There is a weak downhill correlation between sulphates and quality. For better q
 
 ### Total Sulphur Dioxide vs Quality
 
-```{r, fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
+```{r, fig.height=10, fig.width=15, message=FALSE, warning=FALSE, echo=FALSE}
 p1 <- df %>%
-  ggplot(mapping=aes(x=quality, y=total.sulfur.dioxide)) +
-    geom_point(position = 'jitter') 
+  ggplot(mapping=aes(x=quality_factor, y=total.sulfur.dioxide)) +
+    geom_point(alpha=0.2, position = 'jitter') +
+    geom_boxplot(alpha=0.7)
 p2 <- df %>%
       filter(is.max.total.sulfur.dioxide.exceed == TRUE) %>%
       ggplot(mapping=aes(x=quality_bucket)) +
@@ -548,22 +543,22 @@ grid.arrange(p1, p2, ncol=2)
 ```
  
 
-It seems that the concentration of total sulphur dioxide does not have such a big  influence on wine quality. From the 7 wines which exceed the maximum total sulphur dioxide concentration are even 2 high quality wines . It can also be seen from the boxplot overlay that the median for all kind of quality factors is more or less the same.
+It seems that the concentration of total sulphur dioxide does not have such a big  influence on wine quality. From the 7 wines which exceed the maximum total sulphur dioxide concentration are even 2 high quality wines . It can also be seen from the boxplot overlay that the median for all kind of quality factors is more or less the same, with a peak at quality factor 5.
 
 
-### Correlation fixed.acidity, volatile.acidity, citric.acidity, pH
+### Correlations for sulphates, total.sulphur.dioxide and free.sulphur.dioxide
 
-
-```{r, echo=FALSE, fig.height=20, fig.width=20, message=FALSE, warning=FALSE}
-
-ggpairs(df, columns = c('fixed.acidity', 'volatile.acidity', 'citric.acid', 'pH'))
-  
+```{r, echo=FALSE, fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
+ggpairs(df, columns = c('sulphates', 'total.sulfur.dioxide', 'free.sulfur.dioxide'))
 ```
+
+
+The concentration of sulphates is not related to the concentration of free and total sulfur dioxide. There is a moderate positiv correlation between free and total sulfur dioxide in red wines. This is due the fact that the level of free sulfur dioxide is included in the total sulfur dioxide level.
+
 
 ### Correlation between sulphates, volatile.acidity and alcohol
 
-Alcohol, volatile acidity and sulphates are the variables that have the most influence on wine quality. Therefore they are candidates to include them into a multiple linear regression model. It's important to check if these features are independent of each other, to avoid colinearity. 
-
+Alcohol, volatile acidity and sulphates are the variables that have the most influence on wine quality. They are therefore candidates to include into a multiple linear regression model. It's important to check if these features are independent of each other, to avoid colinearity. 
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
@@ -572,7 +567,59 @@ ggpairs(df, columns = c('alcohol', 'volatile.acidity', 'sulphates'))
   
 ```
 
-Checking the correlation coefficents there seems to be a weak relationship between alcohol and volatile.acidity and a relationship between  sulphates and volatile.acidity. From the scatterplots it can be said that there is rather no realtionship between these variables. So the variables alcohol, sulphates and volatile.acidity can be uses for multiple linear regression model.
+Checking the correlation coefficents there seems to be a weak relationship between alcohol and volatile.acidity and a relationship between  sulphates and volatile.acidity. From the scatterplots it can be said that there are rather no relationships between these variables. So these variables can be used for a multiple linear regression model.
+
+
+# Bivariate Analysis
+
+From the scatterplots and the correlation matrix it could be found, that alcohol, 
+volatile acidity and sulphates are the attributes which have the most influence on the quality of wines. Out of these features alcohol has the highest correlation to quality. It's interesting that the alcohol levels are almost the same for low and average wines, but there are higher alcohol levels in high quality wines.
+
+It seems that alcohol and volatile acidity have a big influence on the taste. Everybody can taste a higher level of alcohol in wine, as well as the taste or smell of vinegar, which is a volatile acid. 
+
+The influence of sulphates (potassium sulphates) is surprising. On the one hand it's a salt with bitter taste, so it has a influence on the taste. On the other hand chlorides (also salts) doesn't have a big influence on wine quality. But maybe it is not the salty taste that influences the wine quality it's rather the ability to preserve the wine. That's the actually why it's added to wine.  
+
+
+
+# Multivariate Plots Section
+
+
+```{r echo=FALSE, fig.height=10, fig.width=20}
+
+df %>%
+  filter(quality_bucket != 'average') %>%
+  ggplot(mapping=aes(x=volatile.acidity, y=alcohol)) +
+  geom_point(alpha=0.8, mapping=aes(fill=quality_bucket), size=5, shape=21) +
+  scale_fill_brewer(palette ='RdYlGn') +
+  scale_x_log10(breaks=seq(0, 1.8, 0.1))
+```
+
+```{r echo=FALSE, fig.height=10, fig.width=20}
+
+df %>%
+  filter(quality_bucket != 'average') %>%
+  ggplot(mapping=aes(x=sulphates, y=alcohol)) +
+  geom_point(alpha=0.7, mapping=aes(fill=quality_bucket), size=5, shape=21) +
+  scale_fill_brewer(palette ='RdYlGn') +
+  scale_x_log10()
+
+```
+
+
+```{r echo=FALSE, fig.height=10, fig.width=20}
+
+df %>%
+  ggplot(mapping=aes(x=quality_bucket, y=citric.acid)) +
+  geom_point(alpha=0.4, position = 'jitter', mapping=aes(fill=quality_factor), size=5, shape=21) 
+  scale_fill_brewer(palette ='RdYlGn') 
+
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE,
+df %>% 
+  ggplot(mapping=aes(x=quality_factor, y=alcohol)) +
+    geom_point(alpha=0.1, position = 'jitter' ,mapping=aes(size=volatile.acidity))
+```
 
 
 ### Multiple Regression Model
@@ -629,70 +676,6 @@ summary(model2)
 model2 has slightly better adjusted $R^2$ value than model1 and as well a slightly better residual standard error.
 
 Both have low adjusted $R^2$ value, which indicates that the data is not so close to fitted regression line. This might be a sign that there other factors influencing wine quality.
-
-# Bivariate Analysis
-
-From the scatterplots and the correlation matrix it could be found out, that alcohol, 
-volatile acidity and sulphates are the attributes which have the most influence 
-> **Tip**: As before, summarize what you found in your bivariate explorations
-here. Use the questions below to guide your discussion.
-
-### Talk about some of the relationships you observed in this part of the \
-investigation. How did the feature(s) of interest vary with other features in \
-the dataset?
-
-### Did you observe any interesting relationships between the other features \
-(not the main feature(s) of interest)?
-
-### What was the strongest relationship you found?
-
-
-# Multivariate Plots Section
-
-> **Tip**: Now it's time to put everything together. Based on what you found in
-the bivariate plots section, create a few multivariate plots to investigate
-more complex interactions between variables. Make sure that the plots that you
-create here are justified by the plots you explored in the previous section. If
-you plan on creating any mathematical models, this is the section where you
-will do that.
-
-```{r echo=FALSE, fig.height=10, fig.width=20}
-
-df %>%
-  filter(quality_bucket != 'average') %>%
-  ggplot(mapping=aes(x=volatile.acidity, y=alcohol)) +
-  geom_point(alpha=0.8, mapping=aes(fill=quality_bucket), size=5, shape=21) +
-  scale_fill_brewer(palette ='RdYlGn') +
-  scale_x_log10(breaks=seq(0, 1.8, 0.1))
-```
-
-```{r echo=FALSE, fig.height=10, fig.width=20}
-
-df %>%
-  filter(quality_bucket != 'average') %>%
-  ggplot(mapping=aes(x=sulphates, y=alcohol)) +
-  geom_point(alpha=0.7, mapping=aes(fill=quality_bucket), size=5, shape=21) +
-  scale_fill_brewer(palette ='RdYlGn') +
-  scale_x_log10()
-
-```
-
-
-```{r echo=FALSE, fig.height=10, fig.width=20}
-
-df %>%
-  ggplot(mapping=aes(x=quality_bucket, y=citric.acid)) +
-  geom_point(alpha=0.4, position = 'jitter', mapping=aes(fill=quality_factor), size=5, shape=21) 
-  scale_fill_brewer(palette ='RdYlGn') 
-
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE,
-df %>% 
-  ggplot(mapping=aes(x=quality_factor, y=alcohol)) +
-    geom_point(alpha=0.1, position = 'jitter' ,mapping=aes(size=volatile.acidity))
-```
-
 
 
 # Multivariate Analysis
