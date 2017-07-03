@@ -588,37 +588,13 @@ The influence of sulphates (potassium sulphates) is surprising. On the one hand 
 
 df %>%
   filter(quality_bucket != 'average') %>%
-  ggplot(mapping=aes(x=volatile.acidity, y=alcohol)) +
-  geom_point(alpha=0.8, mapping=aes(fill=quality_bucket), size=5, shape=21) +
-  scale_fill_brewer(palette ='RdYlGn') +
-  scale_x_log10(breaks=seq(0, 1.8, 0.1))
-```
-
-```{r echo=FALSE, fig.height=10, fig.width=20}
-
-df %>%
-  filter(quality_bucket != 'average') %>%
   ggplot(mapping=aes(x=sulphates, y=alcohol)) +
-  geom_point(alpha=0.7, mapping=aes(fill=quality_bucket), size=5, shape=21) +
+  geom_point(shape=21, mapping=aes(fill=quality_bucket, 
+                                              size=volatile.acidity)) +
   scale_fill_brewer(palette ='RdYlGn') +
-  scale_x_log10()
-
-```
-
-
-```{r echo=FALSE, fig.height=10, fig.width=20}
-
-df %>%
-  ggplot(mapping=aes(x=quality_bucket, y=citric.acid)) +
-  geom_point(alpha=0.4, position = 'jitter', mapping=aes(fill=quality_factor), size=5, shape=21) 
-  scale_fill_brewer(palette ='RdYlGn') 
-
-```
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE,
-df %>% 
-  ggplot(mapping=aes(x=quality_factor, y=alcohol)) +
-    geom_point(alpha=0.1, position = 'jitter' ,mapping=aes(size=volatile.acidity))
+  scale_y_continuous(breaks=seq(1,15,0.25)) +
+  scale_x_log10(breaks=seq(0, 1.8, 0.1)) +
+  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), range = c(1, 15)) 
 ```
 
 
