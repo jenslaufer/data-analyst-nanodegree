@@ -26,6 +26,7 @@ library(gridExtra)
 library(GGally)
 library(knitr)
 library(leaps)
+library(latex2exp)
 ```
 
 ```{r echo=FALSE, Load_the_Data}
@@ -583,19 +584,34 @@ The influence of sulphates (potassium sulphates) is surprising. On the one hand 
 
 # Multivariate Plots Section
 
+The variables alcohol, volatile acidity and sulphates are plotted to visualize their influence on quality. The quality.bucket is used instead of quality_factor.
+
+It can be seen that for higher quality wines a higher alcohol concentration, a higher sulphate level and lower volatile acidity can be expected.
+
 
 ```{r echo=FALSE, fig.height=10, fig.width=20}
+df %>%
+  ggplot(mapping=aes(x=sulphates, y=alcohol)) +
+  geom_point(alpha=0.1, mapping=aes(size=volatile.acidity)) +
+  scale_y_continuous(breaks=seq(1,15,0.25)) +
+  scale_x_log10(breaks=seq(0, 1.8, 0.1)) +
+  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), range = c(1, 15)) +
+  facet_grid(~quality_bucket)
+```
 
+
+```{r echo=FALSE, fig.height=10, fig.width=20}
 df %>%
   filter(quality_bucket != 'average') %>%
   ggplot(mapping=aes(x=sulphates, y=alcohol)) +
   geom_point(shape=21, mapping=aes(fill=quality_bucket, 
                                               size=volatile.acidity)) +
   scale_fill_brewer(palette ='RdYlGn') +
-  scale_y_continuous(breaks=seq(1,15,0.25)) +
-  scale_x_log10(breaks=seq(0, 1.8, 0.1)) +
+  scale_y_continuous(breaks=seq(1,20,0.25)) +
+  scale_x_log10(breaks=seq(0, 2.1, 0.1)) +
   scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), range = c(1, 15)) 
 ```
+The trend can be seen even better, if everything is visualized in one plot and the big number of average wines are filtered out.
 
 
 ### Multiple Regression Model
@@ -606,7 +622,7 @@ df %>%
 model1 <- lm(quality ~ alcohol + volatile.acidity + sulphates, data=df)
 ```
 
-From the findings a multiple linear regression model with alcohol, volatile.acidity and sulphates is suggested, as these variables are having the strongest correlation with quality. These independent variables are just weakly correlated with each other.
+From the findings a multiple linear regression model with alcohol, volatile.acidity and sulphates is suggested, as these variables are having the strongest correlation with quality. These independent variables are just weakly correlated with each other, to ensure we don't have colinearity effects.
 
 The leaps library is used is to systemically finding the best model:
 
@@ -656,58 +672,98 @@ Both have low adjusted $R^2$ value, which indicates that the data is not so clos
 
 # Multivariate Analysis
 
-### Talk about some of the relationships you observed in this part of the \
-investigation. Were there features that strengthened each other in terms of \
-looking at your feature(s) of interest?
+Two multiple linear regression models were created. The first model was created based on
+the findings within this data analysis. It contains those three features which are correlated the most with wine quality: alcohol, volatile.acidity and sulphates
 
-### Were there any interesting or surprising interactions between features?
+Another model was found with the leap packages, which compares systematically different models with multiple variables. The found model is having same variables as model1 plus pH and chlorides.
 
-### OPTIONAL: Did you create any models with your dataset? Discuss the \
-strengths and limitations of your model.
+The systematiclly found model has a slightly better $R^2$ than model1, but model1 is simplier. 
 
-------
+The $R^2$ values of both model is just at about 0.35, which means that values are quiet far away from the regression line. So the models are limited to predict the wine quality. Other features might be needed for a better model.
+
+
 
 # Final Plots and Summary
 
-> **Tip**: You've done a lot of exploration and have built up an understanding
-of the structure of and relationships between the variables in your dataset.
-Here, you will select three plots from all of your previous exploration to
-present here as a summary of some of your most interesting findings. Make sure
-that you have refined your selected plots for good titling, axis labels (with
-units), and good aesthetic choices (e.g. color, transparency). After each plot,
-make sure you justify why you chose each plot by describing what it shows.
 
 ### Plot One
-```{r echo=FALSE, Plot_One}
-
+```{r echo=FALSE, fig.height=10, fig.width=15}
+df %>%
+  ggplot(mapping=aes(x=quality_bucket, y=alcohol)) +
+  geom_point(alpha=0.2, position = 'jitter', size=4) +
+  geom_boxplot(alpha=0.7) +
+  scale_y_continuous(breaks=seq(0,15,0.25))+
+  labs(title='Quality of red wines vs Alcohol', 
+       x='Quality Bucket', 
+       y=TeX('Alcohol in Vol.%'))+
+  theme(panel.grid = element_blank(), 
+           panel.background = element_blank())
 ```
 
 ### Description One
 
+It's interesting that low and average red wines are having about the same alcohol levels. High quality wines are having higher levels.
+
+For low and average red wines a alcohol level between 9.5 and 11.0 Vol% can be expected.
+On the other hand the alcohol level of high  quality wines is between 11.0 and 12.25 Vol %.
 
 ### Plot Two
-```{r echo=FALSE, Plot_Two}
+
+```{r echo=FALSE, fig.height=10, fig.width=20, Plot_Two}
+
+df %>%
+  ggplot(mapping=aes(x=quality_bucket, y=volatile.acidity)) +
+  geom_point(alpha=0.2, position = 'jitter', size=4) +
+  geom_boxplot(alpha=0.7) +
+  scale_y_continuous(breaks=seq(0,15,0.25))+
+  labs(title='Quality of red wines vs volatile acidity', 
+       x='Quality Bucket', 
+       y=TeX('Volatile acidity in $g / cm^3$'))+
+  theme(panel.grid = element_blank(), 
+           panel.background = element_blank())
 
 ```
 
 ### Description Two
 
+It can be seen from the plot that the higher the quality the less volatile acidity in a wine can be expected. Basically volatile acid is vinegar acid. So the result is actually not surprising.
+
 
 ### Plot Three
-```{r echo=FALSE, Plot_Three}
+```{r echo=FALSE, fig.height=10, fig.width=15}
 
+df %>%
+  filter(quality_bucket != 'average') %>%
+  ggplot(mapping=aes(x=sulphates, y=alcohol)) +
+  geom_point(shape=21, mapping=aes(fill=quality_bucket, 
+                                              size=volatile.acidity)) +
+  scale_fill_brewer(palette ='RdYlGn') +
+  scale_y_continuous(breaks=seq(1,20,0.25)) +
+  scale_x_log10(breaks=seq(0, 2.1, 0.1)) +
+  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), range = c(1, 15)) +
+  labs(title='Difference of Alcohol, Volatile Acidity and Sulphates concentration between low and high quality red wines', 
+       x=TeX('Sulphates in $g / cm^3$'), 
+       y=TeX('Alcohol in Vol.%'), fill='Quality Bucket', 
+       size=TeX('Volatile Acidity in g / l'))+
+  theme(panel.grid = element_blank(), 
+           panel.background = element_blank())
 ```
 
 ### Description Three
+
+
+Higher quality wines are having more alcohol and less volatile acid. These "components" can tasted. On the other hand high quality wines are having higher sulphates levels. 
+
 
 ------
 
 # Reflection
 
-> **Tip**: Here's the final step! Reflect on the exploration you performed and
-the insights you found. What were some of the struggles that you went through?
-What went well? What was surprising? Make sure you include an insight into
-future work that could be done with the dataset.
+Within this data analysis I examined a data set with red wines. I like red wine and drink it from time to time. I actually like heavy wines like Merlot or Shiraz from California, South Africa or Australia, but I am not a wine expert. I learned from the data analysis that alcohol is having big influence on the quality of wines. It's interesting that I like heavy wines with alcohol level at about 13-14 Vol %. It seems that these wines are rather high quality wines. Another feature that influences wine is volatile acidity. What I learned is that volatile acidity is actually vinegar acid. It was not surprising that volatile acidity (=vinegar) is having an influence, because everbody of us dislikes wines in case they are having a vinegar smell. It was surprising to me that the fixed acidity does not have such a big influence on wine, as well as the residual sugar. I would have expected that the balance between acidity, alcohol and residual sugar would "make" a good wine.
+It was surprising to me that higher sulphates levels might be an indication for a better wine. As mentioned before sulphate is a salt, but chlorides are also salts and they don't have a influence on quality. It might be that sulphates preserves the wine.
 
-> **Tip**: Don't forget to remove this, and the other **Tip** sections before
-saving your final work and knitting the final report!
+I created a simple model with sulphates, alcohol and volatile acidity and another model
+with the leap package. With both models you are able to predict the quality of red wines, but both are not that accurate. It seems that there are much more features which are influencing wine quality. To go deeper these features need to be found and a further data analysis should be done.
+
+Performing the data analysis was big fun, but also very time consuming. I learned that data anaysis needs to be practiced as you need experience to interpret the results from metrics and plots. I liked that "my" model wasn't that much worse than the systemically found model. But I need to learn much more about modeling and comparing models.
+
