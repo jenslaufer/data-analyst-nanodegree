@@ -91,21 +91,23 @@ and Carbonyl Compounds]](https://grapesandwine.cals.cornell.edu/sites/grapesandw
 A new categorical variable (is.max.total.sulfur.dioxide.exceed) for wines which exceed this limit is therefore created. The limits from the EU are used as the wines are from Portugal.
 
 
-Based on [[Volatile Acidity in Wine]](http://waterhouse.ucdavis.edu/whats-in-wine/volatile-acidity) the limit for volatile acidity is 1.2 g/l in the US (and the EU) for red wine. A wine is spoiled above this limit. A new categorical (is.max.volatile.acidity) is created.
+Based on [[Volatile Acidity in Wine]](http://waterhouse.ucdavis.edu/whats-in-wine/volatile-acidity) the limit 
+for volatile acidity is 1.2 g/l in the US (and the EU) for red wine. A wine is spoiled above this limit. A new categorical (is.max.volatile.acidity) is created.
 
 Based on [Wine Sweetness](https://en.wikipedia.org/wiki/Sweetness_of_wine#Residual_sugar) a new categorical variable for wine sweetness is also created. 
 
 
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE, Data_Modification}
-
 df$quality_factor <- factor(df$quality, levels=seq(1,10,1), ordered = TRUE)
-df$quality_bucket <- cut(df$quality, c(0,4,6,10), labels=c('low', 'average', 'high'))
-df$is.max.total.sulfur.dioxide.exceed <- ifelse((df$total.sulfur.dioxide > 150 &
-                                                  df$residual.sugar < 5) |
-                                                  (df$total.sulfur.dioxide
+df$quality_bucket <- cut(df$quality, c(0,4,6,10), labels=c('low', 'average', 
+                                                           'high'))
+df$is.max.total.sulfur.dioxide.exceed <- ifelse((df$total.sulfur.dioxide > 150
+                                                 & df$residual.sugar < 5) 
+                                                 | (df$total.sulfur.dioxide
                                                   > 200 &
-                                                  df$residual.sugar > 5) , TRUE, FALSE)
+                                                  df$residual.sugar > 5), 
+                                                TRUE, FALSE)
 df$is.max.volatile.acidity <- ifelse((df$volatile.acidity > 1.2) , TRUE, FALSE)
 
 df$sweetness = cut(df$residual.sugar,
@@ -180,7 +182,7 @@ df %>%
 ```
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 summary(df$alcohol)
 ```
 
@@ -326,8 +328,10 @@ summary(df$sulphates)
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, echo=FALSE, message=FALSE, warning=FALSE, fig.height=5, fig.width=10}
 df %>% 
-  filter(total.sulfur.dioxide > quantile(total.sulfur.dioxide, probs=c(0.02)), 
-         total.sulfur.dioxide < quantile(total.sulfur.dioxide, probs=c(0.98))) %>%
+  filter(total.sulfur.dioxide > 
+           quantile(total.sulfur.dioxide, probs=c(0.02)), 
+         total.sulfur.dioxide 
+         < quantile(total.sulfur.dioxide, probs=c(0.98)))  %>%
   ggplot(mapping=aes(x=total.sulfur.dioxide)) +
     geom_histogram(binwidth = 0.09) +
     scale_x_log10(breaks=c(10,20,30,40,50,60,70,80,90,100,110,120,150))
@@ -431,7 +435,8 @@ Scatter plots with boxplots overlaid are plotted for the quality_factor and also
 df %>%
   gather(-X, -quality_factor, -quality_bucket, 
          -quality, -is.max.total.sulfur.dioxide.exceed,
-         -is.max.volatile.acidity, -sweetness, key = "var", value = "value")  %>%
+         -is.max.volatile.acidity, -sweetness, 
+         key = "var", value = "value")  %>%
   ggplot(aes(x = quality_factor, y = value)) +
     geom_point(alpha=0.3, position = 'jitter', color='orange') +
     geom_boxplot(alpha=0.5) +
@@ -444,7 +449,8 @@ df %>%
 df %>%
   gather(-X, -quality_factor, -quality_bucket, 
          -quality, -is.max.total.sulfur.dioxide.exceed,
-         -is.max.volatile.acidity, -sweetness, key = "var", value = "value")  %>%
+         -is.max.volatile.acidity, -sweetness, 
+         key = "var", value = "value")  %>%
   ggplot(aes(x = quality_bucket, y=value)) +
     geom_point(alpha=0.3, position = 'jitter', color='orange') +
     geom_boxplot(alpha=0.5) +
@@ -547,10 +553,36 @@ grid.arrange(p1, p2, ncol=2)
 It seems that the concentration of total sulphur dioxide does not have such a big  influence on wine quality. From the 7 wines which exceed the maximum total sulphur dioxide concentration are even 2 high quality wines . It can also be seen from the boxplot overlay that the median for all kind of quality factors is more or less the same, with a peak at quality factor 5.
 
 
+### Sweetness vs Quality
+
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+df %>%
+  group_by(sweetness) %>%
+  mutate(total=n()) %>%
+  group_by_(.dots=c('sweetness','quality_bucket')) %>%
+  summarize(pct=round(n()/first(total) * 100,0)) %>%
+  ggplot(mapping=aes(x=sweetness, y=pct, fill=quality_bucket)) +
+     geom_bar(stat='identity') +
+     geom_text(mapping=aes(label=paste(round(pct,0),"%",sep="")),
+               position=position_stack(vjust=0.5)) +
+     scale_y_continuous(breaks=c(),trans='reverse') +
+     coord_flip() +
+     labs(y='') +
+     theme(panel.grid = element_blank(), 
+           panel.background = element_blank())
+
+```
+
+There is no wine with sweetness 'medium' and the quality level 'high'. The ratio of high quality wines is higher for medium dry wines than for dry wines. A high quality wine has to be not too sweet, but also not too dry.
+
+
+
 ### Correlations for sulphates, total.sulphur.dioxide and free.sulphur.dioxide
 
 ```{r, echo=FALSE, fig.height=15, fig.width=15, message=FALSE, warning=FALSE}
-ggpairs(df, columns = c('sulphates', 'total.sulfur.dioxide', 'free.sulfur.dioxide'))
+ggpairs(df, columns = c('sulphates', 'total.sulfur.dioxide', 
+                        'free.sulfur.dioxide'))
 ```
 
 
@@ -584,6 +616,10 @@ The influence of sulphates (potassium sulphates) is surprising. On the one hand 
 
 # Multivariate Plots Section
 
+
+## Alcohol, Volatile Acidity, Sulphates, Quality
+
+
 The variables alcohol, volatile acidity and sulphates are plotted to visualize their influence on quality. The quality.bucket is used instead of quality_factor.
 
 It can be seen that for higher quality wines a higher alcohol concentration, a higher sulphate level and lower volatile acidity can be expected.
@@ -595,7 +631,8 @@ df %>%
   geom_point(alpha=0.1, mapping=aes(size=volatile.acidity)) +
   scale_y_continuous(breaks=seq(1,15,0.25)) +
   scale_x_log10(breaks=seq(0, 1.8, 0.1)) +
-  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), range = c(1, 15)) +
+  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), 
+                        range = c(1, 15)) +
   facet_grid(~quality_bucket)
 ```
 
@@ -609,16 +646,54 @@ df %>%
   scale_fill_brewer(palette ='RdYlGn') +
   scale_y_continuous(breaks=seq(1,20,0.25)) +
   scale_x_log10(breaks=seq(0, 2.1, 0.1)) +
-  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), range = c(1, 15)) 
+  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), 
+                        range = c(1, 15)) 
 ```
 The trend can be seen even better, if everything is visualized in one plot and the big number of average wines are filtered out.
+
+
+```{r, echo=FALSE, fig.height=10, fig.width=15, message=FALSE, warning=FALSE}
+df$alcohol.bucket = cut(df$alcohol,
+                            c(7, 9, 11, 13, 30), labels=c('7-9', '9-11', 
+                                                           '11-13', '>13'))
+
+df %>%
+  ggplot(mapping=aes(x=alcohol.bucket, y=volatile.acidity))+
+    geom_point(position='jitter', size=4, shape=21, 
+               mapping=aes(fill=quality_bucket))+
+    geom_boxplot(alpha=0.6)
+
+```
+
+Quality is visualized against volatile acidity and alcohol by using an alcohol bucket and for the quality the quality bucket. It can be seen that for the buckets with higher alcohol concentration there are more blue dots (high quality) and less red dots (low quality).
+
+
+## Alcohol, Sweetness, Quality
+
+```{r, echo=FALSE, fig.height=10, fig.width=15, message=FALSE, warning=FALSE}
+df %>%
+  ggplot(mapping=aes(x=sweetness, y=alcohol))+
+    geom_point(position='jitter', size=4, shape=21, 
+               mapping=aes(fill=quality_bucket)) +
+    geom_boxplot(alpha=0.7) 
+
+```
+
+The high quality wines are all dry and medium dry. Medium wines are having less 
+alcohol than medium and dry wines. The ratio of high quality wines is higher for
+the sweetness level 'medium dry' than for 'dry', but 'medium dry' wines has a 
+higher alcohol level than the other levels of sweetness. As seen before alcohol 
+is feature that influences wine quality the most.
+
+
+
 
 
 ### Multiple Regression Model
 
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 model1 <- lm(quality ~ alcohol + volatile.acidity + sulphates, data=df)
 ```
 
@@ -626,33 +701,34 @@ From the findings a multiple linear regression model with alcohol, volatile.acid
 
 The leaps library is used is to systemically finding the best model:
 
-```{r, fig.height=15, fig.width=20}
+```{r, message=FALSE, warning=FALSE, echo=FALSE, fig.height=15, fig.width=20}
 
-models <- regsubsets(quality ~ alcohol + volatile.acidity + sulphates + total.sulfur.dioxide + fixed.acidity + citric.acid + residual.sugar + chlorides + free.sulfur.dioxide + density + pH, data=df)
+models <- regsubsets(quality ~ alcohol + volatile.acidity + sulphates + total.sulfur.dioxide + fixed.acidity + citric.acid + residual.sugar + 
+                       chlorides + free.sulfur.dioxide + density + pH, data=df)
 
 ```
 
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 plot(models, scale="bic")
 ```
 
 
 According to the result from this output the "best" fitting model includes alcohol, volatile.acidity, sulphates, total.sulfur.dioxide, chlorides and pH
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 model2 <- lm(quality ~ alcohol + volatile.acidity + sulphates + 
              total.sulfur.dioxide + chlorides+ pH, data=df)
 ```
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 summary(model1)
 ```
 
 
 
-```{r, message=FALSE, warning=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 summary(model2)
 ```
 
@@ -715,6 +791,8 @@ df %>%
   ggplot(mapping=aes(x=quality_bucket, y=volatile.acidity)) +
   geom_point(alpha=0.2, position = 'jitter', size=4) +
   geom_boxplot(alpha=0.7) +
+  geom_hline(yintercept = 0.6, size=1, linetype='dashed', color='orange') +
+  geom_hline(yintercept = 1.2, size=1, linetype='dotdash', color='red') +
   scale_y_continuous(breaks=seq(0,15,0.25))+
   labs(title='Quality of red wines vs volatile acidity', 
        x='Quality Bucket', 
@@ -726,7 +804,7 @@ df %>%
 
 ### Description Two
 
-It can be seen from the plot that the higher the quality the less volatile acidity in a wine can be expected. Basically volatile acid is vinegar acid. So the result is actually not surprising.
+It can be seen from the plot that the higher the quality the less volatile acidity in a wine can be expected. Basically volatile acid is vinegar acid. So the result is actually not surprising. There are 2 interesting limits for volatile acidity: By law there is a limit of 1.2 g/l (red line). A wine over this limit cannot be sold anymore and is spoiled. Another limit is 0.6 g/l. Wines should not exceed this limit, as the volatile acidity from that concentration can be tasted.  It's interesting that the median of the low quality wines is over 0.6 g/l.
 
 
 ### Plot Three
@@ -740,8 +818,11 @@ df %>%
   scale_fill_brewer(palette ='RdYlGn') +
   scale_y_continuous(breaks=seq(1,20,0.25)) +
   scale_x_log10(breaks=seq(0, 2.1, 0.1)) +
-  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), range = c(1, 15)) +
-  labs(title='Difference of Alcohol, Volatile Acidity and Sulphates concentration between low and high quality red wines', 
+  scale_size_continuous(breaks=c(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4), 
+                        range = c(1, 15)) +
+  labs(title='Difference of Alcohol, 
+       Volatile Acidity and Sulphates concentration between low and high 
+       quality red wines', 
        x=TeX('Sulphates in $g / cm^3$'), 
        y=TeX('Alcohol in Vol.%'), fill='Quality Bucket', 
        size=TeX('Volatile Acidity in g / l'))+
@@ -752,7 +833,8 @@ df %>%
 ### Description Three
 
 
-Higher quality wines are having more alcohol and less volatile acid. These "components" can tasted. On the other hand high quality wines are having higher sulphates levels. 
+Higher quality wines are having more alcohol and less volatile acid. These "components" can tasted, so the insights are not surprising. On the other hand high quality wines are having higher sulphates levels. 
+Either this comes from the saltiness of potassium sulphates, which influences the taste or from the fact that it's used to preserve the wine.
 
 
 ------
@@ -765,5 +847,10 @@ It was surprising to me that higher sulphates levels might be an indication for 
 I created a simple model with sulphates, alcohol and volatile acidity and another model
 with the leap package. With both models you are able to predict the quality of red wines, but both are not that accurate. It seems that there are much more features which are influencing wine quality. To go deeper these features need to be found and a further data analysis should be done.
 
+I was struggling with trying to visualize basically everything and was overhelmed what has to go into the report and what can be left out. It was big fun to dig deeper and I could have done this for ever. On the other hand it was difficult to stop at some point and say enough is enough. It's sometimes difficult to interpret results as real data is not the same as when you do a research and you get examples with "clean room data".
+
 Performing the data analysis was big fun, but also very time consuming. I learned that data anaysis needs to be practiced as you need experience to interpret the results from metrics and plots. I liked that "my" model wasn't that much worse than the systemically found model. But I need to learn much more about modeling and comparing models.
+
+I also learned the insights of a data analysis are not always that surprising what you expect in the beginning.
+
 

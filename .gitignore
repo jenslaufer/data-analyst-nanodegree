@@ -41,3 +41,11 @@ p4/Assignment/yearly_revenue_by_room_type.png
 *.pyc
 p4/Assignment/airbnb/.Rhistory
 p4/Assignment/airbnb/.RData
+*.txt
+*.pkl
+p4/Assignment/redwine/tex2pdf.1336/input.out
+p4/Assignment/redwine/tex2pdf.1336/input.aux
+p4/Assignment/redwine/jenslaufer_p4_assignment.utf8.md
+p4/Assignment/redwine/jenslaufer_p4_assignment.knit.md
+p5/final_project/emails_by_address/from_credit.williams@enron.com
+p5/final_project/emails_by_address/
