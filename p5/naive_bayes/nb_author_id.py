@@ -30,15 +30,15 @@ from sklearn.naive_bayes import GaussianNB
 gnb = GaussianNB()
 
 t0 = time()
-fit = gnb.fit(features_train, labels_train)
+gnb.fit(features_train, labels_train)
 print "training time:", round(time()-t0, 3), "s"
 
 
 t0 = time()
-fit.predict(features_test)
+gnb.predict(features_test)
 print "predict time:", round(time()-t0, 3), "s"
 
-print fit.score(features_test, labels_test)
+print gnb.score(features_test, labels_test)
 
 
 #########################################################
