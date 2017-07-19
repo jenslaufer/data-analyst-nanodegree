@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler
 
 
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
@@ -43,39 +45,49 @@ data_dict = pickle.load(
 
 data_dict.pop("TOTAL", 0)
 
-feature = "salary"
-features = []
-for key, value in data_dict.iteritems():
-    if value[feature] != 'NaN':
-        features.append(value[feature])
 
-features.sort()
+def scaled(val, feature_name):
+    features = []
+    for key, value in data_dict.iteritems():
+        if value[feature_name] != 'NaN':
+            features.append(value[feature_name])
 
-print "min:", str(features[0])
-print "max:", str(features[len(features) - 1])
+    features.sort()
+
+    min = float(features[0])
+    max = float(features[len(features) - 1])
+    print "min:{} max:{}".format(min, max)
+
+    return (val - min) / (max - min)
+
+print scaled(200000., "salary")
+print scaled(1000000., "exercised_stock_options")
+print scaled(50., "from_messages")
 
 # the input features we want to use
 # can be any key in the person-level dictionary (salary, director_fees, etc.)
 feature_1 = "salary"
-feature_2 = "exercised_stock_options"
-feature_3 = "total_payments"
+feature_2 = "from_messages"
 poi = "poi"
-features_list = [poi, feature_1, feature_2, feature_3]
+features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list)
 poi, finance_features = targetFeatureSplit(data)
+
+
+X = MinMaxScaler().fit_transform(data)
+# print X
 
 
 # in the "clustering with 3 features" part of the mini-project,
 # you'll want to change this line to
 # for f1, f2, _ in finance_features:
 # (as it's currently written, the line below assumes 2 features)
-for f1, f2, f3 in finance_features:
+for f1, f2 in finance_features:
     plt.scatter(f1, f2)
 plt.show()
 
 # cluster here; create predictions of the cluster labels
 # for the data and store them to a list called pred
-from sklearn.cluster import KMeans
 classifier = KMeans(n_clusters=2)
 fit = classifier.fit(finance_features)
 print "Labels", fit.labels_
