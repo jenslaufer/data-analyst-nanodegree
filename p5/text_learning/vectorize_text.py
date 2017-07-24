@@ -53,7 +53,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
 
             # use str.replace() to remove any instances of the words
             ### ["sara", "shackleton", "chris", "germani"]
-            for exclusion_word in ["sara", "shackleton", "chris", "germani"]:
+            for exclusion_word in ["sara", "shackleton", "chris", "germani", "sshacklensf", "cgermannsf"]:
                 parsed_email = parsed_email.replace(exclusion_word, "")
 
             # append the text to word_data
@@ -90,11 +90,3 @@ tfidf = TfidfVectorizer(stop_words='english')
 matrix = tfidf.fit_transform(word_data)
 
 print matrix.shape
-
-print tfidf.vocabulary_.keys()[34596]
-
-vocab_list = tfidf.get_feature_names()
-# len of unique words
-print(len(vocab_list))
-# feature name, assignment is asking for
-print(vocab_list[34597])

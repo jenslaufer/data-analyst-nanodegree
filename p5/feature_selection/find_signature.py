@@ -40,4 +40,20 @@ labels_train   = labels_train[:150]
 ### your code goes here
 
 
+from sklearn.tree import DecisionTreeClassifier
+clf = DecisionTreeClassifier()
+
+clf.fit(features_train, labels_train)
+
+print clf.score(features_test, labels_test)
+print clf.feature_importances_[clf.feature_importances_ > .2]
+print clf.feature_importances_[clf.feature_importances_ > .0001]
+
+
+posi = clf.feature_importances_.argmax()
+print clf.feature_importances_[posi], posi
+
+
+
+
 
