@@ -20,6 +20,12 @@ from sklearn.metrics import fbeta_score, make_scorer, recall_score, accuracy_sco
 from sklearn.model_selection import cross_val_score
 
 
+import pandas as pd
+import seaborn as sb
+import math
+import matplotlib.pyplot as plt
+
+
 class ClassifierTuner:
 
     def __init__(self, classifier, features, labels, test_size,
@@ -92,6 +98,61 @@ class ClassifierTuner:
 
         return metrics_
 
+class Plot:
+    def __init__(self, df):
+        self.df_ = df
+
+    def boxplot(self, column, ax=None):
+        sb.boxplot(data=self.df_, x='poi', y=column, ax=ax)
+
+        head = self.df_.sort_values(by=[column], ascending=[False]).head(10)
+        tail = self.df_.sort_values(by=[column], ascending=[False]).tail(10)
+
+        def ann(row):
+            ind = row[0]
+            r = row[1]
+            plt.annotate(r['name'], xy=(r["poi"], r[column]),
+                         xytext=(2, 2), textcoords="offset points")
+
+        for row in head.iterrows():
+            ann(row)
+        for row in tail.iterrows():
+            ann(row)
+        if ax == None:
+            plt.show()
+
+
+    def boxplots(self):
+        for feature in list(self.df_.columns):
+            fig, ax = plt.subplots(1, 1)
+            if feature != 'name' and feature != 'email_address':
+                self.boxplot(feature, ax)
+        plt.show()
+
+
+    def boxplot_grid(self):
+
+        features = list(self.df_.columns)
+        features.remove('name')
+        features.remove('email_address')
+        features.remove('poi')
+
+        height = int(math.ceil(len(features) / 2))
+
+        fig = plt.figure()
+        fig.set_figheight(15 * height)
+        fig.set_figwidth(15)
+
+        axes = []
+        for i in range(0, height):
+            for j in range(0, 2):
+                axes.append(plt.subplot2grid((height, 2), (i, j)))
+
+        for feature in features:
+            boxplot(self.df_, feature, ax=axes[features.index(feature)])
+
+        plt.show()
+
 # Task 1: Select what features you'll use.
 # features_list is a list of strings, each of which is a feature name.
 # The first feature must be "poi".
@@ -100,6 +161,21 @@ features_list = ['poi', 'salary']  # You will need to use more features
 # Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
+
+
+data = []
+for key, value in data_dict.iteritems():
+    value['name'] = key
+    data.append(value)
+
+df = pd.DataFrame(data)
+df = df.replace({'NaN': 0})
+
+df = df[(df.name != 'TOTAL') & (df.name != 'THE TRAVEL AGENCY IN THE PARK')]
+
+plot = Plot(df)
+plot.boxplots()
+
 
 # Task 2: Remove outliers
 # Task 3: Create new feature(s)
