@@ -26,6 +26,24 @@ import math
 import matplotlib.pyplot as plt
 
 
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+from sklearn.feature_selection import f_classif
+
+
+class FeatureSelector:
+
+    def __init__(self, features, labels):
+        self.__features = features
+        self.__labels = labels
+
+    def select_k_best(self, k=5):
+        kbest = SelectKBest(k=k)
+        fit = kbest.fit_transform(self.__features, self.__labels)
+        self.scores_ = kbest.scores_
+        return fit
+
+
 class ClassifierTuner:
 
     def __init__(self, classifier, features, labels, test_size,
@@ -98,9 +116,16 @@ class ClassifierTuner:
 
         return metrics_
 
+
 class Plot:
-    def __init__(self, df):
-        self.df_ = df
+
+    def __init__(self, data_dict):
+        data = []
+        for key, value in data_dict.iteritems():
+            value['name'] = key
+            data.append(value)
+        self.df_ = pd.DataFrame(data)
+        self.df_.replace({'NaN': 0}, inplace=True)
 
     def boxplot(self, column, ax=None):
         sb.boxplot(data=self.df_, x='poi', y=column, ax=ax)
@@ -121,14 +146,12 @@ class Plot:
         if ax == None:
             plt.show()
 
-
     def boxplots(self):
         for feature in list(self.df_.columns):
             fig, ax = plt.subplots(1, 1)
             if feature != 'name' and feature != 'email_address':
                 self.boxplot(feature, ax)
         plt.show()
-
 
     def boxplot_grid(self):
 
@@ -156,35 +179,41 @@ class Plot:
 # Task 1: Select what features you'll use.
 # features_list is a list of strings, each of which is a feature name.
 # The first feature must be "poi".
-features_list = ['poi', 'salary']  # You will need to use more features
+ # You will need to use more features
 
 # Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
 
-
-data = []
-for key, value in data_dict.iteritems():
-    value['name'] = key
-    data.append(value)
-
-df = pd.DataFrame(data)
-df = df.replace({'NaN': 0})
-
-df = df[(df.name != 'TOTAL') & (df.name != 'THE TRAVEL AGENCY IN THE PARK')]
-
-plot = Plot(df)
-plot.boxplots()
-
+# Plot(data_dict).boxplots()
 
 # Task 2: Remove outliers
 # Task 3: Create new feature(s)
 # Store to my_dataset for easy export below.
+
+features_list = ['bonus', 'deferral_payments', 'deferred_income', 'director_fees',
+                 'email_address', 'exercised_stock_options', 'expenses',
+                 'from_messages', 'from_poi_to_this_person',
+                 'from_this_person_to_poi', 'loan_advances', 'long_term_incentive',
+                 'name', 'other', 'poi', 'restricted_stock',
+                 'restricted_stock_deferred', 'salary', 'shared_receipt_with_poi',
+                 'to_messages', 'total_payments', 'total_stock_value']
+features_list.remove('name')
+features_list.remove('email_address')
+
 my_dataset = data_dict
+my_dataset.pop('TOTAL')
+my_dataset.pop('THE TRAVEL AGENCY IN THE PARK')
 
 # Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
+print len(features)
+
+selector = FeatureSelector(features, labels)
+features = selector.select_k_best(k=4)
+print len(features)
+
 
 # Task 4: Try a varity of classifiers
 # Please name your classifier clf for easy export below.
