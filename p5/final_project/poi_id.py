@@ -33,14 +33,23 @@ from sklearn.feature_selection import f_classif
 
 class FeatureSelector:
 
-    def __init__(self, features, labels):
+    def __init__(self, features, labels, features_names, label_name):
         self.__features = features
         self.__labels = labels
+        self.__feature_names = features_names
+        self.__label_name = label_name
+        print self.__feature_names
+        print self.__label_name
 
-    def select_k_best(self, k=5):
+    def select_k_best(self, k=10):
         kbest = SelectKBest(k=k)
         fit = kbest.fit_transform(self.__features, self.__labels)
         self.scores_ = kbest.scores_
+
+        results_list = zip(kbest.get_support(),
+                           self.__feature_names, kbest.scores_)
+        self.report_ = sorted(results_list, key=lambda x: x[2], reverse=True)
+
         return fit
 
 
@@ -181,39 +190,41 @@ class Plot:
 # The first feature must be "poi".
  # You will need to use more features
 
+features_list = ['poi', 'bonus', 'deferral_payments', 'deferred_income', 'director_fees',
+                 'exercised_stock_options', 'expenses',
+                 'from_messages', 'from_poi_to_this_person',
+                 'from_this_person_to_poi', 'loan_advances', 'long_term_incentive',
+                 'other', 'restricted_stock',
+                 'restricted_stock_deferred', 'salary', 'shared_receipt_with_poi',
+                 'to_messages', 'total_payments', 'total_stock_value']
+
+
 # Load the dictionary containing the dataset
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
 
-# Plot(data_dict).boxplots()
 
 # Task 2: Remove outliers
+
+data_dict.pop('TOTAL')
+data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
+
+
 # Task 3: Create new feature(s)
 # Store to my_dataset for easy export below.
 
-features_list = ['bonus', 'deferral_payments', 'deferred_income', 'director_fees',
-                 'email_address', 'exercised_stock_options', 'expenses',
-                 'from_messages', 'from_poi_to_this_person',
-                 'from_this_person_to_poi', 'loan_advances', 'long_term_incentive',
-                 'name', 'other', 'poi', 'restricted_stock',
-                 'restricted_stock_deferred', 'salary', 'shared_receipt_with_poi',
-                 'to_messages', 'total_payments', 'total_stock_value']
-features_list.remove('name')
-features_list.remove('email_address')
-
 my_dataset = data_dict
-my_dataset.pop('TOTAL')
-my_dataset.pop('THE TRAVEL AGENCY IN THE PARK')
+
+# Plot(data_dict).boxplots()
 
 # Extract features and labels from dataset for local testing
+
 data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
-print len(features)
 
-selector = FeatureSelector(features, labels)
-features = selector.select_k_best(k=4)
-print len(features)
-
+selector = FeatureSelector(features, labels,
+                           features_list[1:], features_list[0])
+features = selector.select_k_best()
 
 # Task 4: Try a varity of classifiers
 # Please name your classifier clf for easy export below.
@@ -235,7 +246,7 @@ from sklearn.svm import SVC
 # Example starting point. Try investigating other evaluation techniques!
 
 
-clf = ClassifierTuner(GaussianNB(), features, labels, 0.3, 42, cv=20)
+clf = ClassifierTuner(GaussianNB(), features, labels, 0.3, 42)
 print clf.metrics_
 print clf.params_
 print clf.tuning_report_
