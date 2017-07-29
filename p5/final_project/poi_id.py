@@ -31,6 +31,16 @@ from sklearn.feature_selection import chi2
 from sklearn.feature_selection import f_classif
 
 
+from sklearn.preprocessing import MinMaxScaler
+class FeatureScaler:
+
+    def __init__(self, features):
+        self.__features = features
+
+    def min_max_scale(self):
+        return MinMaxScaler().fit_transform(features)
+
+
 class FeatureSelector:
 
     def __init__(self, features, labels, features_names, label_name):
@@ -206,25 +216,34 @@ with open("final_project_dataset.pkl", "r") as data_file:
 
 # Task 2: Remove outliers
 
-data_dict.pop('TOTAL')
-data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
+my_dataset = data_dict
+
+
+my_dataset.pop('TOTAL')
+my_dataset.pop('THE TRAVEL AGENCY IN THE PARK')
 
 
 # Task 3: Create new feature(s)
 # Store to my_dataset for easy export below.
 
-my_dataset = data_dict
+data = featureFormat(my_dataset, features_list, sort_keys=True)
+labels, features = targetFeatureSplit(data)
+
+features = FeatureScaler(features).min_max_scale()
+
 
 # Plot(data_dict).boxplots()
 
 # Extract features and labels from dataset for local testing
 
-data = featureFormat(my_dataset, features_list, sort_keys=True)
-labels, features = targetFeatureSplit(data)
+
 
 selector = FeatureSelector(features, labels,
                            features_list[1:], features_list[0])
 features = selector.select_k_best()
+
+print selector.report_
+
 
 # Task 4: Try a varity of classifiers
 # Please name your classifier clf for easy export below.
