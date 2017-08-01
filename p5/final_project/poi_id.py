@@ -52,7 +52,6 @@ for key, value in data_dict.iteritems():
 
 df = pd.DataFrame.from_dict(flattened)
 
-df.to_csv('raw_data.csv', index=False)
 
 # cleaning up
 
@@ -61,10 +60,15 @@ df = df.replace('NaN', np.nan)
 df['email_address'] = df.email_address.fillna('')
 df = df.fillna(0)
 
+df.to_csv('raw_data.csv', index=False)
+
+print df.bonus.sort_values()
+
 # Task 2: Remove outliers
 df = df[df.name != 'TOTAL']
 df = df[df.name != 'THE TRAVEL AGENCY IN THE PARK']
 df = df[df.name != 'LOCKHART EUGENE E']
+
 
 
 # Task 3: Create new feature(s)

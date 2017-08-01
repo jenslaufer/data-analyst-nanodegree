@@ -1,0 +1,48 @@
+---
+title: "Enron Fraud detection"
+output:
+  pdf_document: default
+  html_notebook: default
+  html_document: default
+---
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+raw_df = read.csv('raw_data.csv')
+cleaned_df = read.csv('cleaned_data.csv')
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+outlier_plots <- function(df){
+df %>%
+  gather(-name, -email_address, -poi, key = "var", value = "value")  %>%
+  group_by(var) %>%
+  mutate(max = max(value)) %>%
+  ggplot(aes(x = c(''), y=value)) +
+    geom_point(position='jitter', alpha=0.2, color=c('blue')) +
+    geom_boxplot(alpha=0.7) +
+    geom_text(aes(label=ifelse(value > .6 * max, as.character(name), '')))+
+    facet_wrap(~var, scales = "free")
+  
+}
+```
+
+
+```{r echo=FALSE, fig.height=8, fig.width=16, message=FALSE, warning=FALSE}
+outlier_plots(raw_df) 
+```
+
+
+
+
+
+```{r echo=FALSE, fig.height=8, fig.width=16, message=FALSE, warning=FALSE}
+outlier_plots(cleaned_df) 
+```
+
