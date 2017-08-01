@@ -45,19 +45,49 @@ features_list = ['poi', 'bonus', 'deferral_payments', 'deferred_income', 'direct
 with open("final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
 
+flattened = []
+for key, value in data_dict.iteritems():
+    value['name'] = key
+    flattened.append(value)
+
+df = pd.DataFrame.from_dict(flattened)
+
+df.to_csv('raw_data.csv', index=False)
+
+# cleaning up
+
+df = df.replace('NaN', np.nan)
+
+df['email_address'] = df.email_address.fillna('')
+df = df.fillna(0)
+
 # Task 2: Remove outliers
-data_dict.pop('TOTAL')
-data_dict.pop('THE TRAVEL AGENCY IN THE PARK')
-data_dict.pop('LOCKHART EUGENE E')
+df = df[df.name != 'TOTAL']
+df = df[df.name != 'THE TRAVEL AGENCY IN THE PARK']
+df = df[df.name != 'LOCKHART EUGENE E']
+
 
 # Task 3: Create new feature(s)
+df = df.replace({'from_messages': {0: df.from_messages.mean()}})
+df = df.replace({'to_messages': {0: df.to_messages.mean()}})
+
+
+df['fraction_of_messages_to_poi'] = df.from_this_person_to_poi / df.from_messages
+df['fraction_of_messages_from_poi'] = df.from_poi_to_this_person / df.to_messages
+df['total_financial_benefits'] = df.salary + df.bonus + \
+    df.total_stock_value + df.exercised_stock_options
+
+df.to_csv('cleaned_data.csv', index=False)
 
 # Store to data_dict for easy export below.
-my_dataset = data_dict
+
+my_dataset = df.set_index(['name']).to_dict('index')
 
 # Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
+
+# features = MinMaxScaler().fit_transform(features)
 
 
 # Task 4: Try a varity of classifiers
@@ -81,7 +111,8 @@ pipe = Pipeline([
 ])
 
 
-scale_params = {'scale': [MinMaxScaler()]}
+scale_params = {'scale': [MinMaxScaler()]
+                }
 
 pca_params = {
     'reduce_dim': [PCA(iterated_power=7)],
@@ -152,6 +183,9 @@ features_train, features_test, labels_train, labels_test = \
 grid.fit(features_train, labels_train)
 
 clf = grid.best_estimator_
+
+# Cross validation
+
 
 # Task 6: Dump your classifier, dataset, and features_list so anyone can
 # check your results. You do not need to change anything below, but make sure
