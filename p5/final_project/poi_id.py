@@ -150,7 +150,7 @@ pd.DataFrame(scores, columns=[
 
 features_list = ['poi', 'exercised_stock_options',
                  'total_stock_value', 'deferred_income', 
-                 'restricted_stock', 'total_payments']
+                 'restricted_stock', 'total_payments', 'salary']
 data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
 
