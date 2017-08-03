@@ -22,13 +22,50 @@ from sklearn.svm import SVC
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import fbeta_score, make_scorer, recall_score, accuracy_score
+from sklearn.model_selection import cross_val_score
 from sklearn.feature_selection import chi2
 
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
 from tester import dump_classifier_and_data, load_classifier_and_data, test_classifier
+
+
+def fit_cv(cls, features_train, labels_train, name, beta=1, n_splits=10):
+    cls.fit(features_train, labels_train)
+    cv_results = cv_scores(cls, features_train, labels_train,
+                           n_splits=n_splits, beta=beta)
+    return to_df(name, cv_results)
+
+
+def to_df(name, scores):
+    temp = pd.DataFrame()
+    for key, value in scores.iteritems():
+        temp[key] = value
+    temp['classifier'] = name
+
+    return temp
+
+
+def cv_scores(estimator, features, labels,  beta=1, n_splits=3):
+    skf = StratifiedKFold(n_splits=n_splits)
+    accuracy = cross_val_score(
+        estimator, features, labels, cv=skf, scoring='accuracy')
+    recall = cross_val_score(
+        estimator, features, labels, cv=skf, scoring='recall')
+    precision = cross_val_score(
+        estimator, features, labels, cv=skf, scoring='precision')
+    fbeta = cross_val_score(estimator, features, labels, cv=skf,
+                            scoring=make_scorer(fbeta_score, beta=beta))
+
+    return {'f{}_score'.format(beta): fbeta,
+            'precision': precision,
+            'recall': recall,
+            'accuracy': accuracy
+            }
+
 
 # Task 1: Select what features you'll use.
 # features_list is a list of strings, each of which is a feature name.
@@ -62,36 +99,47 @@ df = df.fillna(0)
 
 df.to_csv('raw_data.csv', index=False)
 
-print df.bonus.sort_values()
-
 # Task 2: Remove outliers
 df = df[df.name != 'TOTAL']
 df = df[df.name != 'THE TRAVEL AGENCY IN THE PARK']
 df = df[df.name != 'LOCKHART EUGENE E']
 
 
-
 # Task 3: Create new feature(s)
 df = df.replace({'from_messages': {0: df.from_messages.mean()}})
 df = df.replace({'to_messages': {0: df.to_messages.mean()}})
 
+cols = [col for col in df.columns if col not in [
+    'name', 'poi', 'email_address']]
+
 
 df['fraction_of_messages_to_poi'] = df.from_this_person_to_poi / df.from_messages
 df['fraction_of_messages_from_poi'] = df.from_poi_to_this_person / df.to_messages
+
+
+df[cols] = MinMaxScaler().fit_transform(df[cols])
+
 df['total_financial_benefits'] = df.salary + df.bonus + \
     df.total_stock_value + df.exercised_stock_options
 
+
 df.to_csv('cleaned_data.csv', index=False)
 
-# Store to data_dict for easy export below.
+# features_list = features_list + ['fraction_of_messages_to_poi',
+#                                 'fraction_of_messages_from_poi', 'total_financial_benefits']
 
+# Store to data_dict for easy export below.
 my_dataset = df.set_index(['name']).to_dict('index')
 
 # Extract features and labels from dataset for local testing
 data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
 
-# features = MinMaxScaler().fit_transform(features)
+kbest = SelectKBest(k=10)
+kbest.fit(features, labels)
+scores = zip(features_list[1:], kbest.scores_)
+pd.DataFrame(scores, columns=[
+             'var', 'score']).to_csv('kbest.csv', index=False)
 
 
 # Task 4: Try a varity of classifiers
@@ -99,6 +147,44 @@ labels, features = targetFeatureSplit(data)
 # Note that if you want to do PCA or other multi-stage operations,
 # you'll need to use Pipelines. For more info:
 # http://scikit-learn.org/stable/modules/pipeline.html
+
+features_list = ['poi', 'exercised_stock_options',
+                 'total_stock_value', 'deferred_income', 
+                 'restricted_stock', 'total_payments']
+data = featureFormat(my_dataset, features_list, sort_keys=True)
+labels, features = targetFeatureSplit(data)
+
+
+from sklearn.cross_validation import train_test_split
+features_train, features_test, labels_train, labels_test = train_test_split(
+    features, labels, test_size=0.3, random_state=42)
+data = featureFormat(my_dataset, features_list, sort_keys=True)
+labels, features = targetFeatureSplit(data)
+
+
+from sklearn.cross_validation import train_test_split
+features_train, features_test, labels_train, labels_test = \
+    train_test_split(features, labels, test_size=0.3, random_state=42)
+
+beta = 1
+n_splits = 30
+
+cv_train_results_df = fit_cv(GaussianNB(), features_train, labels_train,
+                             'GaussianNB', beta=beta, n_splits=n_splits)
+
+cv_train_results_df = cv_train_results_df.append(fit_cv(SVC(), features_train, labels_train,
+                                                        'SVC', beta=beta, n_splits=n_splits))
+
+cv_train_results_df = cv_train_results_df.append(fit_cv(DecisionTreeClassifier(), features_train, labels_train,
+                                                        'DecisionTreeClassifier', beta=beta, n_splits=n_splits))
+cv_train_results_df = cv_train_results_df.append(fit_cv(RandomForestClassifier(), features_train, labels_train,
+                                                        'RandomForestClassifier', beta=beta, n_splits=n_splits))
+
+cv_train_results_df = cv_train_results_df.append(fit_cv(LogisticRegression(), features_train, labels_train,
+                                                        'LogisticRegression', beta=beta, n_splits=n_splits))
+
+cv_train_results_df.to_csv('train_results.csv', index=False)
+
 
 # Task 5: Tune your classifier to achieve better than .3 precision and recall
 # using our testing script. Check the tester.py script in the final project
@@ -109,14 +195,10 @@ labels, features = targetFeatureSplit(data)
 
 
 pipe = Pipeline([
-    ('scale', None),
     ('reduce_dim', None),
     ('classify', None)
 ])
 
-
-scale_params = {'scale': [MinMaxScaler()]
-                }
 
 pca_params = {
     'reduce_dim': [PCA(iterated_power=7)],
@@ -127,7 +209,7 @@ pca_params = {
 
 k_best_params = {
     'reduce_dim': [SelectKBest()],
-    'reduce_dim__k': list(range(2, 10, 1))}
+    'reduce_dim__k': list(range(1, 6, 1))}
 
 gaussian_nb_params = {
     'classify': [GaussianNB()]
@@ -159,11 +241,12 @@ logistic_regression_params = {
     "classify__class_weight": ['balanced']
 }
 
-
+# gaussian_nb_params,
+# decision_tree_params,
+# random_forest_params,
+# svc_params,
+# logistic_regression_params
 classifier_params = [gaussian_nb_params,
-                     svc_params,
-                     decision_tree_params,
-                     random_forest_params,
                      logistic_regression_params]
 reducer_params = [pca_params, k_best_params]
 
@@ -171,25 +254,21 @@ param_grid = []
 
 for classifier_param in classifier_params:
     for reducer_param in reducer_params:
-        params = dict(scale_params.items() +
-                      reducer_param.items() + classifier_param.items())
+        params = dict(reducer_param.items() + classifier_param.items())
         param_grid.append(params)
 
 
 grid = GridSearchCV(pipe, param_grid=param_grid,
                     scoring=make_scorer(fbeta_score, beta=1))
 
-
-from sklearn.cross_validation import train_test_split
-features_train, features_test, labels_train, labels_test = \
-    train_test_split(features, labels, test_size=0.3, random_state=42)
-
 grid.fit(features_train, labels_train)
 
 clf = grid.best_estimator_
 
-# Cross validation
 
+# Cross validation
+cv_scores = cv_scores(clf, features_train, labels_train, n_splits=10, beta=2)
+print cv_scores
 
 # Task 6: Dump your classifier, dataset, and features_list so anyone can
 # check your results. You do not need to change anything below, but make sure

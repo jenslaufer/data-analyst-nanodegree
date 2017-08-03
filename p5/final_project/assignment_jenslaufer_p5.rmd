@@ -1,21 +1,27 @@
 ---
-title: "Enron Fraud detection"
+title: "Identifying Fraud from Enron Emails and Financial Data"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document: default
+  html_notebook: default
+  pdf_document: default
 ---
+
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(gridExtra)
+library(knitr)
+library(kableExtra)
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 raw_df = read.csv('raw_data.csv')
 cleaned_df = read.csv('cleaned_data.csv')
+kbest_results_df = read.csv('kbest.csv')
+cv_results_df = read.csv('train_results.csv')
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -26,7 +32,7 @@ df %>%
   mutate(max = max(value)) %>%
   ggplot(aes(x = c(''), y=value)) +
     geom_point(position='jitter', alpha=0.2, color=c('blue')) +
-    geom_boxplot(alpha=0.7) +
+    #geom_boxplot(alpha=0.7) +
     geom_text(aes(label=ifelse(value > .6 * max, as.character(name), '')))+
     facet_wrap(~var, scales = "free")
   
@@ -34,15 +40,120 @@ df %>%
 ```
 
 
+
+by Jens Laufer, 02/08/2017
+
+
+
+## Introduction
+
+
+Enron was formed in 1985 by a merge of Houston Natural Gas Co and InterNorth 
+Inc. Kenneth Lay became Enron's first CEO and Chairman and transformed the 
+company into a energy trader and supplier. Deregulation of the energy market and 
+an aggressive company policy fired the growth of the company. By 2000 the 
+company was one of the biggest companies the US and a Wallstreet darling. 
+Behind the scenes financial losses of the company were hidden behind a network 
+of companies with the help of the CEOs Kenneth Lay and Jeff Skilling and the 
+CFO Andrew Fastow. By the end of 2001 the company declared bankruptcy all of a 
+sudden to the public. 
+The U.S. Securities and Exchange Commission (SEC) began an investigation and 
+unhided the biggest case of account fraud in the US history.
+Kenneth Lay, Jeff Skilling, Andrew Fastow and several other excutives were later 
+sentenced to prison.
+
+The goal of this study is to develop a machine learning model to classify, if a
+person a so called person of interest (POI), was involved in fraud.
+
+For the study a dataset with email and financial data of 146 excutives is used. 
+The original dataset can be downloaded from 
+(https://www.cs.cmu.edu/~./enron/enron_mail_20150507.tgz).
+
+
+## Data Exloration
+
+The data set consists of `r dim(raw_df)[1]` observations and 
+`r dim(raw_df)[2]-1` features
+
+
+
+```{r  fig.height=10, fig.width=5, message=FALSE, echo=FALSE,warning=FALSE}
+cols <- as.data.frame(as.matrix((colnames(raw_df))))
+colnames(cols)[1] <- "Features"
+kable(cols)
+
+```
+
+
+### Cleaning the Data
+
+
+The occurences of NaN values is checked. For financial data the NaN values are
+replaced with 0.
+
+
+
+### Outliers
+
+
+Outliers need to be removed from the dataset. As fraud needs to be detected this 
+need to be done with 
+cautious as some POIs have outliers in their financial data. These outliers are
+essential. So just undesired outliers need to be removed.
+
 ```{r echo=FALSE, fig.height=8, fig.width=16, message=FALSE, warning=FALSE}
 outlier_plots(raw_df) 
 ```
 
+'TOTAL' is removed, as it is the sum of a financial
+feature columns.
 
+'THE TRAVEL AGENCY IN THE PARK' is removed as it is not a person.
+
+'LOCKHART EUGENE E' is removed as all features are 0.
 
 
 
 ```{r echo=FALSE, fig.height=8, fig.width=16, message=FALSE, warning=FALSE}
 outlier_plots(cleaned_df) 
 ```
+The figure shows the distribution of the dataset after cleaning the 'bad' 
+outliers. As mentioned before everythings seem ok now, there are only "desired"
+outliers.
+
+
+## Feature Selection
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+nulls <- cleaned_df %>%
+  gather(-name, -email_address, -poi, key = "var", value = "val")  %>%
+  group_by(var) %>%
+  summarise(number = dim(raw_df)[1] - sum(val == 0) -1) %>%
+  inner_join(kbest_results_df) %>%
+  arrange(desc(number))
+
+kable(nulls, col.names=c('Feature','Number of Available Features', 'Score')) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+
+```
+
+## Modeling
+
+```{r warning=FALSE, echo=FALSE, fig.height=5, fig.width=10, message=FALSE}
+cv_results_df %>%
+  gather(-classifier, key = "var", value = "val")  %>%
+  ggplot(aes(x = var, y=val)) +
+    geom_boxplot() +
+    facet_wrap(~classifier, scales = "free", ncol = 4)
+```
+
+
+### Tuning 
+
+### Conclusion
+
+
+
+
 
