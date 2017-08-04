@@ -166,14 +166,6 @@ features_list.remove('exercised_stock_options')
 data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
 
-
-from sklearn.cross_validation import train_test_split
-features_train, features_test, labels_train, labels_test = train_test_split(
-    features, labels, test_size=0.3, random_state=42)
-data = featureFormat(my_dataset, features_list, sort_keys=True)
-labels, features = targetFeatureSplit(data)
-
-
 from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
@@ -197,10 +189,6 @@ cv_train_results_df = pd.DataFrame()
 #                                                         'LogisticRegression', beta=beta, folds=folds))
 
 cls = GaussianNB()
-cls.fit(features_train, labels_train)
-test_classifier(cls, my_dataset, features_list)
-
-cls = SVC()
 cls.fit(features_train, labels_train)
 test_classifier(cls, my_dataset, features_list)
 
@@ -246,14 +234,6 @@ gaussian_nb_params = {
     'classify': [GaussianNB()]
 }
 
-svc_params = {
-    'classify': [SVC()],
-    'classify__kernel': ['rbf', 'linear', 'poly'],
-    'classify__C': [1, 5, 10, 50, 100, 200, 500],
-    'classify__gamma': list(np.arange(0.1, 0.9, 0.1))
-}
-
-
 decision_tree_params = {
     'classify': [DecisionTreeClassifier()],
     'classify__criterion': ['gini', 'entropy'],
@@ -270,7 +250,6 @@ logistic_regression_params = {
 classifier_params = [
     gaussian_nb_params,
     decision_tree_params,
-    svc_params,
     logistic_regression_params]
 reducer_params = [pca_params,  refcv_params, kbest_params]
 
@@ -283,7 +262,7 @@ for classifier_param in classifier_params:
 
 
 grid = GridSearchCV(pipe, param_grid=param_grid,
-                    scoring=make_scorer(fbeta_score, beta=1))
+                    scoring=make_scorer(fbeta_score, beta=3))
 
 grid.fit(features_train, labels_train)
 
