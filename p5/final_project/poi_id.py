@@ -95,42 +95,52 @@ df = df.replace('NaN', np.nan)
 df['email_address'] = df.email_address.fillna('')
 df = df.fillna(0)
 
+df.to_csv('cleaned_data1.csv', index=False)
+
 
 # Task 2: Remove outliers
 df = df[df.name != 'TOTAL']
 df = df[df.name != 'THE TRAVEL AGENCY IN THE PARK']
 df = df[df.name != 'LOCKHART EUGENE E']
+df = df[df.name != 'KAMINSKI WINCENTY J']
+df = df[df.name != 'BHATNAGAR SANJAY']
+df = df[df.name != 'FREVERT MARK A']
+df = df[df.name != 'LAVORATO JOHN J']
+df = df[df.name != 'MARTIN AMANDA K']
+df = df[df.name != 'WHITE JR THOMAS E']
+df = df[df.name != 'KEAN STEVEN J']
+df = df[df.name != 'ECHOLS JOHN B']
+
+
+df.to_csv('cleaned_data2.csv', index=False)
 
 
 # Task 3: Create new feature(s)
 df = df.replace({'from_messages': {0: df.from_messages.mean()}})
 df = df.replace({'to_messages': {0: df.to_messages.mean()}})
 
+df['message_to_poi_ratio'] = df.from_this_person_to_poi / df.from_messages
+df['message_from_poi_ratio'] = df.from_poi_to_this_person / df.to_messages
+
+
 cols = [col for col in df.columns if col not in [
     'name', 'poi', 'email_address']]
-
-
-df['fraction_of_messages_to_poi'] = df.from_this_person_to_poi / df.from_messages
-df['fraction_of_messages_from_poi'] = df.from_poi_to_this_person / df.to_messages
-
-
 df[cols] = MinMaxScaler().fit_transform(df[cols])
 
 df['total_financial_benefits'] = df.salary + df.bonus + \
     df.total_stock_value + df.exercised_stock_options
 
 
-df.to_csv('cleaned_data.csv', index=False)
+df.to_csv('data_with_new_features.csv', index=False)
 
 # All features + the created ones
 selected_features = list(df.columns)
 selected_features.remove('email_address')
 selected_features.remove('name')
 selected_features.remove('poi')
+
 features_list = ["poi"] + selected_features
-new_features_list = ['fraction_of_messages_to_poi',
-                     'fraction_of_messages_from_poi', 'total_financial_benefits']
-features_list = features_list + new_features_list
+
 
 # Store to data_dict for easy export below.
 my_dataset = df.set_index(['name']).to_dict('index')
@@ -142,19 +152,23 @@ labels, features = targetFeatureSplit(data)
 kbest = SelectKBest(k='all')
 kbest.fit(features, labels)
 scores = zip(features_list[1:], kbest.scores_)
-pd.DataFrame(scores, columns=[
-             'var', 'score']).to_csv('kbest.csv', index=False)
 
-features_list.remove('deferral_payments')
-features_list.remove('restricted_stock_deferred')
-features_list.remove('director_fees')
+pd.DataFrame(scores, columns=[
+             'var', 'score']).to_csv('kbest.csv',
+                                     index=False)
+
+
+features_list.remove('loan_advances')
+
 features_list.remove('to_messages')
 features_list.remove('from_messages')
+
 features_list.remove('salary')
 features_list.remove('bonus')
 features_list.remove('total_stock_value')
 features_list.remove('exercised_stock_options')
 
+print features_list
 
 # Task 4: Try a varity of classifiers
 # Please name your classifier clf for easy export below.
@@ -214,13 +228,14 @@ pipe = Pipeline([
     ('classify', None)
 ])
 
+
 refcv_params = {
     'reduce_dim': [RFECV(LogisticRegression(), step=1, cv=model_selection.StratifiedKFold(2))]
 }
 
 kbest_params = {
     'reduce_dim': [SelectKBest()],
-    'reduce_dim__k': list(range(1, len(features_list) - 4, 1))
+    'reduce_dim__k': list(range(1, len(features_list), 1))
 }
 
 pca_params = {
@@ -251,7 +266,7 @@ classifier_params = [
     gaussian_nb_params,
     decision_tree_params,
     logistic_regression_params]
-reducer_params = [pca_params,  refcv_params, kbest_params]
+reducer_params = [pca_params,  refcv_params]
 
 param_grid = []
 

@@ -15,11 +15,13 @@ library(ggplot2)
 library(gridExtra)
 library(knitr)
 library(kableExtra)
+library(stringr)
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 raw_df = read.csv('raw_data.csv')
-cleaned_df = read.csv('cleaned_data.csv')
+without_nans_df = read.csv('cleaned_data1.csv')
+cleaned_df = read.csv('cleaned_data2.csv')
 kbest_results_df = read.csv('kbest.csv')
 cv_results_df = read.csv('train_results.csv')
 cv_final_results_df = read.csv('final_results.csv')
@@ -37,9 +39,9 @@ df %>%
   gather(-name, -email_address, -poi, key = "var", value = "value")  %>%
   group_by(var) %>%
   mutate(max = max(value)) %>%
-  ggplot(aes(x = c(''), y=value)) +
-    geom_point(position='jitter', alpha=0.2, color=c('blue')) +
-    #geom_boxplot(alpha=0.7) +
+  ggplot(aes(x =poi, y=value)) +
+   # geom_point(position='jitter', alpha=0.2, color=c('blue')) +
+    geom_boxplot() +
     geom_text(aes(label=ifelse(value > .6 * max, as.character(name), '')))+
     facet_wrap(~var, scales = "free")
   
@@ -83,6 +85,11 @@ The original dataset can be downloaded from
 The data set consists of `r dim(cleaned_df)[1]` observations and 
 `r dim(cleaned_df)[2]-1` features.
 
+There are 
+`r dim(subset(cleaned_df, poi == 'True'))[1]` POI
+and 
+`r dim(subset(cleaned_df, poi == 'False'))[1]` non POIs in the dataset.
+
 
 
 ### Cleaning the Data
@@ -101,31 +108,34 @@ nulls %>%
 
 
 
-Occurences of NaN values was checked. It can be seen that for some 
-features not that many observations are available. Especially 'loan_advances'
-just have 3 observation. This has to be kept in mind for the feature selection.
+Occurences of NaN values were checked. It can be seen that for some 
+features not that many data points are available. Especially 'loan_advances'
+just have 3 data points. This has to be kept in mind for the feature selection.
 
-For financial data the NaN values are replaced with 0.
+For financial data the NaN values were replaced with 0.
 
 
 ### Outliers
 
 
-Outliers need to be removed from the dataset. As fraud needs to be detected this 
-need to be done with 
+Outliers need to be removed from the dataset. As fraud detection is the goal of the study this 
+has to be done with 
 cautious as some POIs have outliers in their financial data. These outliers are
-essential. So just undesired outliers need to be removed.
+essential and cannot be thrown away as they characterize a POI. So just undesired outliers can be removed.
 
 ```{r echo=FALSE, fig.height=8, fig.width=16, message=FALSE, warning=FALSE}
-outlier_plots(cleaned_df) 
+outlier_plots(without_nans_df) 
 ```
 
+From the figure we can see a outlier for the POI 'TOTAL'. These seems more a sum rather than a person.
+
 'TOTAL' is removed, as it is the sum of a financial
-feature columns.
+feature data points.
 
 'THE TRAVEL AGENCY IN THE PARK' is removed as it is not a person.
 
 'LOCKHART EUGENE E' is removed as all features are NaN.
+
 
 
 
@@ -137,7 +147,30 @@ outliers. As mentioned before everything seem ok now, there are only "desired"
 outliers.
 
 
-## Feature Creation
+
+## Feature Engineering
+
+
+3 new features were created:
+
+   - total_financial_benefits: Sum of 'salary', 'bonus', 'total_stock_value', 
+   and 'exercised_stock_options'. 
+   
+   - message_to_poi_ratio: Ratio a person  sends
+   messages to POI
+   
+   - message_from_poi_ratio:  Ratio a person receives  messages from POI
+
+The message ratios were created as it seems possible that POIs communicate more likely with each other.
+
+'total_financial_benefits' was created as it summarizes all financial benefits a person gets. 
+
+
+Missing values of 'from_messages' and 'to_messages' were replaced with the mean of these fields over the whole data set to not tap into division by zero problems.
+
+Feature scaling was performed after the creation of message fraction 
+features and before the creation of 'total_financial_benefits' as some algorithms like logistic regression and SVM will not work properly without scaling.  It was done before the fraction calculation to avoid division by 0 problems.
+
 
 
 ## Feature Selection
@@ -158,13 +191,11 @@ outliers.
 
 ```
 
-A univariate feature selection was performed with SelectKBest with all 
-features. As it can be seen from the figure the new created feature
+As mentioned before 'loan_advances' just have 3 data points. It was therefore removed before a SelectKBest Analysis.
+
+A univariate feature exploration was then performed with SelectKBest. As it can be seen from the figure the new created feature
 'total_financial_benefits' has the highest score. The new feature 'fraction_of_messages_to_poi'
 seems also promising, whereas the 'fraction_of_messages_to_poi' has a low score.
-
-'deferral_payments', 'restricted_stock_deferred' and 'director_fees' were
-removed from the feature list, as their score is low and there were a lot of NaN values in the dataset.
 
 'to_messages' and 'from_messages' have a low score and are also used for the calculation of the new features, so they can be removed.
 
