@@ -52,7 +52,7 @@ metric_plots <- function(metrics_df, filter.tag){
   filter(tag==filter.tag) %>%
   gather(-classifier, -datatype, -tag, key = "var", value = "val")  %>%
   ggplot(aes(x = datatype, y=val)) +
-    geom_bar(stat='identity', width=0.2, fill=c('blue'), alpha=0.4) +
+    geom_bar(stat='identity', width=0.05, fill=c('blue'), alpha=0.4) +
     geom_text(aes(label=round(val,2))) +
     geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
     facet_grid(var ~ classifier) 
@@ -95,13 +95,13 @@ financial data.
 
 ## Data Exploration
 
-The data set consists of `r dim(cleaned_df)[1]` observations and 
-`r dim(cleaned_df)[2]-1` features.
+The data set consists of `r dim(raw_df)[1]` observations and 
+`r dim(raw_df)[2]-1` features.
 
 There are 
-`r dim(subset(cleaned_df, poi == 'True'))[1]` POI
+`r dim(subset(raw_df, poi == 'True'))[1]` POI
 and 
-`r dim(subset(cleaned_df, poi == 'False'))[1]` non POIs in the dataset.
+`r dim(subset(raw_df, poi == 'False'))[1]` non POIs in the dataset.
 
 
 
@@ -237,21 +237,104 @@ these features are removed to avoid colinearity.
 
 
 
-## Modeling
+## Classifier
 
-The selected features were applied to
+
+The selected features were applied to 3 different Machine Learning Algorithms:
+
+  - Decision Tree
+     
+  - Gaussian Naive Base
+     
+  - Logistic Regression
+    
+For a first run the default parameters were used to get an impression how these algorithms perform without optimizations. 
+
+The data set is splitted into a set for training and a set for test. The test set is 30% of the 
+training data.
+
+The training set is used for cross validation by splitting the training set 500 times 
+with a test set size of 30%. The metrics are calculated based on the 500 splits. 
+StratifiedShuffleSplit was used to ensure the split is 
+random, but the ratio training to test data is about the same.
+
+The cross validation data set is used for optimizations, the test set just 
+for a final test/proof if the results are sufficient.
+
+The goal was to get a recall and a precision of at least 0.3 and an accuracy as high as possible.
+The f1 is used to evaluate the combination of recall and precision.
+
 
 ```{r warning=FALSE, echo=FALSE, fig.height=10, fig.width=20, message=FALSE}
 metric_plots(metrics_df, 'pre')
 ```
 
+#### DecisionTreeClassifier
+
+The DecisionTreeClassifier reaches quiet a high accuracy on the cross validation set. The values for recall 
+and precision are over the goal of 0.3 without optimization. But when the test set is applied it can be seen
+that recall and precision are 0, which means that the classifier was not able to identify any POIs correctly
+(number of true positives is 0)
+
+
+#### GaussianNB
+
+The Gaussian Naive Baise Classifier has a low accuracy on the cross validation sets. The precision is low and the 
+recall is quiet high, which means the  classifier was quiet accurate in finding all the positive samples. The
+values on the test set are even better. The classifier was able to identify find all positive samples (recall=1),
+but it's ability of finding the negative samples was limited. It seems strange that the classifier performs
+actually better on the test set than on the cross validation sets.
+
+
+#### Logistic Regression
+
+The Logistic Regression classifier had a high accuracy on the cross validation sets, but it's ability to
+identify true POIs correctly (low recall) was limited, while it was quiet accurate in identifying non POIs.
+The results are very similiar on the test set.
+
+
 
 ### Tuning 
+
+
+For tuning GridSearchCV in combination with pipelines is used. The pipeline has 2 stages, one for
+further reducing the dimension of the features and one for estimator optimization. The f1 score
+is used to select the best estimator. f1 is used as it reflects both the recall and precision and
+it's balancing out these two metrics equally. Another option would have been using f2 or higher,
+if the focus are higher recall scores, which might make sense for this kind of estimator, as we
+want to identify true POIs correctly.
+
+
+#### Reducing dimension stage
+
+The goal of this stage is to further reduce the dimension of the feature set. Therefore princial 
+component analysis (PCA) is used which 
+is reducing linear dimensionality with Singular Value Decomposition. 
+
+A second method of feature reduction is recursive feature elimination and 
+cross-validated selection (RFECV), which ranks the best combination and number of features.
+
+
+#### Estimator optimization stage
+
+In this stage different parameters are applied to GaussianNB, LogisticRegression and 
+DecisionTreeClassifier. 
+
 
 
 ```{r warning=FALSE, echo=FALSE, fig.height=10, fig.width=20, message=FALSE}
 metric_plots(metrics_df, 'tuned')
 ```
+
+Based on the f1 score, the best classifier is a Logistic Regression 
+classifier and a PCA step before the classifier.
+
+
+The optimized classifier (in combination with PCA) has good accuracy on the cross validation sets. It's ability to identify POIs is high, as it's recall metric is high. The values of recall and precision are higher than the goal
+of 0.3.  
+
+The classifier and Feature reducer were finally validated on the test set: The specification was met also on the test set, although the score are dropping a little bit too much, which might be a sign of overfitting.
+
 
 
 ### Conclusion

@@ -64,7 +64,7 @@ def to_df(estimator, tag, settype, scores):
 
 def cv_metrics1(estimator, features, labels,  beta=1, folds=20):
     skf = StratifiedShuffleSplit(
-        n_splits=folds, test_size=0.2, random_state=42)
+        n_splits=folds, test_size=0.3, random_state=42)
 
     accuracy = cross_val_score(
         estimator, features, labels, cv=skf, scoring='accuracy')
