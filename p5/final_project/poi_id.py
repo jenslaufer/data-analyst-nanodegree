@@ -268,8 +268,6 @@ cv_train_results_df = metrics(GaussianNB(), features_train, labels_train, featur
 
 cv_train_results_df = cv_train_results_df.append(metrics(DecisionTreeClassifier(), features_train, labels_train, features_test, labels_test, 'pre',
                                                          beta=beta, folds=folds))
-cv_train_results_df = cv_train_results_df.append(metrics(RandomForestClassifier(), features_train, labels_train, features_test, labels_test, 'pre',
-                                                         beta=beta, folds=folds))
 
 cv_train_results_df = cv_train_results_df.append(metrics(LogisticRegression(C=10, tol=1), features_train, labels_train, features_test, labels_test, 'pre',
                                                          beta=beta, folds=folds))

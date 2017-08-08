@@ -45,6 +45,19 @@ df %>%
     facet_wrap(~var, scales = "free")
   
 }
+
+
+metric_plots <- function(metrics_df, filter.tag){
+  metrics_df %>% 
+  filter(tag==filter.tag) %>%
+  gather(-classifier, -datatype, -tag, key = "var", value = "val")  %>%
+  ggplot(aes(x = datatype, y=val)) +
+    geom_bar(stat='identity', width=0.2, fill=c('blue'), alpha=0.4) +
+    geom_text(aes(label=round(val,2))) +
+    geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
+    facet_grid(var ~ classifier) 
+  
+}
 ```
 
 
@@ -229,15 +242,17 @@ these features are removed to avoid colinearity.
 The selected features were applied to
 
 ```{r warning=FALSE, echo=FALSE, fig.height=10, fig.width=20, message=FALSE}
-metrics_df %>% 
-  gather(-classifier, -datatype, -tag, key = "var", value = "val")  %>%
-  ggplot(aes(x = var, y=val)) +
-    geom_point() +
-    facet_wrap(~classifier, scales = "free", nrow = 2) + coord_flip()
+metric_plots(metrics_df, 'pre')
 ```
 
 
 ### Tuning 
+
+
+```{r warning=FALSE, echo=FALSE, fig.height=10, fig.width=20, message=FALSE}
+metric_plots(metrics_df, 'tuned')
+```
+
 
 ### Conclusion
 
