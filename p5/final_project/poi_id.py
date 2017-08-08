@@ -18,8 +18,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
 from sklearn.model_selection import StratifiedShuffleSplit
+from sklearn.model_selection import StratifiedKFold
 from sklearn.svm import SVC
 from sklearn.svm import SVR
 from sklearn.decomposition import PCA
@@ -40,8 +40,8 @@ from tester import dump_classifier_and_data, load_classifier_and_data, test_clas
 def metrics(estimator, features_train, labels_train, features_test,
             labels_test, beta=1, folds=10):
     estimator.fit(features_train, labels_train)
-    cv_results = cv_metrics(estimator, features_train, labels_train,
-                            folds=folds, beta=beta)
+    cv_results = cv_metrics2(estimator, features_train, labels_train,
+                             folds=folds, beta=beta)
     test_results = test_metrics(
         estimator, features_test, labels_test, beta=beta)
 
@@ -61,9 +61,10 @@ def to_df(estimator, settype, scores):
     return temp
 
 
-def cv_metrics(estimator, features, labels,  beta=1, folds=20):
+def cv_metrics1(estimator, features, labels,  beta=1, folds=20):
     skf = StratifiedShuffleSplit(
-        n_splits=folds, random_state=42)
+        n_splits=folds, test_size=0.2, random_state=42)
+
     accuracy = cross_val_score(
         estimator, features, labels, cv=skf, scoring='accuracy')
     recall = cross_val_score(
@@ -73,11 +74,63 @@ def cv_metrics(estimator, features, labels,  beta=1, folds=20):
     fbeta = cross_val_score(estimator, features, labels, cv=skf,
                             scoring=make_scorer(fbeta_score, beta=beta))
 
-    return {'f{}_score'.format(beta): fbeta,
-            'precision': precision,
-            'recall': recall,
-            'accuracy': accuracy
+    print fbeta
+
+    return {'f{}'.format(beta): fbeta,
+            'precision': [precision.mean()],
+            'recall': [recall.mean()],
+            'accuracy': [accuracy.mean()]
             }
+
+
+def cv_metrics2(estimator, features, labels,  beta=1, folds=20):
+    cv = StratifiedShuffleSplit(
+        n_splits=folds, random_state=42)
+    true_negatives = 0
+    false_negatives = 0
+    true_positives = 0
+    false_positives = 0
+    for train_idx, test_idx in cv.split(features, labels):
+        features_train = []
+        features_test = []
+        labels_train = []
+        labels_test = []
+        for ii in train_idx:
+            features_train.append(features[ii])
+            labels_train.append(labels[ii])
+        for jj in test_idx:
+            features_test.append(features[jj])
+            labels_test.append(labels[jj])
+
+        # fit the classifier using training set, and test on test set
+        estimator.fit(features_train, labels_train)
+        predictions = estimator.predict(features_test)
+        for prediction, truth in zip(predictions, labels_test):
+            if prediction == 0 and truth == 0:
+                true_negatives += 1
+            elif prediction == 0 and truth == 1:
+                false_negatives += 1
+            elif prediction == 1 and truth == 0:
+                false_positives += 1
+            elif prediction == 1 and truth == 1:
+                true_positives += 1
+    try:
+        total_predictions = true_negatives + \
+            false_negatives + false_positives + true_positives
+        accuracy = 1.0 * (true_positives + true_negatives) / total_predictions
+        precision = 1.0 * true_positives / (true_positives + false_positives)
+        recall = 1.0 * true_positives / (true_positives + false_negatives)
+        fbeta = float(((1 + beta**2)) * true_positives) / float((1 + beta**2) *
+                                                                true_positives + (beta**2) * false_negatives + false_positives)
+
+        return {'f{}'.format(beta): [fbeta],
+                'precision': [precision],
+                'recall': [recall],
+                'accuracy': [accuracy]
+                }
+    except:
+        print "Got a divide by zero when trying out:", estimator
+        print "Precision or recall may be undefined due to a lack of true positive predicitons."
 
 
 def test_metrics(estimator, features, true_labels,  beta=1):
@@ -88,7 +141,7 @@ def test_metrics(estimator, features, true_labels,  beta=1):
     accuracy = accuracy_score(true_labels, predicted_labels)
     fbeta = fbeta_score(true_labels, predicted_labels, beta=beta)
 
-    return {'f{}_score'.format(beta): [fbeta],
+    return {'f{}'.format(beta): [fbeta],
             'precision': [precision],
             'recall': [recall],
             'accuracy': [accuracy]
@@ -212,9 +265,6 @@ cv_train_results_df = pd.DataFrame()
 cv_train_results_df = metrics(GaussianNB(), features_train, labels_train, features_test, labels_test,
                               beta=beta, folds=folds)
 
-cv_train_results_df = cv_train_results_df.append(metrics(SVC(), features_train, labels_train, features_test, labels_test,
-                                                         beta=beta, folds=folds))
-
 cv_train_results_df = cv_train_results_df.append(metrics(DecisionTreeClassifier(), features_train, labels_train, features_test, labels_test,
                                                          beta=beta, folds=folds))
 cv_train_results_df = cv_train_results_df.append(metrics(RandomForestClassifier(), features_train, labels_train, features_test, labels_test,
@@ -222,7 +272,6 @@ cv_train_results_df = cv_train_results_df.append(metrics(RandomForestClassifier(
 
 cv_train_results_df = cv_train_results_df.append(metrics(LogisticRegression(C=10, tol=1), features_train, labels_train, features_test, labels_test,
                                                          beta=beta, folds=folds))
-
 
 
 # Task 5: Tune your classifier to achieve better than .3 precision and recall
@@ -240,7 +289,7 @@ pipe = Pipeline([
 
 
 refcv_params = {
-    'reduce_dim': [RFECV(LogisticRegression(), step=1, cv=model_selection.StratifiedKFold(2))]
+    'reduce_dim': [RFECV(LogisticRegression(), step=1, cv=StratifiedKFold(2))]
 }
 
 kbest_params = {
@@ -297,7 +346,7 @@ clf = grid.best_estimator_
 # Cross validation
 cv_train_results_df = cv_train_results_df.append(metrics(clf, features_train, labels_train, features_test, labels_test,
                                                          beta=beta, folds=folds))
-cv_train_results_df.to_csv('train_results.csv', index=False)
+cv_train_results_df.to_csv('metrics.csv', index=False)
 
 # Task 6: Dump your classifier, dataset, and features_list so anyone can
 # check your results. You do not need to change anything below, but make sure
