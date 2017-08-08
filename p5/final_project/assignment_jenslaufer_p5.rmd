@@ -24,7 +24,6 @@ without_nans_df = read.csv('cleaned_data1.csv')
 cleaned_df = read.csv('cleaned_data2.csv')
 kbest_results_df = read.csv('kbest.csv')
 cv_results_df = read.csv('train_results.csv')
-cv_final_results_df = read.csv('final_results.csv')
 
 nulls <- raw_df %>%
   gather(-name, -email_address, -poi, key = "var", value = "val")  %>%
@@ -77,10 +76,11 @@ person is a so called person of interest (POI), who was involved in fraud.
 
 For the study a dataset with email and financial data of 146 excutives is used. 
 The original dataset can be downloaded from 
-(https://www.cs.cmu.edu/enron/enron_mail_20150507.tgz).
+(https://www.cs.cmu.edu/enron/enron_mail_20150507.tgz) and was enriched with  
+financial data.
 
 
-## Data Exloration
+## Data Exploration
 
 The data set consists of `r dim(cleaned_df)[1]` observations and 
 `r dim(cleaned_df)[2]-1` features.
@@ -110,7 +110,8 @@ nulls %>%
 
 Occurences of NaN values were checked. It can be seen that for some 
 features not that many data points are available. Especially 'loan_advances'
-just have 3 data points. This has to be kept in mind for the feature selection.
+just have 3 data points. This has to be kept in mind for the feature 
+selection.
 
 For financial data the NaN values were replaced with 0.
 
@@ -118,10 +119,11 @@ For financial data the NaN values were replaced with 0.
 ### Outliers
 
 
-Outliers need to be removed from the dataset. As fraud detection is the goal of the study this 
-has to be done with 
-cautious as some POIs have outliers in their financial data. These outliers are
-essential and cannot be thrown away as they characterize a POI. So just undesired outliers can be removed.
+Outliers need to be removed from the dataset. As fraud detection is 
+the goal of the study this has to be done with cautious as some POIs have 
+outliers in their financial data. These outliers are
+essential and cannot be thrown away as they characterize a POI. 
+So just undesired outliers can be removed.
 
 ```{r echo=FALSE, fig.height=8, fig.width=16, message=FALSE, warning=FALSE}
 outlier_plots(without_nans_df) 
@@ -129,12 +131,30 @@ outlier_plots(without_nans_df)
 
 From the figure we can see a outlier for the POI 'TOTAL'. These seems more a sum rather than a person.
 
+The following outliers were removed:
+
 'TOTAL' is removed, as it is the sum of a financial
 feature data points.
 
 'THE TRAVEL AGENCY IN THE PARK' is removed as it is not a person.
 
 'LOCKHART EUGENE E' is removed as all features are NaN.
+
+'KAMINSKI WINCENTY J': Non POI with outlier on 'from_messages'
+
+'BHATNAGAR SANJAY': Non POI with outlier on 'from_messages'
+
+'FREVERT MARK A': Non POI with outlier on 'deferrall_payments'
+
+'LAVORATO JOHN J': Non POI with outlier on 'bonus'
+
+'MARTIN AMANDA K': Non POI with outlier on 'long_term_incentives'
+
+'WHITE JR THOMAS E': Non POI with outlier on 'restricted_stock'
+
+'KEAN STEVEN J': Non POI with outlier on 'from_messages'
+
+'ECHOLS JOHN B': Non POI with outlier on 'long_term_incentives'
 
 
 

@@ -9,7 +9,7 @@ import pandas as pd
 
 import matplotlib.pyplot as plt
 
-from sklearn.cross_validation import train_test_split
+from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
@@ -18,44 +18,52 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
-import sklearn.model_selection as model_selection
-import sklearn.cross_validation as cross_validation
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.svm import SVC
 from sklearn.svm import SVR
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.metrics import fbeta_score, make_scorer, recall_score, accuracy_score
+from sklearn.metrics import fbeta_score, make_scorer, \
+    recall_score, accuracy_score, precision_score
 from sklearn.model_selection import cross_val_score
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import RFECV
 
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
-from sklearn.cross_validation import StratifiedShuffleSplit
 
 from tester import dump_classifier_and_data, load_classifier_and_data, test_classifier
 
 
-def fit_cv(cls, features_train, labels_train, name, beta=1, folds=10):
-    cls.fit(features_train, labels_train)
-    cv_results = cv_scores(cls, features_train, labels_train,
-                           folds=folds, beta=beta)
-    return to_df(name, cv_results)
+def metrics(estimator, features_train, labels_train, features_test,
+            labels_test, beta=1, folds=10):
+    estimator.fit(features_train, labels_train)
+    cv_results = cv_metrics(estimator, features_train, labels_train,
+                            folds=folds, beta=beta)
+    test_results = test_metrics(
+        estimator, features_test, labels_test, beta=beta)
+
+    df = to_df(estimator, 'cv', cv_results)
+    df = df.append(to_df(estimator, 'test', test_results))
+
+    return df
 
 
-def to_df(name, scores):
+def to_df(estimator, settype, scores):
     temp = pd.DataFrame()
     for key, value in scores.iteritems():
         temp[key] = value
-    temp['classifier'] = name
+    temp['classifier'] = str(estimator)
+    temp['type'] = settype
 
     return temp
 
 
-def cv_scores(estimator, features, labels,  beta=1, folds=20):
-    skf = cross_validation.StratifiedShuffleSplit(
-        labels, folds, random_state=42)
+def cv_metrics(estimator, features, labels,  beta=1, folds=20):
+    skf = StratifiedShuffleSplit(
+        n_splits=folds, random_state=42)
     accuracy = cross_val_score(
         estimator, features, labels, cv=skf, scoring='accuracy')
     recall = cross_val_score(
@@ -71,6 +79,20 @@ def cv_scores(estimator, features, labels,  beta=1, folds=20):
             'accuracy': accuracy
             }
 
+
+def test_metrics(estimator, features, true_labels,  beta=1):
+    predicted_labels = estimator.predict(features)
+
+    recall = recall_score(true_labels, predicted_labels)
+    precision = precision_score(true_labels, predicted_labels)
+    accuracy = accuracy_score(true_labels, predicted_labels)
+    fbeta = fbeta_score(true_labels, predicted_labels, beta=beta)
+
+    return {'f{}_score'.format(beta): [fbeta],
+            'precision': [precision],
+            'recall': [recall],
+            'accuracy': [accuracy]
+            }
 
 # Task 1: Select what features you'll use.
 # features_list is a list of strings, each of which is a feature name.
@@ -180,7 +202,6 @@ print features_list
 data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
 
-from sklearn.cross_validation import train_test_split
 features_train, features_test, labels_train, labels_test = \
     train_test_split(features, labels, test_size=0.3, random_state=42)
 
@@ -188,31 +209,20 @@ beta = 1
 folds = 500
 
 cv_train_results_df = pd.DataFrame()
-# cv_train_results_df = fit_cv(GaussianNB(), features_train, labels_train,
-#                              'GaussianNB', beta=beta, folds=folds)
+cv_train_results_df = metrics(GaussianNB(), features_train, labels_train, features_test, labels_test,
+                              beta=beta, folds=folds)
 
-# cv_train_results_df = cv_train_results_df.append(fit_cv(SVC(), features_train, labels_train,
-#                                                         'SVC', beta=beta, folds=folds))
+cv_train_results_df = cv_train_results_df.append(metrics(SVC(), features_train, labels_train, features_test, labels_test,
+                                                         beta=beta, folds=folds))
 
-# cv_train_results_df = cv_train_results_df.append(fit_cv(DecisionTreeClassifier(), features_train, labels_train,
-#                                                         'DecisionTreeClassifier', beta=beta, folds=folds))
-# cv_train_results_df = cv_train_results_df.append(fit_cv(RandomForestClassifier(), features_train, labels_train,
-#                                                         'RandomForestClassifier', beta=beta, folds=folds))
+cv_train_results_df = cv_train_results_df.append(metrics(DecisionTreeClassifier(), features_train, labels_train, features_test, labels_test,
+                                                         beta=beta, folds=folds))
+cv_train_results_df = cv_train_results_df.append(metrics(RandomForestClassifier(), features_train, labels_train, features_test, labels_test,
+                                                         beta=beta, folds=folds))
 
-# cv_train_results_df = cv_train_results_df.append(fit_cv(LogisticRegression(C=10, tol=1), features_train, labels_train,
-#                                                         'LogisticRegression', beta=beta, folds=folds))
+cv_train_results_df = cv_train_results_df.append(metrics(LogisticRegression(C=10, tol=1), features_train, labels_train, features_test, labels_test,
+                                                         beta=beta, folds=folds))
 
-cls = GaussianNB()
-cls.fit(features_train, labels_train)
-test_classifier(cls, my_dataset, features_list)
-
-cls = DecisionTreeClassifier()
-cls.fit(features_train, labels_train)
-test_classifier(cls, my_dataset, features_list)
-
-cls = LogisticRegression()
-cls.fit(features_train, labels_train)
-test_classifier(cls, my_dataset, features_list)
 
 
 # Task 5: Tune your classifier to achieve better than .3 precision and recall
@@ -285,9 +295,8 @@ clf = grid.best_estimator_
 
 
 # Cross validation
-cv_scores = cv_scores(clf, features_train, labels_train, beta=beta)
-cv_train_results_df = cv_train_results_df.append(to_df('final', cv_scores))
-
+cv_train_results_df = cv_train_results_df.append(metrics(clf, features_train, labels_train, features_test, labels_test,
+                                                         beta=beta, folds=folds))
 cv_train_results_df.to_csv('train_results.csv', index=False)
 
 # Task 6: Dump your classifier, dataset, and features_list so anyone can
