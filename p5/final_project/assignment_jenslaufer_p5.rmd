@@ -23,7 +23,7 @@ raw_df = read.csv('raw_data.csv')
 without_nans_df = read.csv('cleaned_data1.csv')
 cleaned_df = read.csv('cleaned_data2.csv')
 kbest_results_df = read.csv('kbest.csv')
-cv_results_df = read.csv('metrics.csv')
+metrics_df = read.csv('metrics.csv')
 
 nulls <- raw_df %>%
   gather(-name, -email_address, -poi, key = "var", value = "val")  %>%
@@ -226,9 +226,11 @@ these features are removed to avoid colinearity.
 
 ## Modeling
 
+The selected features were applied to
+
 ```{r warning=FALSE, echo=FALSE, fig.height=10, fig.width=20, message=FALSE}
-cv_results_df %>%
-  gather(-classifier, -type, key = "var", value = "val")  %>%
+metrics_df %>% 
+  gather(-classifier, -datatype, -tag, key = "var", value = "val")  %>%
   ggplot(aes(x = var, y=val)) +
     geom_point() +
     facet_wrap(~classifier, scales = "free", nrow = 2) + coord_flip()

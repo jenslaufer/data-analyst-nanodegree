@@ -38,25 +38,26 @@ from tester import dump_classifier_and_data, load_classifier_and_data, test_clas
 
 
 def metrics(estimator, features_train, labels_train, features_test,
-            labels_test, beta=1, folds=10):
+            labels_test, tag, beta=1, folds=10):
     estimator.fit(features_train, labels_train)
     cv_results = cv_metrics2(estimator, features_train, labels_train,
                              folds=folds, beta=beta)
     test_results = test_metrics(
         estimator, features_test, labels_test, beta=beta)
 
-    df = to_df(estimator, 'cv', cv_results)
-    df = df.append(to_df(estimator, 'test', test_results))
+    df = to_df(estimator, tag, 'cv', cv_results)
+    df = df.append(to_df(estimator, tag, 'test', test_results))
 
     return df
 
 
-def to_df(estimator, settype, scores):
+def to_df(estimator, tag, settype, scores):
     temp = pd.DataFrame()
     for key, value in scores.iteritems():
         temp[key] = value
     temp['classifier'] = str(estimator)
-    temp['type'] = settype
+    temp['datatype'] = settype
+    temp['tag'] = tag
 
     return temp
 
@@ -262,15 +263,15 @@ beta = 1
 folds = 500
 
 cv_train_results_df = pd.DataFrame()
-cv_train_results_df = metrics(GaussianNB(), features_train, labels_train, features_test, labels_test,
+cv_train_results_df = metrics(GaussianNB(), features_train, labels_train, features_test, labels_test, 'pre',
                               beta=beta, folds=folds)
 
-cv_train_results_df = cv_train_results_df.append(metrics(DecisionTreeClassifier(), features_train, labels_train, features_test, labels_test,
+cv_train_results_df = cv_train_results_df.append(metrics(DecisionTreeClassifier(), features_train, labels_train, features_test, labels_test, 'pre',
                                                          beta=beta, folds=folds))
-cv_train_results_df = cv_train_results_df.append(metrics(RandomForestClassifier(), features_train, labels_train, features_test, labels_test,
+cv_train_results_df = cv_train_results_df.append(metrics(RandomForestClassifier(), features_train, labels_train, features_test, labels_test, 'pre',
                                                          beta=beta, folds=folds))
 
-cv_train_results_df = cv_train_results_df.append(metrics(LogisticRegression(C=10, tol=1), features_train, labels_train, features_test, labels_test,
+cv_train_results_df = cv_train_results_df.append(metrics(LogisticRegression(C=10, tol=1), features_train, labels_train, features_test, labels_test, 'pre',
                                                          beta=beta, folds=folds))
 
 
@@ -344,7 +345,7 @@ clf = grid.best_estimator_
 
 
 # Cross validation
-cv_train_results_df = cv_train_results_df.append(metrics(clf, features_train, labels_train, features_test, labels_test,
+cv_train_results_df = cv_train_results_df.append(metrics(clf, features_train, labels_train, features_test, labels_test, 'tuned',
                                                          beta=beta, folds=folds))
 cv_train_results_df.to_csv('metrics.csv', index=False)
 
