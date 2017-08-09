@@ -64,7 +64,7 @@ def to_df(estimator, tag, settype, scores):
 
 def cv_metrics1(estimator, features, labels,  beta=1, folds=20):
     skf = StratifiedShuffleSplit(
-        n_splits=folds, test_size=0.3, random_state=42)
+        n_splits=folds, test_size=0.2, random_state=42)
 
     accuracy = cross_val_score(
         estimator, features, labels, cv=skf, scoring='accuracy')
@@ -124,10 +124,10 @@ def cv_metrics2(estimator, features, labels,  beta=1, folds=20):
         fbeta = float(((1 + beta**2)) * true_positives) / float((1 + beta**2) *
                                                                 true_positives + (beta**2) * false_negatives + false_positives)
 
-        return {'f{}'.format(beta): [fbeta],
-                'precision': [precision],
-                'recall': [recall],
-                'accuracy': [accuracy]
+        return {'f{}'.format(beta): [round(fbeta, 2)],
+                'precision': [round(precision, 2)],
+                'recall': [round(recall, 2)],
+                'accuracy': [round(accuracy, 2)]
                 }
     except:
         print "Got a divide by zero when trying out:", estimator
@@ -142,10 +142,10 @@ def test_metrics(estimator, features, true_labels,  beta=1):
     accuracy = accuracy_score(true_labels, predicted_labels)
     fbeta = fbeta_score(true_labels, predicted_labels, beta=beta)
 
-    return {'f{}'.format(beta): [fbeta],
-            'precision': [precision],
-            'recall': [recall],
-            'accuracy': [accuracy]
+    return {'f{}'.format(beta): [round(fbeta, 2)],
+            'precision': [round(precision, 2)],
+            'recall': [round(recall, 2)],
+            'accuracy': [round(accuracy, 2)]
             }
 
 # Task 1: Select what features you'll use.
@@ -257,10 +257,10 @@ data = featureFormat(my_dataset, features_list, sort_keys=True)
 labels, features = targetFeatureSplit(data)
 
 features_train, features_test, labels_train, labels_test = \
-    train_test_split(features, labels, test_size=0.3, random_state=42)
+    train_test_split(features, labels, test_size=0.2, random_state=42)
 
 beta = 1
-folds = 500
+folds = 1000
 
 cv_train_results_df = pd.DataFrame()
 cv_train_results_df = metrics(GaussianNB(), features_train, labels_train, features_test, labels_test, 'pre',

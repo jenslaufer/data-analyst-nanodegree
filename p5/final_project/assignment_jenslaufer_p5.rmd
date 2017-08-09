@@ -1,9 +1,9 @@
 ---
 title: "Identifying Fraud from Enron Emails and Financial Data"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document: default
+  html_notebook: default
+  pdf_document: default
 ---
 
 
@@ -84,10 +84,10 @@ unhided the biggest case of account fraud in the US history.
 Kenneth Lay, Jeff Skilling, Andrew Fastow and several other excutives were later 
 sentenced to prison.
 
-The goal of this study is to develop a machine learning model to classify, if a
+The goal of this project is to develop a machine learning model to classify, if a
 person is a so called person of interest (POI), who was involved in fraud.
 
-For the study a dataset with email and financial data of 146 excutives is used. 
+For the project a dataset with email and financial data of 146 excutives is used. 
 The original dataset can be downloaded from 
 (https://www.cs.cmu.edu/enron/enron_mail_20150507.tgz) and was enriched with  
 financial data.
@@ -133,7 +133,7 @@ For financial data the NaN values were replaced with 0.
 
 
 Outliers need to be removed from the dataset. As fraud detection is 
-the goal of the study this has to be done with cautious as some POIs have 
+the goal of the project this has to be done with caution as some POIs have 
 outliers in their financial data. These outliers are
 essential and cannot be thrown away as they characterize a POI. 
 So just undesired outliers can be removed.
@@ -237,7 +237,7 @@ these features are removed to avoid colinearity.
 
 
 
-## Classifier
+## Classifier Evaluation
 
 
 The selected features were applied to 3 different Machine Learning Algorithms:
@@ -250,16 +250,8 @@ The selected features were applied to 3 different Machine Learning Algorithms:
     
 For a first run the default parameters were used to get an impression how these algorithms perform without optimizations. 
 
-The data set is splitted into a set for training and a set for test. The test set is 30% of the 
-training data.
+80% of the data is used for training/cross validation and 20% for testing.
 
-The training set is used for cross validation by splitting the training set 500 times 
-with a test set size of 30%. The metrics are calculated based on the 500 splits. 
-StratifiedShuffleSplit was used to ensure the split is 
-random, but the ratio training to test data is about the same.
-
-The cross validation data set is used for optimizations, the test set just 
-for a final test/proof if the results are sufficient.
 
 The goal was to get a recall and a precision of at least 0.3 and an accuracy as high as possible.
 The f1 is used to evaluate the combination of recall and precision.
@@ -272,17 +264,16 @@ metric_plots(metrics_df, 'pre')
 #### DecisionTreeClassifier
 
 The DecisionTreeClassifier reaches quiet a high accuracy on the cross validation set. The values for recall 
-and precision are over the goal of 0.3 without optimization. But when the test set is applied it can be seen
-that recall and precision are 0, which means that the classifier was not able to identify any POIs correctly
-(number of true positives is 0)
+and precision are touching the goal of 0.3 without optimization. But when the test set is applied it can be seen
+that recall and precision are 0. The classifier fails on the test set as it could not indentify any POIs (true positives)
 
 
 #### GaussianNB
 
 The Gaussian Naive Baise Classifier has a low accuracy on the cross validation sets. The precision is low and the 
-recall is quiet high, which means the  classifier was quiet accurate in finding all the positive samples. The
+recall is quiet high, which means the classifier was quiet accurate in finding all the positive samples. The
 values on the test set are even better. The classifier was able to identify find all positive samples (recall=1),
-but it's ability of finding the negative samples was limited. It seems strange that the classifier performs
+but it's ability of finding the negative samples is limited. It seems strange that the classifier performs
 actually better on the test set than on the cross validation sets.
 
 
@@ -290,12 +281,16 @@ actually better on the test set than on the cross validation sets.
 
 The Logistic Regression classifier had a high accuracy on the cross validation sets, but it's ability to
 identify true POIs correctly (low recall) was limited, while it was quiet accurate in identifying non POIs.
-The results are very similiar on the test set.
+The unoptimized LogisticRegression fails completely on the test set as it cannot identify 
+any POIs (true positives), which is reflected on  a recall and precision score of 0, although the accuracy seems
+OK.
 
 
 
-### Tuning 
+## Classifier Tuning 
 
+The performance of the classifiers with their default parameters
+was not sufficient.  Therefore a parameter tuning is needed.
 
 For tuning GridSearchCV in combination with pipelines is used. The pipeline has 2 stages, one for
 further reducing the dimension of the features and one for estimator optimization. The f1 score
@@ -314,11 +309,15 @@ is reducing linear dimensionality with Singular Value Decomposition.
 A second method of feature reduction is recursive feature elimination and 
 cross-validated selection (RFECV), which ranks the best combination and number of features.
 
+Different parameters for
+the optimizations of the reducers are systematically evaluted by GridSearchCV.
+
 
 #### Estimator optimization stage
 
-In this stage different parameters are applied to GaussianNB, LogisticRegression and 
+In this stage different parameters are systematically applied to GaussianNB, LogisticRegression and 
 DecisionTreeClassifier. 
+
 
 
 
@@ -327,7 +326,7 @@ metric_plots(metrics_df, 'tuned')
 ```
 
 Based on the f1 score, the best classifier is a Logistic Regression 
-classifier and a PCA step before the classifier.
+classifier and a PCA step before applying the features to the classifier.
 
 
 The optimized classifier (in combination with PCA) has good accuracy on the cross validation sets. It's ability to identify POIs is high, as it's recall metric is high. The values of recall and precision are higher than the goal
@@ -336,8 +335,63 @@ of 0.3.
 The classifier and Feature reducer were finally validated on the test set: The specification was met also on the test set, although the score are dropping a little bit too much, which might be a sign of overfitting.
 
 
+## Validation Strategy
 
-### Conclusion
+
+The whole data set is splitted into a trainig set and test set. The test is 20% of the data.
+
+The training set is used for cross validation by splitting up the training set 1000 times 
+with a test set size of 20%. The metrics are calculated based on the 1000 splits. 
+StratifiedShuffleSplit was used to ensure the split is 
+random, but the ratio training to test data is about the same.
+
+
+The cross validation data set is used for optimizations, the test set just 
+for a final test/proof if the results are sufficient.
+
+
+
+
+## Conclusion
+
+Within this project machine learning techniques were used to identify person of interest POI in Enron fraud. The difficulty was, that there are only a few data points (146) and the data set is unbalanced, as there are just 18 POIs in the data set.
+
+First the data was cleaned by replacing NaN with 0 for financial data and with mean for email to_messages and from_messages fields. Then outliers were removed.
+
+Three new features were created: One for summary of financial benefits and two for interaction of persons with POIs. The features were scaled with MinMaxScaling.
+
+Some of the features were then excluded from the feature list by performing a SelectKBest. Most of the features were kept, as in the step for tuning the machine learning algoritms a further feature reduction step was planed.
+
+Three machine learning algorithms were then trained and compared:  GaussianNB, DecisionTreeClassifier and Logistic Regression. The LogisticRegression performed the best out the three without any optimization, but all classifier
+failed on the test set.
+
+The final step was tuning the algorithm. Before the tuning of the algorithms parameters another feature reduction
+step was performed: Principal Component Analysis (PCA) and recursive feature elimination and 
+cross-validated selection (RFECV) were optimized by GridSearchCV in this step. The final step was optimizing different
+parameters on the algorithms, by comparing them systematically
+
+LogisticRegression with a principal component analysis performed the best:
+
+   - PCA: copy=True, iterated_power=7, n_components=0.6, random_state=None, 
+   svd_solver=‘auto’, tol=0.0, whiten=False
+   - LogisticRegression: C=0.05, class_weight=‘balanced’,
+dual=False, fit_intercept=True, intercept_scaling=1, max_iter=100, multi_class=‘ovr’, n_jobs=1,
+penalty=‘l2’, random_state=None, solver=‘liblinear’, tol=0.1, verbose=0, warm_start=False))])
+Pipeline(steps=[(‘reduce_dim’, PCA(copy=True, iterated_power=7, n_components=0.6, random_state=None,
+svd_solver=‘auto’, tol=0.0, whiten=False
+
+```{r warning=FALSE, echo=FALSE, message=FALSE}
+summary <-   metrics_df %>% filter(tag=='tuned')
+summary <- summary[ , !(names(summary) %in% c('tag', 'classifier'))]
+```
+
+```{r warning=FALSE, echo=FALSE, message=FALSE}
+summary %>%
+  kable(col.names=c('f1', 'accuracy','precision','recall', 'Dataset'))
+```
+
+The classifier has a high recall, which means it is good in identifying actual 
+POIs.
 
 
 
