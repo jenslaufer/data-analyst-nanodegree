@@ -37,54 +37,36 @@ from feature_format import featureFormat, targetFeatureSplit
 from tester import dump_classifier_and_data, load_classifier_and_data, test_classifier
 
 
-def metrics(estimator, features_train, labels_train, features_test,
+def metrics(estimator, feature_list, features_train, labels_train, features_test,
             labels_test, tag, beta=1, folds=10):
     estimator.fit(features_train, labels_train)
-    cv_results = cv_metrics2(estimator, features_train, labels_train,
-                             folds=folds, beta=beta)
-    test_results = test_metrics(
-        estimator, features_test, labels_test, beta=beta)
+    cv_results = cv_metrics(estimator, features_train, labels_train,
+                            folds=folds, beta=beta)
 
-    df = to_df(estimator, tag, 'cv', cv_results)
-    df = df.append(to_df(estimator, tag, 'test', test_results))
+    df = to_df(estimator, feature_list, tag, 'cv', cv_results)
+
+    if features_test != None and labels_test != None:
+        test_results = test_metrics(
+            estimator, features_test, labels_test, beta=beta)
+        df = df.append(to_df(estimator, feature_list,
+                             tag, 'test', test_results))
 
     return df
 
 
-def to_df(estimator, tag, settype, scores):
+def to_df(estimator, feature_list, tag, settype, scores):
     temp = pd.DataFrame()
     for key, value in scores.iteritems():
         temp[key] = value
     temp['classifier'] = str(estimator)
     temp['datatype'] = settype
     temp['tag'] = tag
+    temp['features'] = str(feature_list[1:])
 
     return temp
 
 
-def cv_metrics1(estimator, features, labels,  beta=1, folds=20):
-    skf = StratifiedShuffleSplit(
-        n_splits=folds, test_size=0.2, random_state=42)
-
-    accuracy = cross_val_score(
-        estimator, features, labels, cv=skf, scoring='accuracy')
-    recall = cross_val_score(
-        estimator, features, labels, cv=skf, scoring='recall')
-    precision = cross_val_score(
-        estimator, features, labels, cv=skf, scoring='precision')
-    fbeta = cross_val_score(estimator, features, labels, cv=skf,
-                            scoring=make_scorer(fbeta_score, beta=beta))
-
-    print fbeta
-
-    return {'f{}'.format(beta): fbeta,
-            'precision': [precision.mean()],
-            'recall': [recall.mean()],
-            'accuracy': [accuracy.mean()]
-            }
-
-
-def cv_metrics2(estimator, features, labels,  beta=1, folds=20):
+def cv_metrics(estimator, features, labels,  beta=1, folds=20):
     cv = StratifiedShuffleSplit(
         n_splits=folds, random_state=42)
     true_negatives = 0
@@ -239,12 +221,12 @@ features_list.remove('loan_advances')
 features_list.remove('to_messages')
 features_list.remove('from_messages')
 
+
 features_list.remove('salary')
 features_list.remove('bonus')
 features_list.remove('total_stock_value')
 features_list.remove('exercised_stock_options')
 
-print features_list
 
 # Task 4: Try a varity of classifiers
 # Please name your classifier clf for easy export below.
@@ -263,13 +245,13 @@ beta = 1
 folds = 1000
 
 cv_train_results_df = pd.DataFrame()
-cv_train_results_df = metrics(GaussianNB(), features_train, labels_train, features_test, labels_test, 'pre',
+cv_train_results_df = metrics(GaussianNB(), features_list, features_train, labels_train, features_test, labels_test, 'pre',
                               beta=beta, folds=folds)
 
-cv_train_results_df = cv_train_results_df.append(metrics(DecisionTreeClassifier(), features_train, labels_train, features_test, labels_test, 'pre',
+cv_train_results_df = cv_train_results_df.append(metrics(DecisionTreeClassifier(), features_list, features_train, labels_train, features_test, labels_test, 'pre',
                                                          beta=beta, folds=folds))
 
-cv_train_results_df = cv_train_results_df.append(metrics(LogisticRegression(C=10, tol=1), features_train, labels_train, features_test, labels_test, 'pre',
+cv_train_results_df = cv_train_results_df.append(metrics(LogisticRegression(C=10, tol=1), features_list, features_train, labels_train, features_test, labels_test, 'pre',
                                                          beta=beta, folds=folds))
 
 
@@ -342,10 +324,9 @@ grid.fit(features_train, labels_train)
 clf = grid.best_estimator_
 
 
-# Cross validation
-cv_train_results_df = cv_train_results_df.append(metrics(clf, features_train, labels_train, features_test, labels_test, 'tuned',
+# Cross validation of final classifier on selected features
+cv_train_results_df = cv_train_results_df.append(metrics(clf, features_list, features_train, labels_train, features_test, labels_test, 'tuned',
                                                          beta=beta, folds=folds))
-cv_train_results_df.to_csv('metrics.csv', index=False)
 
 # Task 6: Dump your classifier, dataset, and features_list so anyone can
 # check your results. You do not need to change anything below, but make sure
@@ -355,3 +336,64 @@ cv_train_results_df.to_csv('metrics.csv', index=False)
 dump_classifier_and_data(clf, my_dataset, features_list)
 
 test_classifier(clf, my_dataset, features_list)
+
+
+#
+# Quality of classifier on all features without new features
+
+features_list = list(df.columns)
+features_list.remove('email_address')
+features_list.remove('name')
+features_list.remove('poi')
+features_list.remove('loan_advances')
+
+features_list.remove('to_messages')
+features_list.remove('from_messages')
+
+features_list.remove('total_financial_benefits')
+features_list.remove('message_to_poi_ratio')
+features_list.remove('message_from_poi_ratio')
+
+features_list = ['poi'] + features_list
+
+data = featureFormat(my_dataset, features_list, sort_keys=True)
+labels, features = targetFeatureSplit(data)
+
+features_train, features_test, labels_train, labels_test = \
+    train_test_split(features, labels, test_size=0.2, random_state=42)
+
+cv_train_results_df = cv_train_results_df.append(metrics(clf, features_list, features,
+                                                         labels, None, None,
+                                                         'no_new_features', beta=beta, folds=folds))
+
+
+features_list = list(df.columns)
+features_list.remove('email_address')
+features_list.remove('name')
+features_list.remove('poi')
+
+features_list.remove('loan_advances')
+
+features_list.remove('to_messages')
+features_list.remove('from_messages')
+
+
+features_list.remove('salary')
+features_list.remove('bonus')
+features_list.remove('total_stock_value')
+features_list.remove('exercised_stock_options')
+
+features_list = ['poi'] + features_list
+
+data = featureFormat(my_dataset, features_list, sort_keys=True)
+labels, features = targetFeatureSplit(data)
+
+features_train, features_test, labels_train, labels_test = \
+    train_test_split(features, labels, test_size=0.2, random_state=42)
+
+cv_train_results_df = cv_train_results_df.append(metrics(clf, features_list, features,
+                                                         labels, None, None,
+                                                         'all_new_features', beta=beta, folds=folds))
+
+
+cv_train_results_df.to_csv('metrics.csv', index=False)
