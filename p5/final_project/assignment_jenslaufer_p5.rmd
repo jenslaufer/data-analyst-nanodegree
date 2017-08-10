@@ -1,9 +1,9 @@
 ---
 title: "Identifying Fraud from Enron Emails and Financial Data"
 output:
-  html_document: default
-  html_notebook: default
   pdf_document: default
+  html_notebook: default
+  html_document: default
 ---
 
 
@@ -51,6 +51,7 @@ metric_plots <- function(metrics_df, filter.tag){
   metrics_df %>% 
   filter(tag==filter.tag) %>%
   gather(-classifier, -datatype, -tag, key = "var", value = "val")  %>%
+  filter(var != 'accuracy') %>%
   ggplot(aes(x = datatype, y=val)) +
     geom_bar(stat='identity', width=0.05, fill=c('blue'), alpha=0.4) +
     geom_text(aes(label=round(val,2))) +
@@ -84,8 +85,8 @@ unhided the biggest case of account fraud in the US history.
 Kenneth Lay, Jeff Skilling, Andrew Fastow and several other excutives were later 
 sentenced to prison.
 
-The goal of this project is to develop a machine learning model to classify, if a
-person is a so called person of interest (POI), who was involved in fraud.
+The goal of this project is to develop a machine learning model to classify, 
+if a person is a so called person of interest (POI), who was involved in fraud.
 
 For the project a dataset with email and financial data of 146 excutives is used. 
 The original dataset can be downloaded from 
@@ -142,7 +143,8 @@ So just undesired outliers can be removed.
 outlier_plots(without_nans_df) 
 ```
 
-From the figure we can see a outlier for the POI 'TOTAL'. These seems more a sum rather than a person.
+From the figure we can see a outlier for the POI 'TOTAL'. 
+These seems more a sum rather than a person.
 
 The following outliers were removed:
 
@@ -194,15 +196,22 @@ outliers.
    
    - message_from_poi_ratio:  Ratio a person receives  messages from POI
 
-The message ratios were created as it seems possible that POIs communicate more likely with each other.
+The message ratios were created as it seems possible that POIs 
+communicate more likely with each other.
 
-'total_financial_benefits' was created as it summarizes all financial benefits a person gets. 
+'total_financial_benefits' was created as it summarizes all 
+financial benefits a person gets. 
 
 
-Missing values of 'from_messages' and 'to_messages' were replaced with the mean of these fields over the whole data set to not tap into division by zero problems.
+Missing values of 'from_messages' and 'to_messages' were replaced 
+with the mean of these fields over the whole data set to not tap 
+into division by zero problems.
 
 Feature scaling was performed after the creation of message fraction 
-features and before the creation of 'total_financial_benefits' as some algorithms like logistic regression and SVM will not work properly without scaling.  It was done before the fraction calculation to avoid division by 0 problems.
+features and before the creation of 'total_financial_benefits' 
+as some algorithms like logistic regression and SVM will not 
+work properly without scaling.  
+It was done before the fraction calculation to avoid division by 0 problems.
 
 
 
@@ -224,15 +233,21 @@ features and before the creation of 'total_financial_benefits' as some algorithm
 
 ```
 
-As mentioned before 'loan_advances' just have 3 data points. It was therefore removed before a SelectKBest Analysis.
+As mentioned before 'loan_advances' just have 3 data points. 
+It was therefore removed before a SelectKBest Analysis.
 
-A univariate feature exploration was then performed with SelectKBest. As it can be seen from the figure the new created feature
-'total_financial_benefits' has the highest score. The new feature 'fraction_of_messages_to_poi'
-seems also promising, whereas the 'fraction_of_messages_to_poi' has a low score.
+A univariate feature exploration was then performed with SelectKBest. 
+As it can be seen from the figure the new created feature
+'total_financial_benefits' has the highest score. 
+The new feature 'fraction_of_messages_to_poi'
+seems also promising, whereas the 'fraction_of_messages_to_poi' 
+has a low score.
 
-'to_messages' and 'from_messages' have a low score and are also used for the calculation of the new features, so they can be removed.
+'to_messages' and 'from_messages' have a low score and are also 
+used for the calculation of the new features, so they can be removed.
 
-As the total_financial_benefits is the sum of 'salary', 'bonus', 'total_stock_value', 'exercised_stock_options'
+As the total_financial_benefits is the sum of 'salary', 'bonus', 
+'total_stock_value', 'exercised_stock_options'
 these features are removed to avoid colinearity.
 
 
@@ -248,13 +263,32 @@ The selected features were applied to 3 different Machine Learning Algorithms:
      
   - Logistic Regression
     
-For a first run the default parameters were used to get an impression how these algorithms perform without optimizations. 
+For a first run the default parameters were used to get an impression 
+how these algorithms perform without optimizations. 
 
 80% of the data is used for training/cross validation and 20% for testing.
 
 
-The goal was to get a recall and a precision of at least 0.3 and an accuracy as high as possible.
-The f1 is used to evaluate the combination of recall and precision.
+#### Definition of optimization/validation metrics
+
+
+Within the project recall, precision and f1 is used for optimization and validation. 
+The metrics are defined as follows:
+
+
+
+   - **recall**:   Out of all POIs which are predicted as positive, how many are truly belong to positive case. 
+   A higher recall score would mean less false negatives, which means in this case if there are POIs in the datset, an algorithm has good chance to identify them.
+   - **precision**: Out of all POIs that are truly positive, how many are correctly classified as positive. 
+   A higher precision 
+   score would mean less false positives.  A high precision means POIs identified by an algorithm tended to be correct.
+  - **f1**:  It is a harmonic mean of recall and precision. 
+  It is a metric that combines recall and precision into single metric.
+  
+  
+
+The goal was to get a recall and a precision of at least 0.3.
+The f1 is used as well, as it combines both recall and precision into one metric.
 
 
 ```{r warning=FALSE, echo=FALSE, fig.height=10, fig.width=20, message=FALSE}
@@ -263,34 +297,41 @@ metric_plots(metrics_df, 'pre')
 
 #### DecisionTreeClassifier
 
-The DecisionTreeClassifier reaches quiet a high accuracy on the cross validation set. The values for recall 
-and precision are touching the goal of 0.3 without optimization. But when the test set is applied it can be seen
-that recall and precision are 0. The classifier fails on the test set as it could not indentify any POIs (true positives)
+For the DecisionTreeClassifier the values for recall 
+and precision are touching the goal of 0.3 without optimization on the
+cross validation set.
+But when the test set is applied it can be seen
+that recall and precision are 0, so the model was actually not able 
+to identify any true POI in the test set.
 
 
 #### GaussianNB
 
-The Gaussian Naive Baise Classifier has a low accuracy on the cross validation sets. The precision is low and the 
-recall is quiet high, which means the classifier was quiet accurate in finding all the positive samples. The
-values on the test set are even better. The classifier was able to identify find all positive samples (recall=1),
-but it's ability of finding the negative samples is limited. It seems strange that the classifier performs
-actually better on the test set than on the cross validation sets.
+The Gaussian Naive Baise Classifier has a low precision  and a high 
+recall on the cross validation set.
+The metrics on the test set are better than on the cross validation set. The recall is 1,
+so the model was able to find any true POI in the set, but classified also many non POI
+incorrectly as POIs reflected by the low precision.
 
 
 #### Logistic Regression
 
-The Logistic Regression classifier had a high accuracy on the cross validation sets, but it's ability to
-identify true POIs correctly (low recall) was limited, while it was quiet accurate in identifying non POIs.
-The unoptimized LogisticRegression fails completely on the test set as it cannot identify 
-any POIs (true positives), which is reflected on  a recall and precision score of 0, although the accuracy seems
-OK.
+The Logistic Regression has a relatively high precision on the cross validation set.
+The recall is over the goal of 0.3. When it comes to the validation set, the model
+fails as both precision and recall are 0.
 
 
 
 ## Classifier Tuning 
 
-The performance of the classifiers with their default parameters
-was not sufficient.  Therefore a parameter tuning is needed.
+The models of the unoptimized classifiers that are used before 
+fail on the test set. Therefore tuning is needed.
+
+Machine learning algorithms are parameterized and
+modfication of the parameters influence the 
+outcome of the learning process. The objective
+of algorithm tuning is to find the best parameters
+for the income features. The search problem can be automated by applying different parameters from a parameter grid.
 
 For tuning GridSearchCV in combination with pipelines is used. The pipeline has 2 stages, one for
 further reducing the dimension of the features and one for estimator optimization. The f1 score
@@ -325,12 +366,13 @@ DecisionTreeClassifier.
 metric_plots(metrics_df, 'tuned')
 ```
 
-Based on the f1 score, the best classifier is a Logistic Regression 
+Based on the f1 score, which was used by the pipeline to rate the classifiers
+the best classifier is a Logistic Regression 
 classifier and a PCA step before applying the features to the classifier.
 
 
-The optimized classifier (in combination with PCA) has good accuracy on the cross validation sets. It's ability to identify POIs is high, as it's recall metric is high. The values of recall and precision are higher than the goal
-of 0.3.  
+The optimized classifier (in combination with PCA) has a high recall and a 
+precision over the target value of 0.3. It's ability to identify true POIs correctly is good, as it's recall metric is high. 
 
 The classifier and Feature reducer were finally validated on the test set: The specification was met also on the test set, although the score are dropping a little bit too much, which might be a sign of overfitting.
 
@@ -338,7 +380,19 @@ The classifier and Feature reducer were finally validated on the test set: The s
 ## Validation Strategy
 
 
-The whole data set is splitted into a trainig set and test set. The test is 20% of the data.
+Validation or testing the model is the final step to proof, if a model after training is able to generalize. For validation several metrics can be used, like recall, precision and f1 as explained before.
+
+There are three main scenarios which can occur:
+
+   - Underfitting: The model cannot capture the underlying trend in the data. The model has a poor predictive power. This is reflected in a low value on the used metric both on the training and test set.
+   - Overfitting: The model describes the noise instead of the underlying relationship. This is reflected in  a high value of the used validation metric on the training data and a strong drop of the metric on the test data.
+   - "Perfect fitting": The model has a strong preditive power both on the test and training set, which is reflected in a high value of the used metric on both sets. This scenario is the goal of any optimization of a machine learning model.
+
+For validation the inital data set is splitted into a set for training and another one for test.
+A third set can be used, which is called cross validation data set. This is used for optimization of the model and
+the test set is just used for a final check. In cases when not so many data points available the data set can be used for cross validation by splitting it several times into a training set and test set.
+
+Within this project the whole data set is splitted into a trainig set and test set. The test is 20% of the data.
 
 The training set is used for cross validation by splitting up the training set 1000 times 
 with a test set size of 20%. The metrics are calculated based on the 1000 splits. 
@@ -379,13 +433,13 @@ dual=False, fit_intercept=True, intercept_scaling=1, max_iter=100, multi_class=�
 penalty=‘l2’, random_state=None, solver=‘liblinear’, tol=0.1, verbose=0, warm_start=False
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
-summary <-   metrics_df %>% filter(tag=='tuned')
-summary <- summary[ , !(names(summary) %in% c('tag', 'classifier'))]
+summary <-   metrics_df %>% filter(tag=='tuned') 
+summary <- summary[ , !(names(summary) %in% c('tag', 'classifier','accuracy'))]
 ```
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 summary %>%
-  kable(col.names=c('f1', 'accuracy','precision','recall', 'Dataset'))
+  kable(col.names=c('f1', 'precision','recall', 'Dataset'))
 ```
 
 The classifier has a high recall, which means it is good in identifying actual 
