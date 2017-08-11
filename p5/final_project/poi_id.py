@@ -253,6 +253,9 @@ features_list.remove('bonus')
 features_list.remove('total_stock_value')
 features_list.remove('exercised_stock_options')
 
+features_list.remove('message_from_poi_ratio')
+features_list.remove('message_to_poi_ratio')
+
 
 # Task 4: Try a varity of classifiers
 # Please name your classifier clf for easy export below.
@@ -406,6 +409,7 @@ cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_data
                                                 'exercised_stock_options',
                                                 'message_to_poi_ratio', 'message_from_poi_ratio'],
                                                'only_total_financial_benefits', beta, folds)
+
 
 cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, top_10_feature_list,
                                                [],

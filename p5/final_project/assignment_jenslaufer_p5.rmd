@@ -238,7 +238,7 @@ axes_limits = c('only_message_from_poi_ratio',
                               'no_new_features', 'top_5_feature_list_from_kbest',
                               'top_10_feature_list_from_kbest', 'only_message_to_poi_ratio',
                               'all_new_features',  
-                              'top_15_feature_list_from_kbest', 'only_total_financial_benefits'
+                              'top_15_feature_list_from_kbest', 'only_total_financial_benefits', 'only_total_financial_benefits_with_messages'
                               )
 metrics_df %>% 
   filter(tag!='pre') %>%
@@ -249,7 +249,7 @@ metrics_df %>%
     geom_bar(aes(fill=tag), stat='identity', width=0.05, alpha=0.4) +
     geom_text(aes(label=round(val,2))) +
     scale_x_discrete(limits=axes_limits,breaks=c('')) +
-    scale_fill_discrete(labels=axes_limits)
+    scale_fill_discrete(limits =axes_limits) +
     geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
     facet_grid(datatype ~ var) 
   
