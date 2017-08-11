@@ -54,7 +54,7 @@ metric_plots <- function(metrics_df, filter.tag){
   filter(var != 'accuracy') %>%
   ggplot(aes(x = datatype, y=val)) +
     geom_bar(stat='identity', width=0.05, fill=c('blue'), alpha=0.4) +
-    geom_text(aes(label=round(val,2))) +
+    geom_text(aes(label=round(val,3))) +
     geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
     facet_grid(var ~ classifier) 
   
@@ -69,7 +69,7 @@ features_metric_plots <- function(metrics_df){
   filter(var != 'accuracy') %>%
   ggplot(aes(x = datatype, y=val)) +
     geom_bar(stat='identity', width=0.05, fill=c('blue'), alpha=0.4) +
-    geom_text(aes(label=round(val,2))) +
+    geom_text(aes(label=round(val,3))) +
     geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
     facet_wrap(tag ~ var) 
   
@@ -288,7 +288,7 @@ metrics_df %>%
   filter(var != 'accuracy') %>%
   ggplot(aes(x = tag, y=val)) +
     geom_bar(aes(fill=tag), stat='identity', width=0.05, alpha=0.4) +
-    geom_text(aes(label=round(val,2))) +
+    geom_text(aes(label=round(val,3))) +
     scale_x_discrete(limits=axes_limits,breaks=c('')) +
     scale_fill_discrete(limits =axes_limits) +
     geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
