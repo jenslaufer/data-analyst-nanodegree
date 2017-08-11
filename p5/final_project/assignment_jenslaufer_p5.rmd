@@ -235,11 +235,15 @@ It was done before the fraction calculation to avoid division by 0 problems.
 ```{r warning=FALSE, echo=FALSE, fig.height=8, fig.width=16, message=FALSE}
 #features_metric_plots(metrics_df)
 axes_limits = c('only_message_from_poi_ratio',
-                              'no_new_features', 'top_5_feature_list_from_kbest',
-                              'top_10_feature_list_from_kbest', 'only_message_to_poi_ratio',
-                              'all_new_features',  
-                              'top_15_feature_list_from_kbest', 'only_total_financial_benefits', 'only_total_financial_benefits_with_messages'
-                              )
+                'only_message_to_poi_ratio', 
+                'only_total_financial_benefits', 
+                'no_new_features',
+                'all_new_features',
+                'top_10_feature_list_from_kbest',
+                'top_5_feature_list_from_kbest',
+                'top_15_feature_list_from_kbest')
+
+
 metrics_df %>% 
   filter(tag!='pre') %>%
   filter(tag!='tuned') %>%

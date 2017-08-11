@@ -54,8 +54,8 @@ def metrics_for_feature_list(clf, df, dataset, features_list, feature_exclusions
     features_train, features_test, labels_train, labels_test = \
         train_test_split(features, labels, test_size=0.2, random_state=42)
 
-    return df.append(metrics(clf, features_list, features,
-                             labels, None, None,
+    return df.append(metrics(clf, features_list, features_train,
+                             labels_train, features_test, labels_test,
                              tag, beta=beta, folds=folds))
 
 
@@ -233,6 +233,7 @@ kbest = SelectKBest(k='all')
 kbest.fit(features, labels)
 scores = zip(features_list[1:], kbest.scores_)
 scores.sort(key=lambda tup: tup[1], reverse=True)
+
 top_15_feature_list = list(zip(*scores)[0])[0:15]
 top_10_feature_list = list(zip(*scores)[0])[0:10]
 top_5_feature_list = list(zip(*scores)[0])[0:10]
@@ -247,14 +248,11 @@ features_list.remove('loan_advances')
 features_list.remove('to_messages')
 features_list.remove('from_messages')
 
-
 features_list.remove('salary')
 features_list.remove('bonus')
 features_list.remove('total_stock_value')
 features_list.remove('exercised_stock_options')
 
-features_list.remove('message_from_poi_ratio')
-features_list.remove('message_to_poi_ratio')
 
 
 # Task 4: Try a varity of classifiers
