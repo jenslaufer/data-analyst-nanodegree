@@ -236,7 +236,7 @@ scores.sort(key=lambda tup: tup[1], reverse=True)
 
 top_15_feature_list = list(zip(*scores)[0])[0:15]
 top_10_feature_list = list(zip(*scores)[0])[0:10]
-top_5_feature_list = list(zip(*scores)[0])[0:10]
+top_5_feature_list = list(zip(*scores)[0])[0:5]
 
 pd.DataFrame(scores, columns=[
              'var', 'score']).to_csv('kbest.csv',

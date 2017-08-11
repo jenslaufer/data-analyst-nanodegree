@@ -241,43 +241,63 @@ It was done before the fraction calculation to avoid division by 0 problems.
   ggplot(aes(x=var, y=score)) +
   geom_bar(stat='identity', alpha=0.5, fill=c('red')) +
   scale_x_discrete(limits=rev(as.factor(kbest_arranged$var))) +
-  labs(y='Score', x='Feature', size='Number of available features', 
+  labs(y='f1 Score', x='Feature', size='Number of available features', 
        title='KBest Scores') +
   coord_flip()
 
 ```
 
 As mentioned before 'loan_advances' just have 3 data points. 
-It was therefore removed before a SelectKBest Analysis.
+The feature was therefore excluded from the SelectKBest Analysis.
 
-A univariate feature exploration was then performed with SelectKBest. 
-As it can be seen from the figure the new created feature
-'total_financial_benefits' has the highest score. 
-The new feature 'fraction_of_messages_to_poi'
-seems also promising, whereas the 'fraction_of_messages_to_poi' 
-has a low score.
+The goal of the SelectKBest Analysis was to do a 
+univariate feature exploration and get a rank of the
+features to select the different feature sets manually. 
+Although SelectKBest
+would be able to select the features automatically, this was 
+avoided as the new engineered features are 
+correlated with the features they are calculated from. This can lead
+to colinearity problems.
 
-'to_messages' and 'from_messages' have a low score and are also 
-used for the calculation of the new features, so they can be removed.
-
-As the total_financial_benefits is the sum of 'salary', 'bonus', 
-'total_stock_value', 'exercised_stock_options'
-these features are removed to avoid colinearity.
+The f1 score is used for SelectKBest for the scores.
 
 
 
-### Quality of features
+### Evaluated feature sets
+
+
+Several feature sets were evaluated on the final classifier. 
+There are three sets based on the results
+of SelectKBest. One set with 5 features, one with 10 and one with 15
+features (top_5_feature_list_from_kbest, top_10_feature_list_from_kbest,
+top_15_feature_list_from_kbest). Then there are 3 sets with one of the new 
+features individually (only_message_to_poi_ratio, only_message_from_poi_ratio, 
+only_total_financial_benefits). 
+Then a set with all new features and one with all new features left out 
+(no_new_features, all_new_features):
+
+
+```{r  warning=FALSE, echo=FALSE, fig.height=8, fig.width=16, message=FALSE}
+metrics_df  %>%
+  group_by(tag) %>% 
+  summarise(features=first(features)) %>%
+  filter(tag!='pre' & tag!='tuned') %>%
+  kable(col.names=c('Name', 'Feature Set'))
+
+```
+
 
 
 ```{r warning=FALSE, echo=FALSE, fig.height=8, fig.width=16, message=FALSE}
 #features_metric_plots(metrics_df)
-axes_limits = c('only_message_from_poi_ratio',
+axes_limits = c(
+                'top_5_feature_list_from_kbest', 
+                'only_message_from_poi_ratio',
                 'only_message_to_poi_ratio', 
-                'only_total_financial_benefits', 
+                'only_total_financial_benefits',
+                'top_10_feature_list_from_kbest',
                 'no_new_features',
                 'all_new_features',
-                'top_10_feature_list_from_kbest',
-                'top_5_feature_list_from_kbest',
                 'top_15_feature_list_from_kbest')
 
 
@@ -295,7 +315,19 @@ metrics_df %>%
     facet_grid(datatype ~ var) 
   
 ```
+It can be seen that the feature set with the top 15 features from SelectKBest
+is having the best results for f1 on the cross validation set. 
+But there is a strong drop of the metric on the test set for this feature set.
+This might be a result of colinearity as mentioned before.
 
+The second best feature set on the cross validation set is the feature set 
+with all the new features. Features that are used for the calculation of the
+new features are left out here for avoiding colinearity.
+The results for f1  for this feature set is dropping on the test set, but the values
+are still above the
+limits of 0.3 on the test set. This feature set is the only one with a f1 score
+above the limits of 0.3 on the test set. 
+This is the feature set which is used for training of the final classifier.
 
 
 ## Classifier Evaluation
@@ -472,11 +504,12 @@ LogisticRegression with a principal component analysis performed the best:
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 summary <-   metrics_df %>% filter(tag=='tuned') 
 ```
-   - Features: `r summary$features[1]`
+   - **Features**: `r summary$features[1]`
 
-   - PCA: copy=True, iterated_power=7, n_components=0.6, random_state=None, 
+   - **PCA**: copy=True, iterated_power=7, n_components=0.6, random_state=None, 
    svd_solver=‘auto’, tol=0.0, whiten=False
-   - LogisticRegression: C=0.05, class_weight=‘balanced’,
+   
+   - **LogisticRegression**: C=0.05, class_weight=‘balanced’,
 dual=False, fit_intercept=True, intercept_scaling=1, max_iter=100, multi_class=‘ovr’, n_jobs=1,
 penalty=‘l2’, random_state=None, solver=‘liblinear’, tol=0.1, verbose=0, warm_start=False
 
@@ -484,14 +517,11 @@ penalty=‘l2’, random_state=None, solver=‘liblinear’, tol=0.1, verbose=0,
 
 ```{r warning=FALSE, echo=FALSE, message=FALSE}
 summary <- summary[ , !(names(summary) %in% c('tag', 'classifier','accuracy', 'features'))]
-```
-
-```{r warning=FALSE, echo=FALSE, message=FALSE}
 summary %>%
-  kable(col.names=c('f1', 'precision','recall', 'Dataset'))
+  kable(digits = 2, col.names=c('f1', 'precision', 'recall', 'Data Type'))
 ```
 
-The classifier has a high recall, which means it is good in identifying actual 
+The classifier has a high recall, which means it is good in identifying true 
 POIs.
 
 
