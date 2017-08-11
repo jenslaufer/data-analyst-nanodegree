@@ -128,10 +128,10 @@ def cv_metrics(estimator, features, labels,  beta=1, folds=20):
         fbeta = float(((1 + beta**2)) * true_positives) / float((1 + beta**2) *
                                                                 true_positives + (beta**2) * false_negatives + false_positives)
 
-        return {'f{}'.format(beta): [round(fbeta, 2)],
-                'precision': [round(precision, 2)],
-                'recall': [round(recall, 2)],
-                'accuracy': [round(accuracy, 2)]
+        return {'f{}'.format(beta): [round(fbeta, 3)],
+                'precision': [round(precision, 3)],
+                'recall': [round(recall, 3)],
+                'accuracy': [round(accuracy, 3)]
                 }
     except:
         print "Got a divide by zero when trying out:", estimator
@@ -146,10 +146,10 @@ def test_metrics(estimator, features, true_labels,  beta=1):
     accuracy = accuracy_score(true_labels, predicted_labels)
     fbeta = fbeta_score(true_labels, predicted_labels, beta=beta)
 
-    return {'f{}'.format(beta): [round(fbeta, 2)],
-            'precision': [round(precision, 2)],
-            'recall': [round(recall, 2)],
-            'accuracy': [round(accuracy, 2)]
+    return {'f{}'.format(beta): [round(fbeta, 3)],
+            'precision': [round(precision, 3)],
+            'recall': [round(recall, 3)],
+            'accuracy': [round(accuracy, 3)]
             }
 
 # Task 1: Select what features you'll use.
@@ -252,7 +252,6 @@ features_list.remove('salary')
 features_list.remove('bonus')
 features_list.remove('total_stock_value')
 features_list.remove('exercised_stock_options')
-
 
 
 # Task 4: Try a varity of classifiers
