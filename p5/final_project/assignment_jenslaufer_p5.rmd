@@ -234,7 +234,12 @@ It was done before the fraction calculation to avoid division by 0 problems.
 
 ```{r warning=FALSE, echo=FALSE, fig.height=8, fig.width=16, message=FALSE}
 #features_metric_plots(metrics_df)
-
+axes_limits = c('only_message_from_poi_ratio',
+                              'no_new_features', 'top_5_feature_list_from_kbest',
+                              'top_10_feature_list_from_kbest', 'only_message_to_poi_ratio',
+                              'all_new_features',  
+                              'top_15_feature_list_from_kbest', 'only_total_financial_benefits'
+                              )
 metrics_df %>% 
   filter(tag!='pre') %>%
   filter(tag!='tuned') %>%
@@ -243,7 +248,8 @@ metrics_df %>%
   ggplot(aes(x = tag, y=val)) +
     geom_bar(aes(fill=tag), stat='identity', width=0.05, alpha=0.4) +
     geom_text(aes(label=round(val,2))) +
-    scale_x_discrete(breaks=c('')) +
+    scale_x_discrete(limits=axes_limits,breaks=c('')) +
+    scale_fill_discrete(labels=axes_limits)
     geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
     facet_grid(datatype ~ var) 
   

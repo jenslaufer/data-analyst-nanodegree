@@ -37,6 +37,28 @@ from feature_format import featureFormat, targetFeatureSplit
 from tester import dump_classifier_and_data, load_classifier_and_data, test_classifier
 
 
+def metrics_for_feature_list(clf, df, dataset, features_list, feature_exclusions, tag, beta, folds):
+    try:
+        features_list.remove('poi')
+    except:
+        pass
+
+    for feature in feature_exclusions:
+        features_list.remove(feature)
+
+    features_list = ['poi'] + features_list
+
+    data = featureFormat(dataset, features_list, sort_keys=True)
+    labels, features = targetFeatureSplit(data)
+
+    features_train, features_test, labels_train, labels_test = \
+        train_test_split(features, labels, test_size=0.2, random_state=42)
+
+    return df.append(metrics(clf, features_list, features,
+                             labels, None, None,
+                             tag, beta=beta, folds=folds))
+
+
 def metrics(estimator, feature_list, features_train, labels_train, features_test,
             labels_test, tag, beta=1, folds=10):
     estimator.fit(features_train, labels_train)
@@ -210,6 +232,10 @@ labels, features = targetFeatureSplit(data)
 kbest = SelectKBest(k='all')
 kbest.fit(features, labels)
 scores = zip(features_list[1:], kbest.scores_)
+scores.sort(key=lambda tup: tup[1], reverse=True)
+top_15_feature_list = list(zip(*scores)[0])[0:15]
+top_10_feature_list = list(zip(*scores)[0])[0:10]
+top_5_feature_list = list(zip(*scores)[0])[0:10]
 
 pd.DataFrame(scores, columns=[
              'var', 'score']).to_csv('kbest.csv',
@@ -341,59 +367,57 @@ test_classifier(clf, my_dataset, features_list)
 #
 # Quality of classifier on all features without new features
 
-features_list = list(df.columns)
-features_list.remove('email_address')
-features_list.remove('name')
-features_list.remove('poi')
-features_list.remove('loan_advances')
 
-features_list.remove('to_messages')
-features_list.remove('from_messages')
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, list(df.columns),
+                                               ['email_address', 'name',
+                                                'loan_advances', 'to_messages', 'from_messages',
+                                                'total_financial_benefits',
+                                                'message_to_poi_ratio'],
+                                               'only_message_from_poi_ratio', beta, folds)
 
-features_list.remove('total_financial_benefits')
-features_list.remove('message_to_poi_ratio')
-features_list.remove('message_from_poi_ratio')
-
-features_list = ['poi'] + features_list
-
-data = featureFormat(my_dataset, features_list, sort_keys=True)
-labels, features = targetFeatureSplit(data)
-
-features_train, features_test, labels_train, labels_test = \
-    train_test_split(features, labels, test_size=0.2, random_state=42)
-
-cv_train_results_df = cv_train_results_df.append(metrics(clf, features_list, features,
-                                                         labels, None, None,
-                                                         'no_new_features', beta=beta, folds=folds))
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, list(df.columns),
+                                               ['email_address', 'name',
+                                                'loan_advances', 'to_messages', 'from_messages',
+                                                'total_financial_benefits', 'message_to_poi_ratio',
+                                                'message_from_poi_ratio'],
+                                               'no_new_features', beta, folds)
 
 
-features_list = list(df.columns)
-features_list.remove('email_address')
-features_list.remove('name')
-features_list.remove('poi')
-
-features_list.remove('loan_advances')
-
-features_list.remove('to_messages')
-features_list.remove('from_messages')
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, list(df.columns),
+                                               ['email_address', 'name',
+                                                'loan_advances', 'to_messages', 'from_messages',
+                                                'total_financial_benefits',
+                                                'message_from_poi_ratio'],
+                                               'only_message_to_poi_ratio', beta, folds)
 
 
-features_list.remove('salary')
-features_list.remove('bonus')
-features_list.remove('total_stock_value')
-features_list.remove('exercised_stock_options')
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, list(df.columns),
+                                               ['email_address', 'name',
+                                                'loan_advances', 'to_messages', 'from_messages',
+                                                'salary', 'bonus', 'total_stock_value',
+                                                'exercised_stock_options'],
+                                               'all_new_features', beta, folds)
 
-features_list = ['poi'] + features_list
 
-data = featureFormat(my_dataset, features_list, sort_keys=True)
-labels, features = targetFeatureSplit(data)
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, list(df.columns),
+                                               ['email_address', 'name',
+                                                'loan_advances', 'to_messages', 'from_messages',
+                                                'salary', 'bonus', 'total_stock_value',
+                                                'exercised_stock_options',
+                                                'message_to_poi_ratio', 'message_from_poi_ratio'],
+                                               'only_total_financial_benefits', beta, folds)
 
-features_train, features_test, labels_train, labels_test = \
-    train_test_split(features, labels, test_size=0.2, random_state=42)
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, top_10_feature_list,
+                                               [],
+                                               'top_10_feature_list_from_kbest', beta, folds)
 
-cv_train_results_df = cv_train_results_df.append(metrics(clf, features_list, features,
-                                                         labels, None, None,
-                                                         'all_new_features', beta=beta, folds=folds))
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, top_15_feature_list,
+                                               [],
+                                               'top_15_feature_list_from_kbest', beta, folds)
+
+cv_train_results_df = metrics_for_feature_list(clf, cv_train_results_df, my_dataset, top_5_feature_list,
+                                               [],
+                                               'top_5_feature_list_from_kbest', beta, folds)
 
 
 cv_train_results_df.to_csv('metrics.csv', index=False)
