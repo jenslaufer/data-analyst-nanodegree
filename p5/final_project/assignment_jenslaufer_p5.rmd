@@ -229,47 +229,8 @@ work properly without scaling.
 It was done before the fraction calculation to avoid division by 0 problems.
 
 
-### Quality of features
-
-
-```{r warning=FALSE, echo=FALSE, fig.height=8, fig.width=16, message=FALSE}
-#features_metric_plots(metrics_df)
-axes_limits = c('only_message_from_poi_ratio',
-                'only_message_to_poi_ratio', 
-                'only_total_financial_benefits', 
-                'no_new_features',
-                'all_new_features',
-                'top_10_feature_list_from_kbest',
-                'top_5_feature_list_from_kbest',
-                'top_15_feature_list_from_kbest')
-
-
-metrics_df %>% 
-  filter(tag!='pre') %>%
-  filter(tag!='tuned') %>%
-  gather(-classifier, -datatype, -tag, -features, key = "var", value = "val")  %>%
-  filter(var != 'accuracy') %>%
-  ggplot(aes(x = tag, y=val)) +
-    geom_bar(aes(fill=tag), stat='identity', width=0.05, alpha=0.4) +
-    geom_text(aes(label=round(val,2))) +
-    scale_x_discrete(limits=axes_limits,breaks=c('')) +
-    scale_fill_discrete(limits =axes_limits) +
-    geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
-    facet_grid(datatype ~ var) 
-  
-```
-
-
-#### Algorithm quality without all new features
-
-All new features were applied to final classifier
-
-#### Algorithm quality with
-
-
 
 ## Feature Selection
-
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -302,6 +263,38 @@ used for the calculation of the new features, so they can be removed.
 As the total_financial_benefits is the sum of 'salary', 'bonus', 
 'total_stock_value', 'exercised_stock_options'
 these features are removed to avoid colinearity.
+
+
+
+### Quality of features
+
+
+```{r warning=FALSE, echo=FALSE, fig.height=8, fig.width=16, message=FALSE}
+#features_metric_plots(metrics_df)
+axes_limits = c('only_message_from_poi_ratio',
+                'only_message_to_poi_ratio', 
+                'only_total_financial_benefits', 
+                'no_new_features',
+                'all_new_features',
+                'top_10_feature_list_from_kbest',
+                'top_5_feature_list_from_kbest',
+                'top_15_feature_list_from_kbest')
+
+
+metrics_df %>% 
+  filter(tag!='pre') %>%
+  filter(tag!='tuned') %>%
+  gather(-classifier, -datatype, -tag, -features, key = "var", value = "val")  %>%
+  filter(var != 'accuracy') %>%
+  ggplot(aes(x = tag, y=val)) +
+    geom_bar(aes(fill=tag), stat='identity', width=0.05, alpha=0.4) +
+    geom_text(aes(label=round(val,2))) +
+    scale_x_discrete(limits=axes_limits,breaks=c('')) +
+    scale_fill_discrete(limits =axes_limits) +
+    geom_hline(aes(yintercept=0.3), linetype='dotted', color='red', size=1) +
+    facet_grid(datatype ~ var) 
+  
+```
 
 
 
@@ -352,10 +345,7 @@ metric_plots(metrics_df, 'pre')
 
 For the DecisionTreeClassifier the values for recall 
 and precision are touching the goal of 0.3 without optimization on the
-cross validation set.
-But when the test set is applied it can be seen
-that recall and precision are 0, so the model was actually not able 
-to identify any true POI in the test set.
+cross validation set. The results on the test set are similiar.
 
 
 #### GaussianNB
