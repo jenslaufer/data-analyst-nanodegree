@@ -1,9 +1,9 @@
 ---
 title: "Identifying Fraud from Enron Emails and Financial Data"
 output:
-  pdf_document: default
-  html_notebook: default
   html_document: default
+  html_notebook: default
+  pdf_document: default
 ---
 
 
