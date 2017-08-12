@@ -1,0 +1,16 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
+
+
+```{r}
+df <- read.csv('data/baseball_data.csv')
+```
+
