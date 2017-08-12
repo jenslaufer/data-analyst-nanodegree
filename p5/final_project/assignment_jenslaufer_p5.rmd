@@ -3,7 +3,6 @@ title: "Identifying Fraud from Enron Emails and Financial Data"
 output:
   html_document: default
   html_notebook: default
-  pdf_document: default
 ---
 
 
@@ -354,14 +353,24 @@ Within the project recall, precision and f1 is used for optimization and validat
 The metrics are defined as follows:
 
 
+**recall**:   
 
-   - **recall**:   Out of all POIs which are predicted as positive, how many are truly belong to positive case. 
-   A higher recall score would mean less false negatives, which means in this case if there are POIs in the datset, an algorithm has good chance to identify them.
-   - **precision**: Out of all POIs that are truly positive, how many are correctly classified as positive. 
-   A higher precision 
-   score would mean less false positives.  A high precision means POIs identified by an algorithm tended to be correct.
-  - **f1**:  It is a harmonic mean of recall and precision. 
-  It is a metric that combines recall and precision into single metric.
+$(TP)/(TP+FN)$
+
+proportion of POIs of which are identified as POIs.
+
+
+**precision**: 
+
+$(TP)/(TP+FP))$
+
+proportion of identified POIs that are actually POIs. 
+
+  
+**f1**
+
+It is a harmonic mean of recall and precision. 
+It is a metric that combines recall and precision into single metric.
   
   
 
