@@ -14,6 +14,9 @@ library(GGally)
 
 ```{r}
 df <- read.csv('data/baseball_data.csv')
+
+df$HR_normalized = (df$HR - min(df$HR))/(max(df$HR) - min(df$HR))
+df$avg_normalized = (df$avg - min(df$avg))/(max(df$avg) - min(df$avg))
 ```
 
 
