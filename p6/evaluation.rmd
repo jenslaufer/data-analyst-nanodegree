@@ -7,10 +7,20 @@ output: html_notebook
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(gridExtra)
+library(GGally)
 ```
 
 
 ```{r}
 df <- read.csv('data/baseball_data.csv')
 ```
+
+
+
+
+```{r warning=FALSE, echo=FALSE, fig.height=10, fig.width=20, message=FALSE}
+ggpairs(df[, -which(names(df) %in% c('name'))])
+```
+
 
