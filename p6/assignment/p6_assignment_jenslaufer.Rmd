@@ -1,6 +1,18 @@
 ---
 title: "Data Visualization with Tableau"
-output: html_notebook
+output:
+  pdf_document: default
 ---
 
 by Jens Laufer, 15/08/2017
+
+
+## Summary
+
+## Design
+
+## Feedback
+
+## Resources
+
+## Files
