@@ -1,0 +1,2868 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 10300.17.0728.2252                               -->
+<workbook source-build='10.3.2 (10300.17.0728.2252)' source-platform='win' version='10.3' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='baseball_data' inline='true' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' version='10.3'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='baseball_data' name='textscan.0bcizg312vrapc1de7a050ecxiw1'>
+            <connection class='textscan' directory='C:/Users/jensl/Documents/data-analyst-nanodegree/p6/assignment/data' filename='baseball_data.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.0bcizg312vrapc1de7a050ecxiw1' name='baseball_data.csv' table='[baseball_data#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_GB' separator=','>
+            <column datatype='integer' name='X' ordinal='0' />
+            <column datatype='string' name='name' ordinal='1' />
+            <column datatype='string' name='handedness' ordinal='2' />
+            <column datatype='integer' name='height' ordinal='3' />
+            <column datatype='integer' name='weight' ordinal='4' />
+            <column datatype='real' name='avg' ordinal='5' />
+            <column datatype='integer' name='HR' ordinal='6' />
+            <column datatype='real' name='HR_normalized' ordinal='7' />
+            <column datatype='real' name='avg_normalized' ordinal='8' />
+            <column datatype='real' name='valuability' ordinal='9' />
+            <column datatype='real' name='valuability_normalized' ordinal='10' />
+            <column datatype='real' name='ratio_HR_valuability' ordinal='11' />
+            <column datatype='real' name='ratio_avg_valuability' ordinal='12' />
+            <column datatype='real' name='ratioi_HR_valuability' ordinal='13' />
+            <column datatype='real' name='ratioi_avg_valuability' ordinal='14' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>X</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[X]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>X</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>name</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[name]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>name</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RGB' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_GB&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>handedness</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[handedness]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>handedness</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RGB' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_GB&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>height</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[height]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>height</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>weight</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[weight]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>weight</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>avg</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[avg]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>avg</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>HR</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[HR]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>HR</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>HR_normalized</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[HR_normalized]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>HR_normalized</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>avg_normalized</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[avg_normalized]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>avg_normalized</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>valuability</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[valuability]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>valuability</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>valuability_normalized</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[valuability_normalized]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>valuability_normalized</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ratio_HR_valuability</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[ratio_HR_valuability]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>ratio_HR_valuability</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ratio_avg_valuability</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[ratio_avg_valuability]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>ratio_avg_valuability</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ratioi_HR_valuability</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[ratioi_HR_valuability]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>ratioi_HR_valuability</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ratioi_avg_valuability</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[ratioi_avg_valuability]</local-name>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias>ratioi_avg_valuability</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[baseball_data.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_GB&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;£&quot;</attribute>
+              <attribute datatype='string' name='debit-close-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='debit-open-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_GB&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='string' name='[:Measure Names]' role='dimension' type='nominal'>
+        <aliases>
+          <alias key='&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:avg_normalized:qk]&quot;' value='Batting Average' />
+          <alias key='&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:HR_normalized:qk]&quot;' value='Homeruns' />
+        </aliases>
+      </column>
+      <column caption='height_cm' datatype='real' name='[Calculation_212795121468162051]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='[height] * 2.54' />
+      </column>
+      <column caption='weight_kg' datatype='real' name='[Calculation_212795121468489732]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='[weight] * 0.45359237' />
+      </column>
+      <column caption='bmi' datatype='real' name='[Calculation_212795121469255685]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='[Calculation_212795121468489732] / ([Calculation_212795121468162051]/100 * [Calculation_212795121468162051]/100)' />
+      </column>
+      <column aggregation='None' caption='HR Bin 2' datatype='integer' name='[HR (bin) 2]' role='dimension' type='ordinal'>
+        <calculation class='bin' decimals='2' formula='[HR]' peg='0' size='100' />
+      </column>
+      <column aggregation='None' datatype='integer' name='[HR (bin)]' role='dimension' type='quantitative'>
+        <calculation class='bin' decimals='1' formula='[HR]' peg='0' size='26.8' />
+      </column>
+      <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+      <column datatype='real' name='[HR_normalized]' role='measure' type='quantitative' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column datatype='integer' hidden='true' name='[X]' role='measure' type='quantitative' />
+      <column aggregation='None' datatype='integer' name='[avg (bin)]' role='dimension' type='quantitative'>
+        <calculation class='bin' decimals='-2' formula='[avg]' peg='0' size='0.0172' />
+      </column>
+      <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+      <column datatype='real' name='[avg_normalized]' role='measure' type='quantitative' />
+      <column aggregation='None' datatype='integer' name='[height (bin)]' role='dimension' type='quantitative'>
+        <calculation class='bin' decimals='0' formula='[height]' peg='0' size='1.92' />
+      </column>
+      <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+      <column aggregation='None' caption='ratio_HR_valuability (bin)' datatype='integer' name='[ratio_HR_valuability (bin)]' role='dimension' type='ordinal'>
+        <calculation class='bin' decimals='-1' formula='[ratio_HR_valuability]' peg='0' size='0.1' />
+      </column>
+      <column datatype='real' name='[ratio_HR_valuability]' role='measure' type='quantitative' />
+      <column aggregation='None' caption='ratio_avg_valuability (bin)' datatype='integer' name='[ratio_avg_valuability (bin)]' role='dimension' type='ordinal'>
+        <calculation class='bin' decimals='-1' formula='[ratio_avg_valuability]' peg='0' size='0.2' />
+      </column>
+      <column datatype='real' name='[ratio_avg_valuability]' role='measure' type='quantitative' />
+      <column datatype='real' hidden='true' name='[ratioi_HR_valuability]' role='measure' type='quantitative' />
+      <column datatype='real' hidden='true' name='[ratioi_avg_valuability]' role='measure' type='quantitative' />
+      <column datatype='real' name='[valuability_normalized]' role='measure' type='quantitative' />
+      <column aggregation='None' datatype='integer' name='[weight (bin)]' role='dimension' type='quantitative'>
+        <calculation class='bin' decimals='0' formula='[weight]' peg='0' size='7.6' />
+      </column>
+      <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+      <column-instance column='[HR_normalized]' derivation='Avg' name='[avg:HR_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[avg_normalized]' derivation='Avg' name='[avg:avg_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[valuability_normalized]' derivation='Avg' name='[avg:valuability_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[HR (bin) 2]' derivation='None' name='[none:HR (bin) 2:ok]' pivot='key' type='ordinal' />
+      <column-instance column='[HR_normalized]' derivation='None' name='[none:HR_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[avg_normalized]' derivation='None' name='[none:avg_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[ratio_HR_valuability (bin)]' derivation='None' name='[none:ratio_HR_valuability (bin):ok]' pivot='key' type='ordinal' />
+      <column-instance column='[ratio_avg_valuability (bin)]' derivation='None' name='[none:ratio_avg_valuability (bin):ok]' pivot='key' type='ordinal' />
+      <column-instance column='[valuability_normalized]' derivation='None' name='[none:valuability_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[HR_normalized]' derivation='Sum' name='[sum:HR_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[avg_normalized]' derivation='Sum' name='[sum:avg_normalized:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[valuability_normalized]' derivation='Sum' name='[sum:valuability_normalized:qk]' pivot='key' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.443636' measure-ordering='alphabetic' measure-percentage='0.556364' rowDisplayCount='1000' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:ratio_avg_valuability (bin):ok]' palette='orange_gold_10_0' type='palette'>
+            <map to='#9e3a26'>
+              <bucket>4</bucket>
+            </map>
+            <map to='#cd4e22'>
+              <bucket>3</bucket>
+            </map>
+            <map to='#ef701b'>
+              <bucket>2</bucket>
+            </map>
+            <map to='#f4d166'>
+              <bucket>0</bucket>
+            </map>
+            <map to='#f6a143'>
+              <bucket>1</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[none:ratio_HR_valuability (bin):ok]' palette='green_gold_10_0' type='palette'>
+            <map to='#146c36'>
+              <bucket>5</bucket>
+            </map>
+            <map to='#439350'>
+              <bucket>4</bucket>
+            </map>
+            <map to='#8eb858'>
+              <bucket>3</bucket>
+            </map>
+            <map to='#b9ddf1'>
+              <bucket>0</bucket>
+            </map>
+            <map to='#f4d166'>
+              <bucket>1</bucket>
+            </map>
+            <map to='#f4d166'>
+              <bucket>2</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[avg:HR_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:avg_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:HR_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#b07aa1'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_1032168778986221568:qk]&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp]&quot;</bucket>
+            </map>
+            <map to='#edc948'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[avg:valuability_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#edc948'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#edc948'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:valuability_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[avg:avg_normalized:qk]&quot;</bucket>
+            </map>
+            <map to='#ff9da7'>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_1032168778986573825:qk]&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[none:HR (bin) 2:ok]' palette='green_gold_10_0' type='palette'>
+            <map to='#146c36'>
+              <bucket>5</bucket>
+            </map>
+            <map to='#2a5783'>
+              <bucket>7</bucket>
+            </map>
+            <map to='#33834a'>
+              <bucket>4</bucket>
+            </map>
+            <map to='#3b6996'>
+              <bucket>6</bucket>
+            </map>
+            <map to='#4b9c53'>
+              <bucket>3</bucket>
+            </map>
+            <map to='#7cb257'>
+              <bucket>2</bucket>
+            </map>
+            <map to='#b6c35c'>
+              <bucket>1</bucket>
+            </map>
+            <map to='#f4d166'>
+              <bucket>0</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Germany&quot;' />
+      </semantic-values>
+      <date-options start-of-week='monday' />
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Average Batting Average vs Handedness'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column-instance column='[avg]' derivation='Avg' name='[avg:avg:qk]' pivot='key' type='quantitative' />
+            <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+            <column datatype='string' name='[handedness]' role='dimension' type='nominal' />
+            <column-instance column='[handedness]' derivation='None' name='[none:handedness:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <lod column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:handedness:nk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[avg:avg:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:handedness:nk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Batting Average vs Height'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column-instance column='[avg]' derivation='None' name='[none:avg:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[height]' derivation='None' name='[none:height:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:height:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Batting Average vs Weight'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+            <column-instance column='[avg]' derivation='None' name='[none:avg:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[weight]' derivation='None' name='[none:weight:qk]' pivot='key' type='quantitative' />
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:weight:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Height vs Weight vs Batting Average'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[avg]' derivation='None' name='[none:avg:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[height]' derivation='None' name='[none:height:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[weight]' derivation='None' name='[none:weight:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[height]' derivation='Sum' name='[sum:height:qk]' pivot='key' type='quantitative' />
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:height:qk]' />
+              <size column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg:qk]' />
+              <text column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='shape' value=':filled/circle' />
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:weight:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:height:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Height vs Weight vs Homeruns'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column aggregation='None' caption='HR Bin 2' datatype='integer' name='[HR (bin) 2]' role='dimension' type='ordinal'>
+              <calculation class='bin' decimals='2' formula='[HR]' peg='0' size='100' />
+            </column>
+            <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+            <column datatype='string' name='[handedness]' role='dimension' type='nominal' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[HR (bin) 2]' derivation='None' name='[none:HR (bin) 2:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[HR]' derivation='None' name='[none:HR:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[handedness]' derivation='None' name='[none:handedness:nk]' pivot='key' type='nominal' />
+            <column-instance column='[height]' derivation='None' name='[none:height:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[weight]' derivation='None' name='[none:weight:qk]' pivot='key' type='quantitative' />
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]' included-values='in-range'>
+            <min>0</min>
+            <max>463</max>
+          </filter>
+          <filter class='categorical' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:handedness:nk]'>
+            <groupfilter function='level-members' level='[none:handedness:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+          </filter>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:weight:qk]' included-values='in-range'>
+            <min>140</min>
+            <max>210</max>
+          </filter>
+          <slices>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]</column>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:weight:qk]</column>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:handedness:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR (bin) 2:ok]' />
+              <size column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]' />
+              <lod column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:handedness:nk]' />
+              <text column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='size' value='1.1534254550933838' />
+                <format attr='shape' value=':filled/circle' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:weight:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:height:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Histogram Batting Average'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column aggregation='None' datatype='integer' name='[avg (bin)]' role='dimension' type='quantitative'>
+              <calculation class='bin' decimals='-2' formula='[avg]' peg='0' size='0.0172' />
+            </column>
+            <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+            <column-instance column='[avg]' derivation='Count' name='[cnt:avg:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[avg (bin)]' derivation='None' name='[none:avg (bin):qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing custom-mark-size-in-axis-units='1.0' mark-alignment='mark-alignment-left' mark-sizing-setting='marks-scaling-on' use-custom-mark-size='false' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[cnt:avg:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg (bin):qk]</cols>
+        <show-full-range>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[avg (bin)]</column>
+        </show-full-range>
+      </table>
+    </worksheet>
+    <worksheet name='Histogram Homeruns'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column aggregation='None' datatype='integer' name='[HR (bin)]' role='dimension' type='quantitative'>
+              <calculation class='bin' decimals='1' formula='[HR]' peg='0' size='26.8' />
+            </column>
+            <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+            <column-instance column='[HR]' derivation='Count' name='[cnt:HR:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[HR (bin)]' derivation='None' name='[none:HR (bin):qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing custom-mark-size-in-axis-units='1.0' mark-alignment='mark-alignment-left' mark-sizing-setting='marks-scaling-on' use-custom-mark-size='false' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[cnt:HR:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR (bin):qk]</cols>
+        <show-full-range>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[HR (bin) 2]</column>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[HR (bin)]</column>
+        </show-full-range>
+      </table>
+    </worksheet>
+    <worksheet name='Histogram height'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column-instance column='[height]' derivation='Count' name='[cnt:height:qk]' pivot='key' type='quantitative' />
+            <column aggregation='None' datatype='integer' name='[height (bin)]' role='dimension' type='quantitative'>
+              <calculation class='bin' decimals='0' formula='[height]' peg='0' size='1.92' />
+            </column>
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column-instance column='[height (bin)]' derivation='None' name='[none:height (bin):qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing custom-mark-size-in-axis-units='1.0' mark-alignment='mark-alignment-left' mark-sizing-setting='marks-scaling-on' use-custom-mark-size='false' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[cnt:height:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:height (bin):qk]</cols>
+        <show-full-range>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[height (bin)]</column>
+        </show-full-range>
+      </table>
+    </worksheet>
+    <worksheet name='Histogram weight'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column-instance column='[weight]' derivation='Count' name='[cnt:weight:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[weight (bin)]' derivation='None' name='[none:weight (bin):qk]' pivot='key' type='quantitative' />
+            <column aggregation='None' datatype='integer' name='[weight (bin)]' role='dimension' type='quantitative'>
+              <calculation class='bin' decimals='0' formula='[weight]' peg='0' size='7.6' />
+            </column>
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing custom-mark-size-in-axis-units='1.0' mark-alignment='mark-alignment-left' mark-sizing-setting='marks-scaling-on' use-custom-mark-size='false' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[cnt:weight:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:weight (bin):qk]</cols>
+        <show-full-range>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[weight (bin)]</column>
+        </show-full-range>
+      </table>
+    </worksheet>
+    <worksheet name='Homeruns vs Batting average'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column caption='height_cm' datatype='real' name='[Calculation_212795121468162051]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[height] * 2.54' />
+            </column>
+            <column caption='weight_kg' datatype='real' name='[Calculation_212795121468489732]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[weight] * 0.45359237' />
+            </column>
+            <column caption='bmi' datatype='real' name='[Calculation_212795121469255685]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[Calculation_212795121468489732] / ([Calculation_212795121468162051]/100 * [Calculation_212795121468162051]/100)' />
+            </column>
+            <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+            <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[HR]' derivation='None' name='[none:HR:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[avg]' derivation='None' name='[none:avg:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[ratio_HR_valuability (bin)]' derivation='None' name='[none:ratio_HR_valuability (bin):ok]' pivot='key' type='ordinal' />
+            <column-instance column='[valuability_normalized]' derivation='None' name='[none:valuability_normalized:qk]' pivot='key' type='quantitative' />
+            <column aggregation='None' caption='ratio_HR_valuability (bin)' datatype='integer' name='[ratio_HR_valuability (bin)]' role='dimension' type='ordinal'>
+              <calculation class='bin' decimals='-1' formula='[ratio_HR_valuability]' peg='0' size='0.1' />
+            </column>
+            <column datatype='real' name='[ratio_HR_valuability]' role='measure' type='quantitative' />
+            <column-instance column='[Calculation_212795121468162051]' derivation='Sum' name='[sum:Calculation_212795121468162051:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_212795121469255685]' derivation='Sum' name='[sum:Calculation_212795121469255685:qk]' pivot='key' type='quantitative' />
+            <column datatype='real' name='[valuability_normalized]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]' included-values='in-range'>
+            <min>0.75</min>
+            <max>1.0</max>
+          </filter>
+          <slices>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='7' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <color column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_HR_valuability (bin):ok]' />
+              <size column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_212795121468162051:qk]' />
+              <text column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' />
+              <text column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_212795121469255685:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='datalabel'>
+                <format attr='color-mode' value='auto' />
+                <format attr='font-weight' value='bold' />
+                <format attr='font-size' value='10' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='shape' value=':filled/circle' />
+                <format attr='size' value='1.4392818212509155' />
+                <format attr='mark-labels-mode' value='all' />
+                <format attr='mark-labels-cull' value='false' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg:qk]</cols>
+        <show-full-range>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[ratio_HR_valuability (bin)]</column>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[ratio_avg_valuability (bin)]</column>
+        </show-full-range>
+      </table>
+    </worksheet>
+    <worksheet name='Homeruns vs Height'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column-instance column='[HR]' derivation='None' name='[none:HR:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[height]' derivation='None' name='[none:height:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:height:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Homeruns vs Weight'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column-instance column='[HR]' derivation='None' name='[none:HR:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[height]' derivation='None' name='[none:height:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:height:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Top Batting Average'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column-instance column='[avg]' derivation='Avg' name='[avg:avg:qk]' pivot='key' type='quantitative' />
+            <column datatype='real' name='[avg]' role='measure' type='quantitative' />
+            <column-instance column='[avg]' derivation='Median' name='[med:avg:qk]' pivot='key' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]'>
+            <groupfilter function='level-members' level='[none:name:nk]' user:ui-manual-selection='true' user:ui-manual-selection-all-when-empty='true' user:ui-manual-selection-is-empty='true' user:ui-marker='enumerate' />
+          </filter>
+          <sort class='computed' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' direction='DESC' using='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[avg:avg:qk]' />
+          <slices>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[med:avg:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Top Homerunners'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+            <column-instance column='[HR]' derivation='Avg' name='[avg:HR:qk]' pivot='key' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[HR]' derivation='Sum' name='[sum:HR:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <sort class='computed' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' direction='DESC' using='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:HR:qk]' />
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[avg:HR:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Top Valuable Players'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column caption='height_cm' datatype='real' name='[Calculation_212795121468162051]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[height] * 2.54' />
+            </column>
+            <column caption='weight_kg' datatype='real' name='[Calculation_212795121468489732]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[weight] * 0.45359237' />
+            </column>
+            <column caption='bmi' datatype='real' name='[Calculation_212795121469255685]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[Calculation_212795121468489732] / ([Calculation_212795121468162051]/100 * [Calculation_212795121468162051]/100)' />
+            </column>
+            <column datatype='real' name='[HR_normalized]' role='measure' type='quantitative' />
+            <column-instance column='[handedness]' derivation='Attribute' name='[attr:handedness:nk]' pivot='key' type='nominal' />
+            <column datatype='real' name='[avg_normalized]' role='measure' type='quantitative' />
+            <column datatype='string' name='[handedness]' role='dimension' type='nominal' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[ratio_HR_valuability]' derivation='None' name='[none:ratio_HR_valuability:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[ratio_avg_valuability]' derivation='None' name='[none:ratio_avg_valuability:qk]' pivot='key' type='quantitative' />
+            <column datatype='real' name='[ratio_HR_valuability]' role='measure' type='quantitative' />
+            <column datatype='real' name='[ratio_avg_valuability]' role='measure' type='quantitative' />
+            <column-instance column='[Calculation_212795121468162051]' derivation='Sum' name='[sum:Calculation_212795121468162051:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_212795121468489732]' derivation='Sum' name='[sum:Calculation_212795121468489732:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_212795121469255685]' derivation='Sum' name='[sum:Calculation_212795121469255685:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[HR_normalized]' derivation='Sum' name='[sum:HR_normalized:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[avg_normalized]' derivation='Sum' name='[sum:avg_normalized:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[height]' derivation='Sum' name='[sum:height:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[weight]' derivation='Sum' name='[sum:weight:qk]' pivot='key' type='quantitative' />
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:HR_normalized:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:avg_normalized:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <sort class='manual' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[:Measure Names]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_1032168778986221568:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_1032168778986573825:qk]&quot;</bucket>
+              <bucket>&quot;[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:HR_normalized:qk]&quot;</bucket>
+            </dictionary>
+          </sort>
+          <filter class='categorical' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]'>
+            <groupfilter expression='CONTAINS(LOWER([name]), LOWER(&apos;Bobby Mi&apos;))' function='filter' user:ui-enumeration='inclusive' user:ui-pattern-include-all-when-empty='true' user:ui-pattern_text='Bobby Mi' user:ui-pattern_type='contains'>
+              <groupfilter function='level-members' level='[none:name:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
+            </groupfilter>
+          </filter>
+          <sort class='manual' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;Reggie Jackson&quot;</bucket>
+              <bucket>&quot;Mike Schmidt&quot;</bucket>
+              <bucket>&quot;Willie Stargell&quot;</bucket>
+              <bucket>&quot;Carl Yastrzemski&quot;</bucket>
+              <bucket>&quot;Jim Rice&quot;</bucket>
+              <bucket>&quot;Tony Perez&quot;</bucket>
+              <bucket>&quot;Dick Allen&quot;</bucket>
+              <bucket>&quot;Johnny Bench&quot;</bucket>
+              <bucket>&quot;Dave Kingman&quot;</bucket>
+              <bucket>&quot;Darrell Evans&quot;</bucket>
+              <bucket>&quot;George Foster&quot;</bucket>
+              <bucket>&quot;Ron Santo&quot;</bucket>
+              <bucket>&quot;Graig Nettles&quot;</bucket>
+              <bucket>&quot;Lee May&quot;</bucket>
+              <bucket>&quot;Reggie Smith&quot;</bucket>
+              <bucket>&quot;Boog Powell&quot;</bucket>
+              <bucket>&quot;Willie Horton&quot;</bucket>
+              <bucket>&quot;Bobby Bonds&quot;</bucket>
+              <bucket>&quot;Fred Lynn&quot;</bucket>
+              <bucket>&quot;Don Baylor&quot;</bucket>
+              <bucket>&quot;Greg Luzinski&quot;</bucket>
+              <bucket>&quot;Steve Garvey&quot;</bucket>
+              <bucket>&quot;Rusty Staub&quot;</bucket>
+              <bucket>&quot;Ron Cey&quot;</bucket>
+              <bucket>&quot;Joe Torre&quot;</bucket>
+              <bucket>&quot;Cecil Cooper&quot;</bucket>
+              <bucket>&quot;George Hendrick&quot;</bucket>
+              <bucket>&quot;Tony Oliva&quot;</bucket>
+              <bucket>&quot;Al Oliver&quot;</bucket>
+              <bucket>&quot;Ted Simmons&quot;</bucket>
+              <bucket>&quot;Joe Morgan&quot;</bucket>
+              <bucket>&quot;George Scott&quot;</bucket>
+              <bucket>&quot;Ken Singleton&quot;</bucket>
+              <bucket>&quot;Bobby Murcer&quot;</bucket>
+              <bucket>&quot;Jimmy Wynn&quot;</bucket>
+              <bucket>&quot;Dusty Baker&quot;</bucket>
+              <bucket>&quot;Rico Carty&quot;</bucket>
+              <bucket>&quot;Gary Matthews&quot;</bucket>
+              <bucket>&quot;Larry Parrish&quot;</bucket>
+              <bucket>&quot;Ben Oglivie&quot;</bucket>
+              <bucket>&quot;Richie Zisk&quot;</bucket>
+              <bucket>&quot;Rick Monday&quot;</bucket>
+              <bucket>&quot;Bob Horner&quot;</bucket>
+              <bucket>&quot;Bob Watson&quot;</bucket>
+              <bucket>&quot;John Mayberry&quot;</bucket>
+              <bucket>&quot;Andre Thornton&quot;</bucket>
+              <bucket>&quot;Hal McRae&quot;</bucket>
+              <bucket>&quot;Cesar Cedeno&quot;</bucket>
+              <bucket>&quot;Jeff Burroughs&quot;</bucket>
+              <bucket>&quot;Bill Madlock&quot;</bucket>
+              <bucket>&quot;Chet Lemon&quot;</bucket>
+              <bucket>&quot;Tony Armas&quot;</bucket>
+              <bucket>&quot;Doug DeCinces&quot;</bucket>
+              <bucket>&quot;Bobby Grich&quot;</bucket>
+              <bucket>&quot;Pete Rose&quot;</bucket>
+              <bucket>&quot;Buddy Bell&quot;</bucket>
+              <bucket>&quot;Sal Bando&quot;</bucket>
+              <bucket>&quot;Richie Hebner&quot;</bucket>
+              <bucket>&quot;Keith Hernandez&quot;</bucket>
+              <bucket>&quot;Bill Buckner&quot;</bucket>
+              <bucket>&quot;Amos Otis&quot;</bucket>
+              <bucket>&quot;Chris Chambliss&quot;</bucket>
+              <bucket>&quot;Deron Johnson&quot;</bucket>
+              <bucket>&quot;Joe Pepitone&quot;</bucket>
+              <bucket>&quot;Willie Davis&quot;</bucket>
+              <bucket>&quot;Jason Thompson&quot;</bucket>
+              <bucket>&quot;Rod Carew&quot;</bucket>
+              <bucket>&quot;Oscar Gamble&quot;</bucket>
+              <bucket>&quot;Gorman Thomas&quot;</bucket>
+              <bucket>&quot;Jose Cruz&quot;</bucket>
+              <bucket>&quot;Lou Brock&quot;</bucket>
+              <bucket>&quot;Bill Freehan&quot;</bucket>
+              <bucket>&quot;Toby Harrah&quot;</bucket>
+              <bucket>&quot;Jim Ray Hart&quot;</bucket>
+              <bucket>&quot;Claudell Washington&quot;</bucket>
+              <bucket>&quot;Rico Petrocelli&quot;</bucket>
+              <bucket>&quot;Cliff Johnson&quot;</bucket>
+              <bucket>&quot;Larry Hisle&quot;</bucket>
+              <bucket>&quot;Joe Rudi&quot;</bucket>
+              <bucket>&quot;Bob Bailey&quot;</bucket>
+              <bucket>&quot;Donn Clendenon&quot;</bucket>
+              <bucket>&quot;Don Mincher&quot;</bucket>
+              <bucket>&quot;Roy White&quot;</bucket>
+              <bucket>&quot;Don Money&quot;</bucket>
+              <bucket>&quot;Leon Durham&quot;</bucket>
+              <bucket>&quot;Dick McAuliffe&quot;</bucket>
+              <bucket>&quot;Mike Easler&quot;</bucket>
+              <bucket>&quot;Tony Conigliaro&quot;</bucket>
+              <bucket>&quot;Gene Tenace&quot;</bucket>
+              <bucket>&quot;Thurman Munson&quot;</bucket>
+              <bucket>&quot;Sixto Lezcano&quot;</bucket>
+              <bucket>&quot;Darrell Porter&quot;</bucket>
+              <bucket>&quot;Dan Driessen&quot;</bucket>
+              <bucket>&quot;Jim Northrup&quot;</bucket>
+              <bucket>&quot;Willie Montanez&quot;</bucket>
+              <bucket>&quot;Jose Cardenal&quot;</bucket>
+              <bucket>&quot;Bill Robinson&quot;</bucket>
+              <bucket>&quot;Jorge Orta&quot;</bucket>
+              <bucket>&quot;Steve Kemp&quot;</bucket>
+              <bucket>&quot;Davey Lopes&quot;</bucket>
+              <bucket>&quot;Garry Maddox&quot;</bucket>
+              <bucket>&quot;Jim Fregosi&quot;</bucket>
+              <bucket>&quot;Roy Smalley&quot;</bucket>
+              <bucket>&quot;Gary Ward&quot;</bucket>
+              <bucket>&quot;Lou Piniella&quot;</bucket>
+              <bucket>&quot;Jeffrey Leonard&quot;</bucket>
+              <bucket>&quot;Ralph Garr&quot;</bucket>
+              <bucket>&quot;Ellis Valentine&quot;</bucket>
+              <bucket>&quot;Keith Moreland&quot;</bucket>
+              <bucket>&quot;Frank White&quot;</bucket>
+              <bucket>&quot;Bill Melton&quot;</bucket>
+              <bucket>&quot;Tony Gonzalez&quot;</bucket>
+              <bucket>&quot;Jim Hickman&quot;</bucket>
+              <bucket>&quot;Nate Colbert&quot;</bucket>
+              <bucket>&quot;Dwayne Murphy&quot;</bucket>
+              <bucket>&quot;Tommy Harper&quot;</bucket>
+              <bucket>&quot;Doug Rader&quot;</bucket>
+              <bucket>&quot;Dan Ford&quot;</bucket>
+              <bucket>&quot;Bruce Bochte&quot;</bucket>
+              <bucket>&quot;Davey Johnson&quot;</bucket>
+              <bucket>&quot;Lee Lacy&quot;</bucket>
+              <bucket>&quot;Ken McMullen&quot;</bucket>
+              <bucket>&quot;Mike Hargrove&quot;</bucket>
+              <bucket>&quot;Larry Herndon&quot;</bucket>
+              <bucket>&quot;Bake McBride&quot;</bucket>
+              <bucket>&quot;Johnny Grubb&quot;</bucket>
+              <bucket>&quot;Ruppert Jones&quot;</bucket>
+              <bucket>&quot;Cleon Jones&quot;</bucket>
+              <bucket>&quot;Willie Aikens&quot;</bucket>
+              <bucket>&quot;Tom Haller&quot;</bucket>
+              <bucket>&quot;Jim Spencer&quot;</bucket>
+              <bucket>&quot;Tom Tresh&quot;</bucket>
+              <bucket>&quot;Johnny Briggs&quot;</bucket>
+              <bucket>&quot;Manny Sanguillen&quot;</bucket>
+              <bucket>&quot;Willie Upshaw&quot;</bucket>
+              <bucket>&quot;Alex Johnson&quot;</bucket>
+              <bucket>&quot;Al Cowens&quot;</bucket>
+              <bucket>&quot;Tom Paciorek&quot;</bucket>
+              <bucket>&quot;Phil Bradley&quot;</bucket>
+              <bucket>&quot;Tommie Agee&quot;</bucket>
+              <bucket>&quot;Mickey Rivers&quot;</bucket>
+              <bucket>&quot;Chuck Hinton&quot;</bucket>
+              <bucket>&quot;Jerry Mumphrey&quot;</bucket>
+              <bucket>&quot;Ed Kranepool&quot;</bucket>
+              <bucket>&quot;Mack Jones&quot;</bucket>
+              <bucket>&quot;Rick Reichardt&quot;</bucket>
+              <bucket>&quot;Ken Henderson&quot;</bucket>
+              <bucket>&quot;Paul Blair&quot;</bucket>
+              <bucket>&quot;Earl Williams&quot;</bucket>
+              <bucket>&quot;Carlos May&quot;</bucket>
+              <bucket>&quot;Jay Johnstone&quot;</bucket>
+              <bucket>&quot;Dave Concepcion&quot;</bucket>
+              <bucket>&quot;Greg Walker&quot;</bucket>
+              <bucket>&quot;Leo Cardenas&quot;</bucket>
+              <bucket>&quot;John Milner&quot;</bucket>
+              <bucket>&quot;Jim Morrison&quot;</bucket>
+              <bucket>&quot;Matty Alou&quot;</bucket>
+              <bucket>&quot;Jimmie Hall&quot;</bucket>
+              <bucket>&quot;Ollie Brown&quot;</bucket>
+              <bucket>&quot;Lamar Johnson&quot;</bucket>
+              <bucket>&quot;Phil Garner&quot;</bucket>
+              <bucket>&quot;Eric Soderholm&quot;</bucket>
+              <bucket>&quot;Ron Blomberg&quot;</bucket>
+              <bucket>&quot;Ron LeFlore&quot;</bucket>
+              <bucket>&quot;Manny Mota&quot;</bucket>
+              <bucket>&quot;Floyd Robinson&quot;</bucket>
+              <bucket>&quot;Nick Esasky&quot;</bucket>
+              <bucket>&quot;Ken Landreaux&quot;</bucket>
+              <bucket>&quot;Johnny Ray&quot;</bucket>
+              <bucket>&quot;John Lowenstein&quot;</bucket>
+              <bucket>&quot;Juan Beniquez&quot;</bucket>
+              <bucket>&quot;Ray Knight&quot;</bucket>
+              <bucket>&quot;Bernie Carbo&quot;</bucket>
+              <bucket>&quot;Mike Epstein&quot;</bucket>
+              <bucket>&quot;Steve Henderson&quot;</bucket>
+              <bucket>&quot;Jody Davis&quot;</bucket>
+              <bucket>&quot;Don Buford&quot;</bucket>
+              <bucket>&quot;Willie Crawford&quot;</bucket>
+              <bucket>&quot;Gary Roenicke&quot;</bucket>
+              <bucket>&quot;Lee Thomas&quot;</bucket>
+              <bucket>&quot;Mike Ivie&quot;</bucket>
+              <bucket>&quot;Mickey Stanley&quot;</bucket>
+              <bucket>&quot;Fred Whitfield&quot;</bucket>
+              <bucket>&quot;Ken Harrelson&quot;</bucket>
+              <bucket>&quot;Bob Boone&quot;</bucket>
+              <bucket>&quot;Bobby Tolan&quot;</bucket>
+              <bucket>&quot;Danny Cater&quot;</bucket>
+              <bucket>&quot;Jerry Morales&quot;</bucket>
+              <bucket>&quot;Rich Rollins&quot;</bucket>
+              <bucket>&quot;Lee Mazzilli&quot;</bucket>
+              <bucket>&quot;Ed Charles&quot;</bucket>
+              <bucket>&quot;Al Bumbry&quot;</bucket>
+              <bucket>&quot;Leon Roberts&quot;</bucket>
+              <bucket>&quot;Tony Horton&quot;</bucket>
+              <bucket>&quot;John Wockenfuss&quot;</bucket>
+              <bucket>&quot;Mike Davis&quot;</bucket>
+              <bucket>&quot;Enos Cabell&quot;</bucket>
+              <bucket>&quot;Max Alvis&quot;</bucket>
+              <bucket>&quot;Joel Youngblood&quot;</bucket>
+              <bucket>&quot;Chris Speier&quot;</bucket>
+              <bucket>&quot;Pete Ward&quot;</bucket>
+              <bucket>&quot;Joe Ferguson&quot;</bucket>
+              <bucket>&quot;Bob Oliver&quot;</bucket>
+              <bucket>&quot;Ken Phelps&quot;</bucket>
+              <bucket>&quot;Merv Rettenmund&quot;</bucket>
+              <bucket>&quot;Aurelio Rodriguez&quot;</bucket>
+              <bucket>&quot;Don Lock&quot;</bucket>
+              <bucket>&quot;Cito Gaston&quot;</bucket>
+              <bucket>&quot;Bob Robertson&quot;</bucket>
+              <bucket>&quot;Denis Menke&quot;</bucket>
+              <bucket>&quot;Del Unser&quot;</bucket>
+              <bucket>&quot;Pat Kelly&quot;</bucket>
+              <bucket>&quot;Mitchell Page&quot;</bucket>
+              <bucket>&quot;Milt May&quot;</bucket>
+              <bucket>&quot;Roy Howell&quot;</bucket>
+              <bucket>&quot;Dave May&quot;</bucket>
+              <bucket>&quot;Gates Brown&quot;</bucket>
+              <bucket>&quot;Bo Diaz&quot;</bucket>
+              <bucket>&quot;Gene Richards&quot;</bucket>
+              <bucket>&quot;Butch Hobson&quot;</bucket>
+              <bucket>&quot;Bert Campaneris&quot;</bucket>
+              <bucket>&quot;Jim Dwyer&quot;</bucket>
+              <bucket>&quot;Cesar Tovar&quot;</bucket>
+              <bucket>&quot;Wayne Nordhagen&quot;</bucket>
+              <bucket>&quot;Barry Bonnell&quot;</bucket>
+              <bucket>&quot;Wes Parker&quot;</bucket>
+              <bucket>&quot;Damaso Garcia&quot;</bucket>
+              <bucket>&quot;Wayne Gross&quot;</bucket>
+              <bucket>&quot;Jim Sundberg&quot;</bucket>
+              <bucket>&quot;Dan Meyer&quot;</bucket>
+              <bucket>&quot;Julian Javier&quot;</bucket>
+              <bucket>&quot;Curt Blefary&quot;</bucket>
+              <bucket>&quot;John Ellis&quot;</bucket>
+              <bucket>&quot;Jose Morales&quot;</bucket>
+              <bucket>&quot;Mickey Hatcher&quot;</bucket>
+              <bucket>&quot;Rick Burleson&quot;</bucket>
+              <bucket>&quot;John Castino&quot;</bucket>
+              <bucket>&quot;Steve Braun&quot;</bucket>
+              <bucket>&quot;Dave Revering&quot;</bucket>
+              <bucket>&quot;Jerry Martin&quot;</bucket>
+              <bucket>&quot;Terry Whitfield&quot;</bucket>
+              <bucket>&quot;Ozzie Virgil&quot;</bucket>
+              <bucket>&quot;Bob Brenly&quot;</bucket>
+              <bucket>&quot;Vic Davalillo&quot;</bucket>
+              <bucket>&quot;Glenn Adams&quot;</bucket>
+              <bucket>&quot;Ken Reitz&quot;</bucket>
+              <bucket>&quot;Dick Dietz&quot;</bucket>
+              <bucket>&quot;Mike Lum&quot;</bucket>
+              <bucket>&quot;Bobby Darwin&quot;</bucket>
+              <bucket>&quot;Mike Vail&quot;</bucket>
+              <bucket>&quot;Bill Sample&quot;</bucket>
+              <bucket>&quot;Jesus Alou&quot;</bucket>
+              <bucket>&quot;Manny Trillo&quot;</bucket>
+              <bucket>&quot;Mike Jorgensen&quot;</bucket>
+              <bucket>&quot;Rennie Stennett&quot;</bucket>
+              <bucket>&quot;Bob Johnson&quot;</bucket>
+              <bucket>&quot;Alan Ashby&quot;</bucket>
+              <bucket>&quot;Duke Sims&quot;</bucket>
+              <bucket>&quot;Mike Andrews&quot;</bucket>
+              <bucket>&quot;Otto Velez&quot;</bucket>
+              <bucket>&quot;Ron Hunt&quot;</bucket>
+              <bucket>&quot;Dave Stapleton.1&quot;</bucket>
+              <bucket>&quot;Mike Shannon&quot;</bucket>
+              <bucket>&quot;Cookie Rojas&quot;</bucket>
+              <bucket>&quot;Tito Fuentes&quot;</bucket>
+              <bucket>&quot;Jim Lefebvre&quot;</bucket>
+              <bucket>&quot;Butch Wynegar&quot;</bucket>
+              <bucket>&quot;Bill Stein&quot;</bucket>
+              <bucket>&quot;Art Shamsky&quot;</bucket>
+              <bucket>&quot;Pat Putnam&quot;</bucket>
+              <bucket>&quot;Ron Jackson&quot;</bucket>
+              <bucket>&quot;Ray Fosse&quot;</bucket>
+              <bucket>&quot;Al Woods&quot;</bucket>
+              <bucket>&quot;Chris Brown&quot;</bucket>
+              <bucket>&quot;Dave Collins&quot;</bucket>
+              <bucket>&quot;Von Joshua&quot;</bucket>
+              <bucket>&quot;Larry Biittner&quot;</bucket>
+              <bucket>&quot;Bill Russell&quot;</bucket>
+              <bucket>&quot;Tommy McCraw&quot;</bucket>
+              <bucket>&quot;Rick Manning&quot;</bucket>
+              <bucket>&quot;Ron Oester&quot;</bucket>
+              <bucket>&quot;Walt Williams&quot;</bucket>
+              <bucket>&quot;Johnny Edwards&quot;</bucket>
+              <bucket>&quot;Mike Young&quot;</bucket>
+              <bucket>&quot;Leroy Stanton&quot;</bucket>
+              <bucket>&quot;Tommy Helms&quot;</bucket>
+              <bucket>&quot;Ken Berry&quot;</bucket>
+              <bucket>&quot;Al Ferrara&quot;</bucket>
+              <bucket>&quot;Steve Ontiveros&quot;</bucket>
+              <bucket>&quot;Cesar Geronimo&quot;</bucket>
+              <bucket>&quot;Ed Kirkpatrick&quot;</bucket>
+              <bucket>&quot;Steve Yeager&quot;</bucket>
+              <bucket>&quot;R.J. Reynolds&quot;</bucket>
+              <bucket>&quot;Tom Brookens&quot;</bucket>
+              <bucket>&quot;Manny Jimenez&quot;</bucket>
+              <bucket>&quot;Bump Wills&quot;</bucket>
+              <bucket>&quot;Tom Grieve&quot;</bucket>
+              <bucket>&quot;Don Wert&quot;</bucket>
+              <bucket>&quot;John Stearns&quot;</bucket>
+              <bucket>&quot;Dick Green&quot;</bucket>
+              <bucket>&quot;Ed Herrmann&quot;</bucket>
+              <bucket>&quot;Champ Summers&quot;</bucket>
+              <bucket>&quot;David Green&quot;</bucket>
+              <bucket>&quot;Gene Alley&quot;</bucket>
+              <bucket>&quot;Lou Johnson&quot;</bucket>
+              <bucket>&quot;Rick Miller&quot;</bucket>
+              <bucket>&quot;Art Howe&quot;</bucket>
+              <bucket>&quot;Lou Clinton&quot;</bucket>
+              <bucket>&quot;Glenn Hubbard&quot;</bucket>
+              <bucket>&quot;Gary Thomasson&quot;</bucket>
+              <bucket>&quot;Ron Swoboda&quot;</bucket>
+              <bucket>&quot;Tony Solaita&quot;</bucket>
+              <bucket>&quot;Ted Uhlaender&quot;</bucket>
+              <bucket>&quot;Charlie Spikes&quot;</bucket>
+              <bucket>&quot;Randy Hundley&quot;</bucket>
+              <bucket>&quot;George Vukovich&quot;</bucket>
+              <bucket>&quot;Rich Reese&quot;</bucket>
+              <bucket>&quot;Jerry Turner&quot;</bucket>
+              <bucket>&quot;Joe Charboneau&quot;</bucket>
+              <bucket>&quot;Rich Dauer&quot;</bucket>
+              <bucket>&quot;Charlie Moore&quot;</bucket>
+              <bucket>&quot;Joe Foy&quot;</bucket>
+              <bucket>&quot;Bernie Allen&quot;</bucket>
+              <bucket>&quot;Adolfo Phillips&quot;</bucket>
+              <bucket>&quot;Joe Azcue&quot;</bucket>
+              <bucket>&quot;Dick Davis&quot;</bucket>
+              <bucket>&quot;Gail Hopkins&quot;</bucket>
+              <bucket>&quot;Craig Reynolds&quot;</bucket>
+              <bucket>&quot;George Mitterwald&quot;</bucket>
+              <bucket>&quot;Dave Engle&quot;</bucket>
+              <bucket>&quot;Walt Bond&quot;</bucket>
+              <bucket>&quot;Billy Conigliaro&quot;</bucket>
+              <bucket>&quot;Roy Foster&quot;</bucket>
+              <bucket>&quot;Charley Smith&quot;</bucket>
+              <bucket>&quot;Reid Nichols&quot;</bucket>
+              <bucket>&quot;Joe Nolan&quot;</bucket>
+              <bucket>&quot;Andy Kosco&quot;</bucket>
+              <bucket>&quot;Mike Brown&quot;</bucket>
+              <bucket>&quot;Ed Ott&quot;</bucket>
+              <bucket>&quot;Bob Tillman&quot;</bucket>
+              <bucket>&quot;Mike Cubbage&quot;</bucket>
+              <bucket>&quot;Clint Hurdle&quot;</bucket>
+              <bucket>&quot;Mickey Brantley&quot;</bucket>
+              <bucket>&quot;Rowland Office&quot;</bucket>
+              <bucket>&quot;Dave Duncan&quot;</bucket>
+              <bucket>&quot;Ed Goodson&quot;</bucket>
+              <bucket>&quot;Eddie Milner&quot;</bucket>
+              <bucket>&quot;Paul Schaal&quot;</bucket>
+              <bucket>&quot;John Bateman&quot;</bucket>
+              <bucket>&quot;Joe Lefebvre&quot;</bucket>
+              <bucket>&quot;Bill Schroeder&quot;</bucket>
+              <bucket>&quot;Jerry Hairston&quot;</bucket>
+              <bucket>&quot;Steve Brye&quot;</bucket>
+              <bucket>&quot;Ted Sizemore&quot;</bucket>
+              <bucket>&quot;Bob Chance&quot;</bucket>
+              <bucket>&quot;Bill Almon&quot;</bucket>
+              <bucket>&quot;Willie Smith&quot;</bucket>
+              <bucket>&quot;Jerry Grote&quot;</bucket>
+              <bucket>&quot;Len Gabrielson&quot;</bucket>
+              <bucket>&quot;Wayne Garrett&quot;</bucket>
+              <bucket>&quot;Dave Rader&quot;</bucket>
+              <bucket>&quot;Terry Crowley&quot;</bucket>
+              <bucket>&quot;John Wathan&quot;</bucket>
+              <bucket>&quot;Derrel Thomas&quot;</bucket>
+              <bucket>&quot;Terry Harper&quot;</bucket>
+              <bucket>&quot;Mark Brouhard&quot;</bucket>
+              <bucket>&quot;Omar Moreno&quot;</bucket>
+              <bucket>&quot;Benny Ayala&quot;</bucket>
+              <bucket>&quot;Mike Hegan&quot;</bucket>
+              <bucket>&quot;Len Randle&quot;</bucket>
+              <bucket>&quot;Pete LaCock&quot;</bucket>
+              <bucket>&quot;Jerry Royster&quot;</bucket>
+              <bucket>&quot;John Orsino&quot;</bucket>
+              <bucket>&quot;Jim Wohlford&quot;</bucket>
+              <bucket>&quot;Charlie James&quot;</bucket>
+              <bucket>&quot;Roger Repoz&quot;</bucket>
+              <bucket>&quot;Horace Clarke&quot;</bucket>
+              <bucket>&quot;Bob Montgomery&quot;</bucket>
+              <bucket>&quot;Duane Josephson&quot;</bucket>
+              <bucket>&quot;Rob Wilfong&quot;</bucket>
+              <bucket>&quot;Jake Wood&quot;</bucket>
+              <bucket>&quot;Bucky Dent&quot;</bucket>
+              <bucket>&quot;Marvell Wynne&quot;</bucket>
+              <bucket>&quot;Tim Laudner&quot;</bucket>
+              <bucket>&quot;Felix Torres&quot;</bucket>
+              <bucket>&quot;George Wright&quot;</bucket>
+              <bucket>&quot;Biff Pocoroba&quot;</bucket>
+              <bucket>&quot;Bob Stinson&quot;</bucket>
+              <bucket>&quot;Brant Alyea&quot;</bucket>
+              <bucket>&quot;Darryl Motley&quot;</bucket>
+              <bucket>&quot;Bobby Knoop&quot;</bucket>
+              <bucket>&quot;Bob Dernier&quot;</bucket>
+              <bucket>&quot;Bill Sudakis&quot;</bucket>
+              <bucket>&quot;Leron Lee&quot;</bucket>
+              <bucket>&quot;Dave Roberts&quot;</bucket>
+              <bucket>&quot;Mike Hershberger&quot;</bucket>
+              <bucket>&quot;Chico Salmon&quot;</bucket>
+              <bucket>&quot;U L Washington&quot;</bucket>
+              <bucket>&quot;Ivan DeJesus&quot;</bucket>
+              <bucket>&quot;Jesse Gonder&quot;</bucket>
+              <bucket>&quot;Floyd Rayford&quot;</bucket>
+              <bucket>&quot;Carl Warwick&quot;</bucket>
+              <bucket>&quot;Ken Boswell&quot;</bucket>
+              <bucket>&quot;Freddie Patek&quot;</bucket>
+              <bucket>&quot;Jerry Moses&quot;</bucket>
+              <bucket>&quot;Mike de la Hoz&quot;</bucket>
+              <bucket>&quot;Tim Foli&quot;</bucket>
+              <bucket>&quot;Jerry White&quot;</bucket>
+              <bucket>&quot;Mike Diaz&quot;</bucket>
+              <bucket>&quot;Clay Dalrymple&quot;</bucket>
+              <bucket>&quot;Larvell Blanks&quot;</bucket>
+              <bucket>&quot;Dale Berra&quot;</bucket>
+              <bucket>&quot;Jack Hiatt&quot;</bucket>
+              <bucket>&quot;Andy Etchebarren&quot;</bucket>
+              <bucket>&quot;Jim Essian&quot;</bucket>
+              <bucket>&quot;Barry Foote&quot;</bucket>
+              <bucket>&quot;Jack Brohamer&quot;</bucket>
+              <bucket>&quot;Alex Trevino&quot;</bucket>
+              <bucket>&quot;Mike Anderson&quot;</bucket>
+              <bucket>&quot;Joe Hague&quot;</bucket>
+              <bucket>&quot;Gary Alexander&quot;</bucket>
+              <bucket>&quot;Craig Kusick&quot;</bucket>
+              <bucket>&quot;Fran Healy&quot;</bucket>
+              <bucket>&quot;Joe Lahoud&quot;</bucket>
+              <bucket>&quot;Tom Hutton&quot;</bucket>
+              <bucket>&quot;Ed Spiezio&quot;</bucket>
+              <bucket>&quot;Jeff Newman&quot;</bucket>
+              <bucket>&quot;Larry Brown&quot;</bucket>
+              <bucket>&quot;Bobby Brown&quot;</bucket>
+              <bucket>&quot;Rey Quinones&quot;</bucket>
+              <bucket>&quot;Billy Cowan&quot;</bucket>
+              <bucket>&quot;Ed Brinkman&quot;</bucket>
+              <bucket>&quot;Dalton Jones&quot;</bucket>
+              <bucket>&quot;Marty Perez&quot;</bucket>
+              <bucket>&quot;Buck Martinez&quot;</bucket>
+              <bucket>&quot;Andres Thomas&quot;</bucket>
+              <bucket>&quot;Angel Mangual&quot;</bucket>
+              <bucket>&quot;Roger Freed&quot;</bucket>
+              <bucket>&quot;Luis Aguayo&quot;</bucket>
+              <bucket>&quot;Gary Sutherland&quot;</bucket>
+              <bucket>&quot;Mike Tyson&quot;</bucket>
+              <bucket>&quot;Buddy Bradford&quot;</bucket>
+              <bucket>&quot;Ellie Hendricks&quot;</bucket>
+              <bucket>&quot;Dave Nelson&quot;</bucket>
+              <bucket>&quot;Bill Nahorodny&quot;</bucket>
+              <bucket>&quot;Glenn Hoffman&quot;</bucket>
+              <bucket>&quot;Hal Breeden&quot;</bucket>
+              <bucket>&quot;Ivan Murrell&quot;</bucket>
+              <bucket>&quot;Chuck Hiller&quot;</bucket>
+              <bucket>&quot;Al Luplow&quot;</bucket>
+              <bucket>&quot;Bruce Bochy&quot;</bucket>
+              <bucket>&quot;Paul Casanova&quot;</bucket>
+              <bucket>&quot;Gary Gray&quot;</bucket>
+              <bucket>&quot;Byron Browne&quot;</bucket>
+              <bucket>&quot;Joe Gaines&quot;</bucket>
+              <bucket>&quot;Larry Stahl&quot;</bucket>
+              <bucket>&quot;Paul Householder&quot;</bucket>
+              <bucket>&quot;Ted Savage&quot;</bucket>
+              <bucket>&quot;Jerry McNertney&quot;</bucket>
+              <bucket>&quot;Chuck Schilling&quot;</bucket>
+              <bucket>&quot;Billy Grabarkewitz&quot;</bucket>
+              <bucket>&quot;Fred Kendall&quot;</bucket>
+              <bucket>&quot;Norm Miller&quot;</bucket>
+              <bucket>&quot;Kurt Bevacqua&quot;</bucket>
+              <bucket>&quot;Joe Lis&quot;</bucket>
+              <bucket>&quot;Len Matuszek&quot;</bucket>
+              <bucket>&quot;Ron Hodges&quot;</bucket>
+              <bucket>&quot;Dave Hostetler&quot;</bucket>
+              <bucket>&quot;Julio Cruz&quot;</bucket>
+              <bucket>&quot;Bobby Clark&quot;</bucket>
+              <bucket>&quot;Buck Rodgers&quot;</bucket>
+              <bucket>&quot;Eddie Leon&quot;</bucket>
+              <bucket>&quot;Coco Laboy&quot;</bucket>
+              <bucket>&quot;Sam Bowens&quot;</bucket>
+              <bucket>&quot;Bob Kearney&quot;</bucket>
+              <bucket>&quot;Ron Woods&quot;</bucket>
+              <bucket>&quot;Hector Cruz&quot;</bucket>
+              <bucket>&quot;Jake Gibbs&quot;</bucket>
+              <bucket>&quot;Dave Nicholson&quot;</bucket>
+              <bucket>&quot;Bobby Mitchell.1&quot;</bucket>
+              <bucket>&quot;Frank Duffy&quot;</bucket>
+              <bucket>&quot;Vic Correll&quot;</bucket>
+              <bucket>&quot;Steve Lombardozzi&quot;</bucket>
+              <bucket>&quot;Lenn Sakata&quot;</bucket>
+              <bucket>&quot;Steve Whitaker&quot;</bucket>
+              <bucket>&quot;Syd O&apos;Brien&quot;</bucket>
+              <bucket>&quot;John Kennedy&quot;</bucket>
+              <bucket>&quot;Jim Gosger&quot;</bucket>
+              <bucket>&quot;Pete Mackanin&quot;</bucket>
+              <bucket>&quot;Duane Walker&quot;</bucket>
+              <bucket>&quot;Marc Hill&quot;</bucket>
+              <bucket>&quot;Chris Bando&quot;</bucket>
+              <bucket>&quot;Jim Traber&quot;</bucket>
+              <bucket>&quot;Pedro Garcia&quot;</bucket>
+              <bucket>&quot;Dave McKay&quot;</bucket>
+              <bucket>&quot;Cap Peterson&quot;</bucket>
+              <bucket>&quot;Phil Roof&quot;</bucket>
+              <bucket>&quot;Billy Bryan&quot;</bucket>
+              <bucket>&quot;Johnny Lewis&quot;</bucket>
+              <bucket>&quot;Todd Cruz&quot;</bucket>
+              <bucket>&quot;Mark Belanger&quot;</bucket>
+              <bucket>&quot;Danny Walton&quot;</bucket>
+              <bucket>&quot;Andres Mora&quot;</bucket>
+              <bucket>&quot;Duffy Dyer&quot;</bucket>
+              <bucket>&quot;Bill Voss&quot;</bucket>
+              <bucket>&quot;Tom Satriano&quot;</bucket>
+              <bucket>&quot;Rich McKinney&quot;</bucket>
+              <bucket>&quot;Dick Nen&quot;</bucket>
+              <bucket>&quot;Nelson Mathews&quot;</bucket>
+              <bucket>&quot;Carmen Fanzone&quot;</bucket>
+              <bucket>&quot;Bob Coluccio&quot;</bucket>
+              <bucket>&quot;Ken Gerhart&quot;</bucket>
+              <bucket>&quot;Johnnie LeMaster&quot;</bucket>
+              <bucket>&quot;John Boccabella&quot;</bucket>
+              <bucket>&quot;Jerry Buchek&quot;</bucket>
+              <bucket>&quot;Bob Jones&quot;</bucket>
+              <bucket>&quot;Rick Renick&quot;</bucket>
+              <bucket>&quot;Bobby Wine&quot;</bucket>
+              <bucket>&quot;Rusty Torres&quot;</bucket>
+              <bucket>&quot;Gary Allenson&quot;</bucket>
+              <bucket>&quot;Hal King&quot;</bucket>
+              <bucket>&quot;Steve Swisher&quot;</bucket>
+              <bucket>&quot;Curt Motton&quot;</bucket>
+              <bucket>&quot;Hector Torres&quot;</bucket>
+              <bucket>&quot;Dave Campbell&quot;</bucket>
+              <bucket>&quot;Jim Price&quot;</bucket>
+              <bucket>&quot;Jerry Narron&quot;</bucket>
+              <bucket>&quot;Frank Fernandez&quot;</bucket>
+              <bucket>&quot;Tom Egan&quot;</bucket>
+              <bucket>&quot;Doug Frobel&quot;</bucket>
+              <bucket>&quot;Doug Camilli&quot;</bucket>
+              <bucket>&quot;Mike Ryan&quot;</bucket>
+              <bucket>&quot;Ray Oyler&quot;</bucket>
+              <bucket>&quot;Mike Brown.1&quot;</bucket>
+              <bucket>&quot;Mel Stottlemyre.1&quot;</bucket>
+              <bucket>&quot;Jim Wright.1&quot;</bucket>
+              <bucket>&quot;Al Jones&quot;</bucket>
+              <bucket>&quot;Al Lachowicz&quot;</bucket>
+              <bucket>&quot;Alan Wirth&quot;</bucket>
+              <bucket>&quot;Albert Williams&quot;</bucket>
+              <bucket>&quot;Alex Sanchez&quot;</bucket>
+              <bucket>&quot;Alfredo Martinez&quot;</bucket>
+              <bucket>&quot;Allan Ramirez&quot;</bucket>
+              <bucket>&quot;Andy Beene&quot;</bucket>
+              <bucket>&quot;Andy Replogle&quot;</bucket>
+              <bucket>&quot;Angel Moreno&quot;</bucket>
+              <bucket>&quot;Barry Cort&quot;</bucket>
+              <bucket>&quot;Barry Raziano&quot;</bucket>
+              <bucket>&quot;Ben Callahan&quot;</bucket>
+              <bucket>&quot;Bert Bradley&quot;</bucket>
+              <bucket>&quot;Bill Castro&quot;</bucket>
+              <bucket>&quot;Bill Fulton&quot;</bucket>
+              <bucket>&quot;Bill Mooneyham&quot;</bucket>
+              <bucket>&quot;Bill Moran&quot;</bucket>
+              <bucket>&quot;Bill Paschall&quot;</bucket>
+              <bucket>&quot;Bill Wilkinson&quot;</bucket>
+              <bucket>&quot;Bob Babcock&quot;</bucket>
+              <bucket>&quot;Bob Davidson&quot;</bucket>
+              <bucket>&quot;Bob Fallon&quot;</bucket>
+              <bucket>&quot;Bob Ferris&quot;</bucket>
+              <bucket>&quot;Bob Galasso&quot;</bucket>
+              <bucket>&quot;Bob Kammeyer&quot;</bucket>
+              <bucket>&quot;Bob Veselic&quot;</bucket>
+              <bucket>&quot;Bobby Cuellar&quot;</bucket>
+              <bucket>&quot;Brian Allard&quot;</bucket>
+              <bucket>&quot;Brian Denman&quot;</bucket>
+              <bucket>&quot;Brian Dubois&quot;</bucket>
+              <bucket>&quot;Brian Snyder&quot;</bucket>
+              <bucket>&quot;Britt Burns&quot;</bucket>
+              <bucket>&quot;Bruce Ellingsen&quot;</bucket>
+              <bucket>&quot;Bruce Robbins&quot;</bucket>
+              <bucket>&quot;Bruce Tanner&quot;</bucket>
+              <bucket>&quot;Bruce Taylor&quot;</bucket>
+              <bucket>&quot;Bryan Clutterbuck&quot;</bucket>
+              <bucket>&quot;Bryan Kelly&quot;</bucket>
+              <bucket>&quot;Bryan Oelkers&quot;</bucket>
+              <bucket>&quot;Bud Anderson&quot;</bucket>
+              <bucket>&quot;Butch Edge&quot;</bucket>
+              <bucket>&quot;Byron McLaughlin&quot;</bucket>
+              <bucket>&quot;Cardell Camper&quot;</bucket>
+              <bucket>&quot;Carlos Velazquez&quot;</bucket>
+              <bucket>&quot;Charlie Mitchell&quot;</bucket>
+              <bucket>&quot;Chico Escarrega&quot;</bucket>
+              <bucket>&quot;Chris Batton&quot;</bucket>
+              <bucket>&quot;Chris Knapp&quot;</bucket>
+              <bucket>&quot;Chuck Hockenbery&quot;</bucket>
+              <bucket>&quot;Chuck Porter&quot;</bucket>
+              <bucket>&quot;Clay Christiansen&quot;</bucket>
+              <bucket>&quot;Clint Zavaras&quot;</bucket>
+              <bucket>&quot;Colby Ward&quot;</bucket>
+              <bucket>&quot;Craig Chamberlain&quot;</bucket>
+              <bucket>&quot;Craig Eaton&quot;</bucket>
+              <bucket>&quot;Craig Mitchell&quot;</bucket>
+              <bucket>&quot;Curt Kaufman&quot;</bucket>
+              <bucket>&quot;Curt Wardle&quot;</bucket>
+              <bucket>&quot;Dan Morogiello&quot;</bucket>
+              <bucket>&quot;Danny Fife&quot;</bucket>
+              <bucket>&quot;Daryl Smith&quot;</bucket>
+              <bucket>&quot;Dave Ford&quot;</bucket>
+              <bucket>&quot;Dave Frost&quot;</bucket>
+              <bucket>&quot;Dave Johnson&quot;</bucket>
+              <bucket>&quot;Dave Lemanczyk&quot;</bucket>
+              <bucket>&quot;Dave Rajsich&quot;</bucket>
+              <bucket>&quot;Dave Smith&quot;</bucket>
+              <bucket>&quot;De Wayne Buice&quot;</bucket>
+              <bucket>&quot;De Wayne Vaughn&quot;</bucket>
+              <bucket>&quot;Dennis Burtt&quot;</bucket>
+              <bucket>&quot;Dennis DeBarr&quot;</bucket>
+              <bucket>&quot;Dewey Robinson&quot;</bucket>
+              <bucket>&quot;Don Cooper&quot;</bucket>
+              <bucket>&quot;Don Gordon&quot;</bucket>
+              <bucket>&quot;Don Kainer&quot;</bucket>
+              <bucket>&quot;Don Welchel&quot;</bucket>
+              <bucket>&quot;Ed Hodge&quot;</bucket>
+              <bucket>&quot;Eric Hetzel&quot;</bucket>
+              <bucket>&quot;Eric Wilkins&quot;</bucket>
+              <bucket>&quot;Fernando Arroyo&quot;</bucket>
+              <bucket>&quot;Francisco Barrios&quot;</bucket>
+              <bucket>&quot;Frank Dimichele&quot;</bucket>
+              <bucket>&quot;Frank Eufemia&quot;</bucket>
+              <bucket>&quot;Fred Howard&quot;</bucket>
+              <bucket>&quot;Gary Beare&quot;</bucket>
+              <bucket>&quot;Gary Christenson&quot;</bucket>
+              <bucket>&quot;Gary Ignasiak&quot;</bucket>
+              <bucket>&quot;Gary Lance&quot;</bucket>
+              <bucket>&quot;Gary Mielke&quot;</bucket>
+              <bucket>&quot;Gary Wheelock&quot;</bucket>
+              <bucket>&quot;Gil Patterson&quot;</bucket>
+              <bucket>&quot;Glen Cook&quot;</bucket>
+              <bucket>&quot;Gorman Heimueller&quot;</bucket>
+              <bucket>&quot;Greg Erardi&quot;</bucket>
+              <bucket>&quot;Greg Thayer&quot;</bucket>
+              <bucket>&quot;Howard Bailey&quot;</bucket>
+              <bucket>&quot;Ike Brookens&quot;</bucket>
+              <bucket>&quot;Israel Sanchez&quot;</bucket>
+              <bucket>&quot;Jack Hardy&quot;</bucket>
+              <bucket>&quot;Jack Lazorko&quot;</bucket>
+              <bucket>&quot;Jaime Cocanower&quot;</bucket>
+              <bucket>&quot;Jay Pettibone&quot;</bucket>
+              <bucket>&quot;Jeff Barkley&quot;</bucket>
+              <bucket>&quot;Jeff Bettendorf&quot;</bucket>
+              <bucket>&quot;Jeff Byrd&quot;</bucket>
+              <bucket>&quot;Jeff Holly&quot;</bucket>
+              <bucket>&quot;Jeff Jones&quot;</bucket>
+              <bucket>&quot;Jeff Peterek&quot;</bucket>
+              <bucket>&quot;Jeff Richardson&quot;</bucket>
+              <bucket>&quot;Jeff Rineer&quot;</bucket>
+              <bucket>&quot;Jeff Schattinger&quot;</bucket>
+              <bucket>&quot;Jeff Schneider&quot;</bucket>
+              <bucket>&quot;Jeff Sellers&quot;</bucket>
+              <bucket>&quot;Jeff Shaver&quot;</bucket>
+              <bucket>&quot;Jeff Twitty&quot;</bucket>
+              <bucket>&quot;Jerry Augustine&quot;</bucket>
+              <bucket>&quot;Jerry Garvin&quot;</bucket>
+              <bucket>&quot;Jerry Kutzler&quot;</bucket>
+              <bucket>&quot;Jerry Ujdur&quot;</bucket>
+              <bucket>&quot;Jim Burton&quot;</bucket>
+              <bucket>&quot;Jim Campbell&quot;</bucket>
+              <bucket>&quot;Jim Dorsey&quot;</bucket>
+              <bucket>&quot;Jim Farr&quot;</bucket>
+              <bucket>&quot;Jim Gideon&quot;</bucket>
+              <bucket>&quot;Jim Lewis&quot;</bucket>
+              <bucket>&quot;Jim Siwy&quot;</bucket>
+              <bucket>&quot;Jim Umbarger&quot;</bucket>
+              <bucket>&quot;Jim Wright&quot;</bucket>
+              <bucket>&quot;Joe Pactwa&quot;</bucket>
+              <bucket>&quot;Joe Skalski&quot;</bucket>
+              <bucket>&quot;Joel Davis&quot;</bucket>
+              <bucket>&quot;Joel McKeon&quot;</bucket>
+              <bucket>&quot;John Bohnet&quot;</bucket>
+              <bucket>&quot;John Butcher&quot;</bucket>
+              <bucket>&quot;John Caneira&quot;</bucket>
+              <bucket>&quot;John Flinn&quot;</bucket>
+              <bucket>&quot;John Hobbs&quot;</bucket>
+              <bucket>&quot;John Hoover&quot;</bucket>
+              <bucket>&quot;John LaRose&quot;</bucket>
+              <bucket>&quot;John Leister&quot;</bucket>
+              <bucket>&quot;John Pawlowski&quot;</bucket>
+              <bucket>&quot;John Poloni&quot;</bucket>
+              <bucket>&quot;John Trautwein&quot;</bucket>
+              <bucket>&quot;Jose Cecena&quot;</bucket>
+              <bucket>&quot;Jose Roman&quot;</bucket>
+              <bucket>&quot;Juan Nieves&quot;</bucket>
+              <bucket>&quot;Karl Best&quot;</bucket>
+              <bucket>&quot;Keith Creel&quot;</bucket>
+              <bucket>&quot;Keith Macwhorter&quot;</bucket>
+              <bucket>&quot;Kevin Bearse&quot;</bucket>
+              <bucket>&quot;Kevin Mmahat&quot;</bucket>
+              <bucket>&quot;Kevin Stanfield&quot;</bucket>
+              <bucket>&quot;Lafayette Currence&quot;</bucket>
+              <bucket>&quot;Larry Anderson&quot;</bucket>
+              <bucket>&quot;Larry Monroe&quot;</bucket>
+              <bucket>&quot;Larry Pashnick&quot;</bucket>
+              <bucket>&quot;Larry Rothschild&quot;</bucket>
+              <bucket>&quot;Len Whitehouse&quot;</bucket>
+              <bucket>&quot;Leon Hooten&quot;</bucket>
+              <bucket>&quot;Les Straker&quot;</bucket>
+              <bucket>&quot;Luis Aponte&quot;</bucket>
+              <bucket>&quot;Luis Encarnacion&quot;</bucket>
+              <bucket>&quot;Luis Quintana&quot;</bucket>
+              <bucket>&quot;Luis Sanchez&quot;</bucket>
+              <bucket>&quot;Mark Brown&quot;</bucket>
+              <bucket>&quot;Mark Ciardi&quot;</bucket>
+              <bucket>&quot;Mark Clear&quot;</bucket>
+              <bucket>&quot;Mark Esser&quot;</bucket>
+              <bucket>&quot;Mark Mercer&quot;</bucket>
+              <bucket>&quot;Mark Smith&quot;</bucket>
+              <bucket>&quot;Mark Souza&quot;</bucket>
+              <bucket>&quot;Matt Williams&quot;</bucket>
+              <bucket>&quot;Mike Bacsik&quot;</bucket>
+              <bucket>&quot;Mike Darr&quot;</bucket>
+              <bucket>&quot;Mike Jones&quot;</bucket>
+              <bucket>&quot;Mike Kinnunen&quot;</bucket>
+              <bucket>&quot;Mike Loynd&quot;</bucket>
+              <bucket>&quot;Mike Overy&quot;</bucket>
+              <bucket>&quot;Mike Parrott&quot;</bucket>
+              <bucket>&quot;Mike Paxton&quot;</bucket>
+              <bucket>&quot;Mike Pazik&quot;</bucket>
+              <bucket>&quot;Mike Rochford&quot;</bucket>
+              <bucket>&quot;Mike Smith&quot;</bucket>
+              <bucket>&quot;Mike Smithson&quot;</bucket>
+              <bucket>&quot;Mike Trujillo&quot;</bucket>
+              <bucket>&quot;Mike Walters&quot;</bucket>
+              <bucket>&quot;Mike Warren&quot;</bucket>
+              <bucket>&quot;Mike Willis&quot;</bucket>
+              <bucket>&quot;Narciso Elvira&quot;</bucket>
+              <bucket>&quot;Nardi Contreras&quot;</bucket>
+              <bucket>&quot;Oswaldo Peraza&quot;</bucket>
+              <bucket>&quot;Ozzie Osborn&quot;</bucket>
+              <bucket>&quot;Pat Underwood&quot;</bucket>
+              <bucket>&quot;Paul Boris&quot;</bucket>
+              <bucket>&quot;Paul Hartzell&quot;</bucket>
+              <bucket>&quot;Paul Mitchell&quot;</bucket>
+              <bucket>&quot;Paul Wilmet&quot;</bucket>
+              <bucket>&quot;Pete Filson&quot;</bucket>
+              <bucket>&quot;Phil Huffman&quot;</bucket>
+              <bucket>&quot;Rafael Vasquez&quot;</bucket>
+              <bucket>&quot;Ralph Botting&quot;</bucket>
+              <bucket>&quot;Ramon Manon&quot;</bucket>
+              <bucket>&quot;Ramon Pena&quot;</bucket>
+              <bucket>&quot;Randy Nosek&quot;</bucket>
+              <bucket>&quot;Randy Scarbery&quot;</bucket>
+              <bucket>&quot;Randy Wiles&quot;</bucket>
+              <bucket>&quot;Ray Chadwick&quot;</bucket>
+              <bucket>&quot;Reggie Ritter&quot;</bucket>
+              <bucket>&quot;Rich Barnes&quot;</bucket>
+              <bucket>&quot;Rich Wortham&quot;</bucket>
+              <bucket>&quot;Rich Yett&quot;</bucket>
+              <bucket>&quot;Rick Anderson&quot;</bucket>
+              <bucket>&quot;Rick Henninger&quot;</bucket>
+              <bucket>&quot;Rick Jones&quot;</bucket>
+              <bucket>&quot;Rick Kreuger&quot;</bucket>
+              <bucket>&quot;Rick Lysander&quot;</bucket>
+              <bucket>&quot;Rick Steirer&quot;</bucket>
+              <bucket>&quot;Rickey Keeton&quot;</bucket>
+              <bucket>&quot;Rob Woodward&quot;</bucket>
+              <bucket>&quot;Roger Miller&quot;</bucket>
+              <bucket>&quot;Roger Slagle&quot;</bucket>
+              <bucket>&quot;Roger Weaver&quot;</bucket>
+              <bucket>&quot;Ron Musselman&quot;</bucket>
+              <bucket>&quot;Ron Romanick&quot;</bucket>
+              <bucket>&quot;Roy Branch&quot;</bucket>
+              <bucket>&quot;Sam Hinds&quot;</bucket>
+              <bucket>&quot;Sandy Wihtol&quot;</bucket>
+              <bucket>&quot;Shawn Holman&quot;</bucket>
+              <bucket>&quot;Sherman Corbett&quot;</bucket>
+              <bucket>&quot;Stan Thomas&quot;</bucket>
+              <bucket>&quot;Stefan Wever&quot;</bucket>
+              <bucket>&quot;Steve Adkins&quot;</bucket>
+              <bucket>&quot;Steve Barr&quot;</bucket>
+              <bucket>&quot;Steve Brown&quot;</bucket>
+              <bucket>&quot;Steve Burke&quot;</bucket>
+              <bucket>&quot;Steve Cummings&quot;</bucket>
+              <bucket>&quot;Steve Curry&quot;</bucket>
+              <bucket>&quot;Steve Davis&quot;</bucket>
+              <bucket>&quot;Steve Eddy&quot;</bucket>
+              <bucket>&quot;Steve Ellsworth&quot;</bucket>
+              <bucket>&quot;Steve Senteney&quot;</bucket>
+              <bucket>&quot;T.R. Bryden&quot;</bucket>
+              <bucket>&quot;Terry Felton&quot;</bucket>
+              <bucket>&quot;Terry Taylor&quot;</bucket>
+              <bucket>&quot;Terry Wilshusen&quot;</bucket>
+              <bucket>&quot;Todd Fischer&quot;</bucket>
+              <bucket>&quot;Tom Brown&quot;</bucket>
+              <bucket>&quot;Tom Buskey&quot;</bucket>
+              <bucket>&quot;Tom Dozier&quot;</bucket>
+              <bucket>&quot;Tom Gilles&quot;</bucket>
+              <bucket>&quot;Tom Klawitter&quot;</bucket>
+              <bucket>&quot;Tom Makowski&quot;</bucket>
+              <bucket>&quot;Tom McCarthy&quot;</bucket>
+              <bucket>&quot;Tony Arnold&quot;</bucket>
+              <bucket>&quot;Tony Chevez&quot;</bucket>
+              <bucket>&quot;Tony Ferreira&quot;</bucket>
+              <bucket>&quot;Tony Mack&quot;</bucket>
+              <bucket>&quot;Vance Lovelace&quot;</bucket>
+              <bucket>&quot;Willie Mueller&quot;</bucket>
+              <bucket>&quot;Win Remmerswaal&quot;</bucket>
+              <bucket>&quot;Zach Crouch&quot;</bucket>
+              <bucket>&quot;Dave Stapleton&quot;</bucket>
+              <bucket>&quot;Bobby Mitchell&quot;</bucket>
+              <bucket>&quot;Lyman Bostock&quot;</bucket>
+              <bucket>&quot;Glenn Beckert&quot;</bucket>
+              <bucket>&quot;Dave Cash&quot;</bucket>
+              <bucket>&quot;Felix Millan&quot;</bucket>
+              <bucket>&quot;Greg Gross&quot;</bucket>
+              <bucket>&quot;Dane Iorg&quot;</bucket>
+              <bucket>&quot;Thad Bosley&quot;</bucket>
+              <bucket>&quot;Jeff Stone&quot;</bucket>
+              <bucket>&quot;Terry Francona&quot;</bucket>
+              <bucket>&quot;Rudy Law&quot;</bucket>
+              <bucket>&quot;Alan Bannister&quot;</bucket>
+              <bucket>&quot;Gene Clines&quot;</bucket>
+              <bucket>&quot;Gene Locklear&quot;</bucket>
+              <bucket>&quot;Jerry Remy&quot;</bucket>
+              <bucket>&quot;Rick Leach&quot;</bucket>
+              <bucket>&quot;Rick Peters&quot;</bucket>
+              <bucket>&quot;Tim Corcoran&quot;</bucket>
+              <bucket>&quot;Rufino Linares&quot;</bucket>
+              <bucket>&quot;Jim Holt&quot;</bucket>
+              <bucket>&quot;Ron Pruitt&quot;</bucket>
+              <bucket>&quot;Paul Dade&quot;</bucket>
+              <bucket>&quot;Broderick Perkins&quot;</bucket>
+              <bucket>&quot;Bubba Morton&quot;</bucket>
+              <bucket>&quot;Wayne Krenchicki&quot;</bucket>
+              <bucket>&quot;Darrell Brown&quot;</bucket>
+              <bucket>&quot;Tom Poquette&quot;</bucket>
+              <bucket>&quot;Daryl Sconiers&quot;</bucket>
+              <bucket>&quot;Barbaro Garbey&quot;</bucket>
+              <bucket>&quot;Ron Washington&quot;</bucket>
+              <bucket>&quot;Billy North&quot;</bucket>
+              <bucket>&quot;Ken Retzer&quot;</bucket>
+              <bucket>&quot;Bob Molinaro&quot;</bucket>
+              <bucket>&quot;Rich Coggins&quot;</bucket>
+              <bucket>&quot;Carl Taylor&quot;</bucket>
+              <bucket>&quot;Duane Kuiper&quot;</bucket>
+              <bucket>&quot;Elliott Maddox&quot;</bucket>
+              <bucket>&quot;Jack Perconte&quot;</bucket>
+              <bucket>&quot;Bombo Rivera&quot;</bucket>
+              <bucket>&quot;Richie Scheinblum&quot;</bucket>
+              <bucket>&quot;Garth Iorg&quot;</bucket>
+              <bucket>&quot;Al Gallagher&quot;</bucket>
+              <bucket>&quot;Bob Bailor&quot;</bucket>
+              <bucket>&quot;Hosken Powell&quot;</bucket>
+              <bucket>&quot;Bruce Boisclair&quot;</bucket>
+              <bucket>&quot;Larry Bowa&quot;</bucket>
+              <bucket>&quot;Phil Mankowski&quot;</bucket>
+              <bucket>&quot;Miguel Dilone&quot;</bucket>
+              <bucket>&quot;Junior Moore&quot;</bucket>
+              <bucket>&quot;Jim Norris&quot;</bucket>
+              <bucket>&quot;Ike Brown&quot;</bucket>
+              <bucket>&quot;Bobby Valentine&quot;</bucket>
+              <bucket>&quot;Scot Thompson&quot;</bucket>
+              <bucket>&quot;Tom O&apos;Malley&quot;</bucket>
+              <bucket>&quot;Mike Squires&quot;</bucket>
+              <bucket>&quot;Julio Gotay&quot;</bucket>
+              <bucket>&quot;Tony Muser&quot;</bucket>
+              <bucket>&quot;Steve Hovley&quot;</bucket>
+              <bucket>&quot;Jose Tartabull&quot;</bucket>
+              <bucket>&quot;Alan Wiggins&quot;</bucket>
+              <bucket>&quot;Mario Guerrero&quot;</bucket>
+              <bucket>&quot;Brian Asselstine&quot;</bucket>
+              <bucket>&quot;Dave Chalk&quot;</bucket>
+              <bucket>&quot;Boots Day&quot;</bucket>
+              <bucket>&quot;Brock Davis&quot;</bucket>
+              <bucket>&quot;Larry Milbourne&quot;</bucket>
+              <bucket>&quot;Tim Flannery&quot;</bucket>
+              <bucket>&quot;Bill Sharp&quot;</bucket>
+              <bucket>&quot;Don Kessinger&quot;</bucket>
+              <bucket>&quot;Juan Bonilla&quot;</bucket>
+              <bucket>&quot;Rick Bosetti&quot;</bucket>
+              <bucket>&quot;Denny Doyle&quot;</bucket>
+              <bucket>&quot;Tony Scott&quot;</bucket>
+              <bucket>&quot;Johnny Oates&quot;</bucket>
+              <bucket>&quot;Greg Pryor&quot;</bucket>
+              <bucket>&quot;Wallace Johnson&quot;</bucket>
+              <bucket>&quot;Bob Randall&quot;</bucket>
+              <bucket>&quot;Rich Chiles&quot;</bucket>
+              <bucket>&quot;Dick Howser&quot;</bucket>
+              <bucket>&quot;Danny Thompson&quot;</bucket>
+              <bucket>&quot;Tito Landrum&quot;</bucket>
+              <bucket>&quot;Frank Taveras&quot;</bucket>
+              <bucket>&quot;Rod Gilbreath&quot;</bucket>
+              <bucket>&quot;Lynn Jones&quot;</bucket>
+              <bucket>&quot;Dick Bertell&quot;</bucket>
+              <bucket>&quot;Jerry Terrell&quot;</bucket>
+              <bucket>&quot;Dave Marshall&quot;</bucket>
+              <bucket>&quot;Jim Pankovits&quot;</bucket>
+              <bucket>&quot;Ken Hubbs&quot;</bucket>
+              <bucket>&quot;Sonny Jackson&quot;</bucket>
+              <bucket>&quot;Larry Harlow&quot;</bucket>
+              <bucket>&quot;Johnny Jeter&quot;</bucket>
+              <bucket>&quot;Steve Nicosia&quot;</bucket>
+              <bucket>&quot;Ellie Rodriguez&quot;</bucket>
+              <bucket>&quot;Marv Breeding&quot;</bucket>
+              <bucket>&quot;Garry Hancock&quot;</bucket>
+              <bucket>&quot;Lenny Faedo&quot;</bucket>
+              <bucket>&quot;Andre Robertson&quot;</bucket>
+              <bucket>&quot;Albert Hall&quot;</bucket>
+              <bucket>&quot;Ray Webster&quot;</bucket>
+              <bucket>&quot;Rafael Santana&quot;</bucket>
+              <bucket>&quot;Wilbur Howard&quot;</bucket>
+              <bucket>&quot;Joe Wallis&quot;</bucket>
+              <bucket>&quot;Luis Melendez&quot;</bucket>
+              <bucket>&quot;Jim Lyttle&quot;</bucket>
+              <bucket>&quot;Rob Andrews&quot;</bucket>
+              <bucket>&quot;Sandy Alomar&quot;</bucket>
+              <bucket>&quot;Roberto Pena&quot;</bucket>
+              <bucket>&quot;Willie Norwood&quot;</bucket>
+              <bucket>&quot;Bruce Benedict&quot;</bucket>
+              <bucket>&quot;Barry Evans&quot;</bucket>
+              <bucket>&quot;Bob Brower&quot;</bucket>
+              <bucket>&quot;Merritt Ranew&quot;</bucket>
+              <bucket>&quot;Ed Romero&quot;</bucket>
+              <bucket>&quot;Pepe Mangual&quot;</bucket>
+              <bucket>&quot;Joe Keough&quot;</bucket>
+              <bucket>&quot;Mike Edwards&quot;</bucket>
+              <bucket>&quot;Ted Cox&quot;</bucket>
+              <bucket>&quot;Joe Strain&quot;</bucket>
+              <bucket>&quot;Steve Dillard&quot;</bucket>
+              <bucket>&quot;Rick Joseph&quot;</bucket>
+              <bucket>&quot;Gary Woods&quot;</bucket>
+              <bucket>&quot;Junior Kennedy&quot;</bucket>
+              <bucket>&quot;Ron Theobald&quot;</bucket>
+              <bucket>&quot;Tom Veryzer&quot;</bucket>
+              <bucket>&quot;Mickey Klutts&quot;</bucket>
+              <bucket>&quot;Doug Griffin&quot;</bucket>
+              <bucket>&quot;Curt Ford&quot;</bucket>
+              <bucket>&quot;Pedro Gonzalez&quot;</bucket>
+              <bucket>&quot;Rick Sofield&quot;</bucket>
+              <bucket>&quot;Ron Roenicke&quot;</bucket>
+              <bucket>&quot;Chuck Harrison&quot;</bucket>
+              <bucket>&quot;Bob Heise&quot;</bucket>
+              <bucket>&quot;Harry Spilman&quot;</bucket>
+              <bucket>&quot;Joe Simpson&quot;</bucket>
+              <bucket>&quot;Bryan Little&quot;</bucket>
+              <bucket>&quot;Doc Edwards&quot;</bucket>
+              <bucket>&quot;Bruce Miller&quot;</bucket>
+              <bucket>&quot;Mike Phillips&quot;</bucket>
+              <bucket>&quot;Wayne Tolleson&quot;</bucket>
+              <bucket>&quot;Phil Gagliano&quot;</bucket>
+              <bucket>&quot;Kiko Garcia&quot;</bucket>
+              <bucket>&quot;Doug Ault&quot;</bucket>
+              <bucket>&quot;Chris Cannizzaro&quot;</bucket>
+              <bucket>&quot;Ed Stroud&quot;</bucket>
+              <bucket>&quot;Dave Edwards&quot;</bucket>
+              <bucket>&quot;Bill Fahey&quot;</bucket>
+              <bucket>&quot;Fernando Gonzalez&quot;</bucket>
+              <bucket>&quot;Mark Wagner&quot;</bucket>
+              <bucket>&quot;Domingo Ramos&quot;</bucket>
+              <bucket>&quot;Ron Stone&quot;</bucket>
+              <bucket>&quot;Rod Kanehl&quot;</bucket>
+              <bucket>&quot;Hank Allen&quot;</bucket>
+              <bucket>&quot;Frank Tepedino&quot;</bucket>
+              <bucket>&quot;Ted Martinez&quot;</bucket>
+              <bucket>&quot;Rob Picciolo&quot;</bucket>
+              <bucket>&quot;Manny Castillo&quot;</bucket>
+              <bucket>&quot;Danny Goodwin&quot;</bucket>
+              <bucket>&quot;Rick Rhoden&quot;</bucket>
+              <bucket>&quot;Tim Harkness&quot;</bucket>
+              <bucket>&quot;Marty Martinez&quot;</bucket>
+              <bucket>&quot;Dave Skaggs&quot;</bucket>
+              <bucket>&quot;Jerry May&quot;</bucket>
+              <bucket>&quot;Doug Flynn&quot;</bucket>
+              <bucket>&quot;Dave Rosello&quot;</bucket>
+              <bucket>&quot;Jimmy Stewart&quot;</bucket>
+              <bucket>&quot;Ty Cline&quot;</bucket>
+              <bucket>&quot;Phil Linz&quot;</bucket>
+              <bucket>&quot;Mike Ramsey&quot;</bucket>
+              <bucket>&quot;Chico Ruiz&quot;</bucket>
+              <bucket>&quot;Paul Popovich&quot;</bucket>
+              <bucket>&quot;Jerry Kenney&quot;</bucket>
+              <bucket>&quot;Ron Brand&quot;</bucket>
+              <bucket>&quot;Onix Concepcion&quot;</bucket>
+              <bucket>&quot;Bob Meacham&quot;</bucket>
+              <bucket>&quot;Pepe Frias&quot;</bucket>
+              <bucket>&quot;John Donaldson&quot;</bucket>
+              <bucket>&quot;Vern Fuller&quot;</bucket>
+              <bucket>&quot;Don Hahn&quot;</bucket>
+              <bucket>&quot;Bud Harrelson&quot;</bucket>
+              <bucket>&quot;Billy Smith&quot;</bucket>
+              <bucket>&quot;Rafael Landestoy&quot;</bucket>
+              <bucket>&quot;Jackie Gutierrez&quot;</bucket>
+              <bucket>&quot;Jim Beauchamp&quot;</bucket>
+              <bucket>&quot;Jim Fairey&quot;</bucket>
+              <bucket>&quot;Ron Davis&quot;</bucket>
+              <bucket>&quot;Ted Kubiak&quot;</bucket>
+              <bucket>&quot;Wayne Comer&quot;</bucket>
+              <bucket>&quot;Glenn Borgmann&quot;</bucket>
+              <bucket>&quot;Glenn Burke&quot;</bucket>
+              <bucket>&quot;Rodney Scott&quot;</bucket>
+              <bucket>&quot;Gene Michael&quot;</bucket>
+              <bucket>&quot;Don Leppert&quot;</bucket>
+              <bucket>&quot;Gil Garrido&quot;</bucket>
+              <bucket>&quot;Rick Sweet&quot;</bucket>
+              <bucket>&quot;Ken Walters&quot;</bucket>
+              <bucket>&quot;Julio Gonzalez&quot;</bucket>
+              <bucket>&quot;Woody Woodward&quot;</bucket>
+              <bucket>&quot;Tommie Aaron&quot;</bucket>
+              <bucket>&quot;Dick Billings&quot;</bucket>
+              <bucket>&quot;Doug Clemens&quot;</bucket>
+              <bucket>&quot;Dick Phillips&quot;</bucket>
+              <bucket>&quot;Jerry Dybzinski&quot;</bucket>
+              <bucket>&quot;Terry Harmon&quot;</bucket>
+              <bucket>&quot;Cesar Gutierrez&quot;</bucket>
+              <bucket>&quot;Mike Fiore&quot;</bucket>
+              <bucket>&quot;Brad Wellman&quot;</bucket>
+              <bucket>&quot;Ron Gardenhire&quot;</bucket>
+              <bucket>&quot;Elio Chacon&quot;</bucket>
+              <bucket>&quot;Sandy Valdespino&quot;</bucket>
+              <bucket>&quot;Roger Metzger&quot;</bucket>
+              <bucket>&quot;Brian Giles&quot;</bucket>
+              <bucket>&quot;Tommie Reynolds&quot;</bucket>
+              <bucket>&quot;Russ Gibson&quot;</bucket>
+              <bucket>&quot;Hal Lanier&quot;</bucket>
+              <bucket>&quot;Mike Brumley&quot;</bucket>
+              <bucket>&quot;Winston Llenas&quot;</bucket>
+              <bucket>&quot;Sal Butera&quot;</bucket>
+              <bucket>&quot;Bob Burda&quot;</bucket>
+              <bucket>&quot;Tim Blackwell&quot;</bucket>
+              <bucket>&quot;Bob Barton&quot;</bucket>
+              <bucket>&quot;Bobby Cox&quot;</bucket>
+              <bucket>&quot;Mike Champion&quot;</bucket>
+              <bucket>&quot;Ken Suarez&quot;</bucket>
+              <bucket>&quot;Joe Nossek&quot;</bucket>
+              <bucket>&quot;Kevin Bell&quot;</bucket>
+              <bucket>&quot;Catfish Hunter&quot;</bucket>
+              <bucket>&quot;Jimmie Schaffer&quot;</bucket>
+              <bucket>&quot;Jim Nettles&quot;</bucket>
+              <bucket>&quot;Bob Didier&quot;</bucket>
+              <bucket>&quot;Mike Sadek&quot;</bucket>
+              <bucket>&quot;Ted Ford&quot;</bucket>
+              <bucket>&quot;Mike Richardt&quot;</bucket>
+              <bucket>&quot;Larry Cox&quot;</bucket>
+              <bucket>&quot;Nate Oliver&quot;</bucket>
+              <bucket>&quot;Larry Lintz&quot;</bucket>
+              <bucket>&quot;Jim Anderson&quot;</bucket>
+              <bucket>&quot;Tim Cullen&quot;</bucket>
+              <bucket>&quot;Rick Auerbach&quot;</bucket>
+              <bucket>&quot;Enzo Hernandez&quot;</bucket>
+              <bucket>&quot;Darrel Chaney&quot;</bucket>
+              <bucket>&quot;Vic Harris&quot;</bucket>
+              <bucket>&quot;Al Weis&quot;</bucket>
+              <bucket>&quot;Tim Johnson&quot;</bucket>
+              <bucket>&quot;John Stephenson&quot;</bucket>
+              <bucket>&quot;Howie Goss&quot;</bucket>
+              <bucket>&quot;Stan Papi&quot;</bucket>
+              <bucket>&quot;Larry Haney&quot;</bucket>
+              <bucket>&quot;Fred Stanley&quot;</bucket>
+              <bucket>&quot;Mike Fischlin&quot;</bucket>
+              <bucket>&quot;Tucker Ashford&quot;</bucket>
+              <bucket>&quot;Ned Yost&quot;</bucket>
+              <bucket>&quot;Danny Ainge&quot;</bucket>
+              <bucket>&quot;Dal Maxvill&quot;</bucket>
+              <bucket>&quot;Ed Crosby&quot;</bucket>
+              <bucket>&quot;Bob Forsch&quot;</bucket>
+              <bucket>&quot;Alan Knicely&quot;</bucket>
+              <bucket>&quot;Craig Robinson&quot;</bucket>
+              <bucket>&quot;Jeff Torborg&quot;</bucket>
+              <bucket>&quot;Steve Renko&quot;</bucket>
+              <bucket>&quot;Pat Corrales&quot;</bucket>
+              <bucket>&quot;Joe Lovitto&quot;</bucket>
+              <bucket>&quot;Dick Tracewski&quot;</bucket>
+              <bucket>&quot;Tom Matchick&quot;</bucket>
+              <bucket>&quot;Mario Mendoza&quot;</bucket>
+              <bucket>&quot;Luis Alvarado&quot;</bucket>
+              <bucket>&quot;Frank Quilici&quot;</bucket>
+              <bucket>&quot;Skip Jutze&quot;</bucket>
+              <bucket>&quot;Ken Rudolph&quot;</bucket>
+              <bucket>&quot;Dave Hilton&quot;</bucket>
+              <bucket>&quot;Jack Heidemann&quot;</bucket>
+              <bucket>&quot;Dick Simpson&quot;</bucket>
+              <bucket>&quot;Jose Arcia&quot;</bucket>
+              <bucket>&quot;Steve Huntz&quot;</bucket>
+              <bucket>&quot;Jackie Hernandez&quot;</bucket>
+              <bucket>&quot;Terry Humphrey&quot;</bucket>
+              <bucket>&quot;Rudy Meoli&quot;</bucket>
+              <bucket>&quot;Angel Salazar&quot;</bucket>
+              <bucket>&quot;Mick Kelleher&quot;</bucket>
+              <bucket>&quot;Steve Jeltz&quot;</bucket>
+              <bucket>&quot;Bobby Klaus&quot;</bucket>
+              <bucket>&quot;George Smith&quot;</bucket>
+              <bucket>&quot;Luis Gomez&quot;</bucket>
+              <bucket>&quot;Jim Mason&quot;</bucket>
+              <bucket>&quot;John Hale&quot;</bucket>
+              <bucket>&quot;Steve Carlton&quot;</bucket>
+              <bucket>&quot;Buddy Biancalana&quot;</bucket>
+              <bucket>&quot;Tom Lawless&quot;</bucket>
+              <bucket>&quot;Bob Uecker&quot;</bucket>
+              <bucket>&quot;Tom Nieto&quot;</bucket>
+              <bucket>&quot;Don Mason&quot;</bucket>
+              <bucket>&quot;Jerry Zimmerman&quot;</bucket>
+              <bucket>&quot;Jim Rooker&quot;</bucket>
+              <bucket>&quot;Jim Maloney&quot;</bucket>
+              <bucket>&quot;Rick Wise&quot;</bucket>
+              <bucket>&quot;Orlando Mercado&quot;</bucket>
+              <bucket>&quot;Dan Briggs&quot;</bucket>
+              <bucket>&quot;Bob Davis&quot;</bucket>
+              <bucket>&quot;Jim French&quot;</bucket>
+              <bucket>&quot;Rich Morales&quot;</bucket>
+              <bucket>&quot;Tony Cloninger&quot;</bucket>
+              <bucket>&quot;Luis Pujols&quot;</bucket>
+              <bucket>&quot;Bill Plummer&quot;</bucket>
+              <bucket>&quot;Mike Krukow&quot;</bucket>
+              <bucket>&quot;Ray Sadecki&quot;</bucket>
+              <bucket>&quot;Ron Clark&quot;</bucket>
+              <bucket>&quot;Dick Ruthven&quot;</bucket>
+              <bucket>&quot;Tommy Dean&quot;</bucket>
+              <bucket>&quot;Sonny Siebert&quot;</bucket>
+              <bucket>&quot;J.R. Richard&quot;</bucket>
+              <bucket>&quot;Phil Niekro&quot;</bucket>
+              <bucket>&quot;Andy Messersmith&quot;</bucket>
+              <bucket>&quot;Steve Blass&quot;</bucket>
+              <bucket>&quot;Fergie Jenkins&quot;</bucket>
+              <bucket>&quot;John Denny&quot;</bucket>
+              <bucket>&quot;Jerry Reuss&quot;</bucket>
+              <bucket>&quot;Juan Marichal&quot;</bucket>
+              <bucket>&quot;Luis Tiant&quot;</bucket>
+              <bucket>&quot;John Vukovich&quot;</bucket>
+              <bucket>&quot;Ken Holtzman&quot;</bucket>
+              <bucket>&quot;Mel Stottlemyre&quot;</bucket>
+              <bucket>&quot;Jim Barr&quot;</bucket>
+              <bucket>&quot;Tom Seaver&quot;</bucket>
+              <bucket>&quot;Fritz Peterson&quot;</bucket>
+              <bucket>&quot;Carl Morton&quot;</bucket>
+              <bucket>&quot;Tommy John&quot;</bucket>
+              <bucket>&quot;Ron Reed&quot;</bucket>
+              <bucket>&quot;Joe Niekro&quot;</bucket>
+              <bucket>&quot;Sam McDowell&quot;</bucket>
+              <bucket>&quot;Ray Burris&quot;</bucket>
+              <bucket>&quot;Don Wilson&quot;</bucket>
+              <bucket>&quot;Don Sutton&quot;</bucket>
+              <bucket>&quot;Bob Knepper&quot;</bucket>
+              <bucket>&quot;Woodie Fryman&quot;</bucket>
+              <bucket>&quot;Gary Nolan&quot;</bucket>
+              <bucket>&quot;Larry Dierker&quot;</bucket>
+              <bucket>&quot;Dave McNally&quot;</bucket>
+              <bucket>&quot;Steve Rogers&quot;</bucket>
+              <bucket>&quot;Jim Lonborg&quot;</bucket>
+              <bucket>&quot;Gaylord Perry&quot;</bucket>
+              <bucket>&quot;Joe Horlen&quot;</bucket>
+              <bucket>&quot;Denny McLain&quot;</bucket>
+              <bucket>&quot;Mario Soto&quot;</bucket>
+              <bucket>&quot;Denny Lemaster&quot;</bucket>
+              <bucket>&quot;Randy Jones&quot;</bucket>
+              <bucket>&quot;Joaquin Andujar&quot;</bucket>
+              <bucket>&quot;Al Downing&quot;</bucket>
+              <bucket>&quot;Burt Hooton&quot;</bucket>
+              <bucket>&quot;Fred Norman&quot;</bucket>
+              <bucket>&quot;Ray Culp&quot;</bucket>
+              <bucket>&quot;Jerry Koosman&quot;</bucket>
+              <bucket>&quot;Steve Barber&quot;</bucket>
+              <bucket>&quot;Bob Veale&quot;</bucket>
+              <bucket>&quot;Jack Billingham&quot;</bucket>
+              <bucket>&quot;Mickey Lolich&quot;</bucket>
+              <bucket>&quot;Vida Blue&quot;</bucket>
+              <bucket>&quot;Dean Chance&quot;</bucket>
+              <bucket>%all%</bucket>
+            </dictionary>
+          </sort>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_HR_valuability:qk]' included-values='in-range'>
+            <min>0.0</min>
+            <max>0.55593220338983096</max>
+          </filter>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_avg_valuability:qk]' included-values='in-range'>
+            <min>0.0</min>
+            <max>1.0</max>
+          </filter>
+          <slices>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[:Measure Names]</column>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_avg_valuability:qk]</column>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_HR_valuability:qk]</column>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='display' class='0' field='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[Multiple Values]' scope='cols' value='false' />
+            <format attr='line-visibility' value='off' />
+            <format attr='tick-color' value='#00000000' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='cell-w' value='20' />
+            <format attr='cell-h' value='20' />
+            <format attr='cell' value='20' />
+            <format attr='cell-q' value='100' />
+            <format attr='font-size' data-class='subtotal' scope='rows' value='10' />
+            <format attr='font-weight' data-class='subtotal' scope='rows' value='normal' />
+            <format attr='font-weight' data-class='total' scope='rows' value='bold' />
+            <format attr='font-weight' data-class='subtotal' scope='cols' value='normal' />
+            <format attr='font-size' data-class='subtotal' scope='cols' value='10' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='pane'>
+            <format attr='border-style' data-class='total' value='none' />
+          </style-rule>
+          <style-rule element='worksheet'>
+            <format attr='display-field-labels' scope='rows' value='false' />
+          </style-rule>
+          <style-rule element='dropline'>
+            <format attr='line-visibility' value='off' />
+          </style-rule>
+          <style-rule element='refline'>
+            <format attr='line-visibility' value='off' />
+          </style-rule>
+          <style-rule element='gridline'>
+            <format attr='line-visibility' scope='cols' value='off' />
+          </style-rule>
+          <style-rule element='zeroline'>
+            <format attr='line-visibility' scope='cols' value='off' />
+            <format attr='line-visibility' scope='rows' value='off' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[:Measure Names]' />
+              <tooltip column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:height:qk]' />
+              <tooltip column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:weight:qk]' />
+              <tooltip column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[attr:handedness:nk]' />
+              <tooltip column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_212795121469255685:qk]' />
+              <tooltip column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_212795121468162051:qk]' />
+              <tooltip column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_212795121468489732:qk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='1.7999999523162842' />
+              </style-rule>
+              <style-rule element='trendline'>
+                <format attr='line-visibility' value='off' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[Multiple Values]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Top valuable bmi'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column caption='height_cm' datatype='real' name='[Calculation_212795121468162051]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[height] * 2.54' />
+            </column>
+            <column caption='weight_kg' datatype='real' name='[Calculation_212795121468489732]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[weight] * 0.45359237' />
+            </column>
+            <column caption='bmi' datatype='real' name='[Calculation_212795121469255685]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[Calculation_212795121468489732] / ([Calculation_212795121468162051]/100 * [Calculation_212795121468162051]/100)' />
+            </column>
+            <column aggregation='None' caption='HR Bin 2' datatype='integer' name='[HR (bin) 2]' role='dimension' type='ordinal'>
+              <calculation class='bin' decimals='2' formula='[HR]' peg='0' size='100' />
+            </column>
+            <column datatype='integer' name='[HR]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[Calculation_212795121469255685]' derivation='None' name='[none:Calculation_212795121469255685:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[HR (bin) 2]' derivation='None' name='[none:HR (bin) 2:ok]' pivot='key' type='ordinal' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[valuability_normalized]' derivation='None' name='[none:valuability_normalized:qk]' pivot='key' type='quantitative' />
+            <column datatype='real' name='[valuability_normalized]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR (bin) 2:ok]' />
+              <text column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:Calculation_212795121469255685:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Top valuable weight height'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='baseball_data' name='federated.1ebegqm0f2d87w18m1zhp0hlp0tp' />
+          </datasources>
+          <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
+            <column caption='height_cm' datatype='real' name='[Calculation_212795121468162051]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[height] * 2.54' />
+            </column>
+            <column caption='weight_kg' datatype='real' name='[Calculation_212795121468489732]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[weight] * 0.45359237' />
+            </column>
+            <column datatype='real' name='[HR_normalized]' role='measure' type='quantitative' />
+            <column datatype='real' name='[avg_normalized]' role='measure' type='quantitative' />
+            <column datatype='string' name='[handedness]' role='dimension' type='nominal' />
+            <column datatype='integer' name='[height]' role='measure' type='quantitative' />
+            <column datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[Calculation_212795121468162051]' derivation='None' name='[none:Calculation_212795121468162051:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_212795121468489732]' derivation='None' name='[none:Calculation_212795121468489732:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[HR_normalized]' derivation='None' name='[none:HR_normalized:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[avg_normalized]' derivation='None' name='[none:avg_normalized:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[handedness]' derivation='None' name='[none:handedness:nk]' pivot='key' type='nominal' />
+            <column-instance column='[name]' derivation='None' name='[none:name:nk]' pivot='key' type='nominal' />
+            <column-instance column='[valuability_normalized]' derivation='None' name='[none:valuability_normalized:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[avg_normalized]' derivation='Sum' name='[sum:avg_normalized:qk]' pivot='key' type='quantitative' />
+            <column datatype='real' name='[valuability_normalized]' role='measure' type='quantitative' />
+            <column datatype='integer' name='[weight]' role='measure' type='quantitative' />
+          </datasource-dependencies>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR_normalized:qk]' included-values='in-range'>
+            <min>0.0</min>
+            <max>1.0</max>
+          </filter>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg_normalized:qk]' included-values='in-range'>
+            <min>0.0</min>
+            <max>1.0</max>
+          </filter>
+          <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]' included-values='in-range'>
+            <min>0.81899999999999995</min>
+            <max>1.0</max>
+          </filter>
+          <slices>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg_normalized:qk]</column>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR_normalized:qk]</column>
+            <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane id='6' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <size column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:avg_normalized:qk]' />
+              <text column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' />
+              <lod column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:handedness:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+                <format attr='mark-labels-cull' value='true' />
+                <format attr='size' value='2.066298246383667' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:Calculation_212795121468489732:qk]</rows>
+        <cols>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:Calculation_212795121468162051:qk]</cols>
+        <show-full-range>
+          <column>[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[valuability (bin)]</column>
+        </show-full-range>
+      </table>
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard name='Dashboard 1'>
+      <style />
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' />
+      <zones />
+    </dashboard>
+  </dashboards>
+  <windows source-height='44'>
+    <window class='worksheet' name='Histogram height'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Histogram weight'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Histogram Homeruns'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Histogram Batting Average'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Batting Average vs Height'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Batting Average vs Weight'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Homeruns vs Weight'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Homeruns vs Height'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Average Batting Average vs Handedness'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Height vs Weight vs Homeruns'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:handedness:nk]' type='filter' />
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:weight:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card pane-specification-id='0' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR (bin) 2:ok]' type='color' />
+            <card pane-specification-id='0' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]' type='size' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Height vs Weight vs Batting Average'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='0' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg:qk]' type='size' />
+            <card pane-specification-id='0' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:height:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Top Batting Average'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card mode='typeinlist' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' type='filter' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Top Homerunners'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Homeruns vs Batting average'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card pane-specification-id='7' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_HR_valuability (bin):ok]' type='color' />
+            <card pane-specification-id='7' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:Calculation_212795121468162051:qk]' type='size' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Top valuable weight height'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:valuability_normalized:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR_normalized:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:avg_normalized:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card pane-specification-id='6' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[sum:avg_normalized:qk]' type='size' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' name='Top valuable bmi'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='2' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR (bin) 2:ok]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='worksheet' maximized='true' name='Top Valuable Players'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card type='measures' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='30'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card mode='pattern' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:name:nk]' type='filter' />
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_HR_valuability:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:ratio_avg_valuability:qk]' show-domain='false' show-null-ctrls='false' type='filter' />
+            <card pane-specification-id='0' param='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[:Measure Names]' show-title='false' type='color' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+    <window class='dashboard' name='Dashboard 1'>
+      <viewpoints />
+      <active id='-1' />
+    </window>
+  </windows>
+</workbook>

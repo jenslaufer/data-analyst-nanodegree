@@ -1,6 +1,7 @@
 ---
 title: "Data Visualization with Tableau"
 output:
+  html_document: default
   pdf_document: default
 ---
 
@@ -8,6 +9,38 @@ by Jens Laufer, 15/08/2017
 
 
 ## Summary
+
+The performance of 1157 baseball players was evaluated in this data analysis.
+The dataset contains 5 variables.
+
+The goal of this story is to visualize a finding in the data with Tableau.
+
+
+## Data Set Exploration
+
+The data was first cleaned with R notebook and some additional fields
+were added, which seemed to be easier in R than with Tableau:
+
+
+| Field              | Description                                             |
+| ------------------ | ------------------------------------------------------- |
+| HR_normalized      | Scaled value of HR  (min=0, max=1)                      |
+| avg_normalized     | Scaled value of avg (min=0, max=1)                      |
+| valuability        | Sum of HR_normalized and avg_normalized                 |
+| valuability_normalized | Normalized value of valuability (min=0, max=1)      |
+| ratio_HR_valuability | Ratio of HR on valuability                            |
+| ratio_avg_valuability | Ratio of avg on valuability                          |
+
+The data set was then checked for problematic data. All features are available 
+and are valid. There seem to be some players with duplicated names.
+
+A correlation matrix was then plotted with R, as it was a simple way to
+visualize the data and correlations between the features to get a first 
+impression of the data. 
+
+The data was then handed over to Tableau for the in deep explorative data 
+analysis.
+
 
 ## Design
 
