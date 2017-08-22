@@ -1,8 +1,8 @@
 ---
 title: "Data Visualization with Tableau"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 by Jens Laufer, 15/08/2017
@@ -13,13 +13,18 @@ by Jens Laufer, 15/08/2017
 The performance of 1157 baseball players was evaluated in this data analysis.
 The dataset contains 5 variables.
 
-The goal of this story is to visualize a finding in the data with Tableau.
+The goal of this project is to visualize a finding in the data with a Tableau
+story.
 
 
 ## Data Set Exploration
 
-The data was first cleaned with R notebook and some additional fields
-were added, which seemed to be easier in R than with Tableau:
+The data was first analysed with a R notebook to check the data and get
+a first impression.
+
+Some additional fields
+were added, which seemed to be easier in R than with Tableau and exported
+to a new CSV:
 
 
 | Field              | Description                                             |
@@ -27,12 +32,29 @@ were added, which seemed to be easier in R than with Tableau:
 | HR_normalized      | Scaled value of HR  (min=0, max=1)                      |
 | avg_normalized     | Scaled value of avg (min=0, max=1)                      |
 | valuability        | Sum of HR_normalized and avg_normalized                 |
-| valuability_normalized | Normalized value of valuability (min=0, max=1)      |
-| ratio_HR_valuability | Ratio of HR on valuability                            |
-| ratio_avg_valuability | Ratio of avg on valuability                          |
+| bmi                | Body mass index (BMI)                                   |
+| weight_bin         | Bins for weight                                         |
+| height_bin         | Bins for height                                         |
+| bmi_bin            | Bins for BMI                                            |
+
 
 The data set was then checked for problematic data. All features are available 
-and are valid. There seem to be some players with duplicated names.
+and are valid. There seem to be some players with duplicated names:
+
+  - Dave Roberts 
+  
+  - Bobby Mitchell
+  
+  - Mike Brown
+  
+  - Dave Stapleton 
+  
+  - Jim Wright
+  
+  - Mel Stottlemyre
+  
+For the second player ".1" was assigned to data to distinguish the duplicate
+players.
 
 A correlation matrix was then plotted with R, as it was a simple way to
 visualize the data and correlations between the features to get a first 
@@ -48,7 +70,27 @@ analysis.
 
 ## Files
 
+
+   - [Original Data (CSV)](data/baseball_data.csv)
+   
+   - [Modified Data (CSV)](data/baseball_data_updated.csv)
+
+   - [Data Cleaning and Exploration with R](exploration.html)
+
+
 ## Visualizations
+
+
+Data Exploration with Tableau:
+
+   - [Tableau Data Exploration](https://public.tableau.com/views/exploration_baseball/Histogramheight?:embed=y&:display_count=yes)
+
+
+
+Tableau Story Iteration 1:
+
+   - [Comparison of Baseball Players V1](https://public.tableau.com/views/explanation_baseball_v1/ComparisonofBaseballPlayers?:embed=y&:display_count=yes)
+
 
 ## Resources
 

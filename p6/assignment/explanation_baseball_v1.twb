@@ -30,53 +30,32 @@
             <connection class='textscan' directory='C:/Users/jensl/Documents/data-analyst-nanodegree/p6/assignment/data' filename='baseball_data.csv' password='' server='' />
           </named-connection>
         </named-connections>
-        <relation connection='textscan.0bcizg312vrapc1de7a050ecxiw1' name='baseball_data.csv' table='[baseball_data#csv]' type='table'>
+        <relation connection='textscan.0bcizg312vrapc1de7a050ecxiw1' name='baseball_data_updated.csv' table='[baseball_data_updated#csv]' type='table'>
           <columns character-set='UTF-8' header='yes' locale='en_GB' separator=','>
-            <column datatype='integer' name='X' ordinal='0' />
-            <column datatype='string' name='name' ordinal='1' />
-            <column datatype='string' name='handedness' ordinal='2' />
-            <column datatype='integer' name='height' ordinal='3' />
-            <column datatype='integer' name='weight' ordinal='4' />
-            <column datatype='real' name='avg' ordinal='5' />
-            <column datatype='integer' name='HR' ordinal='6' />
-            <column datatype='real' name='HR_normalized' ordinal='7' />
-            <column datatype='real' name='avg_normalized' ordinal='8' />
-            <column datatype='real' name='valuability' ordinal='9' />
-            <column datatype='real' name='valuability_normalized' ordinal='10' />
-            <column datatype='real' name='ratio_HR_valuability' ordinal='11' />
-            <column datatype='real' name='ratio_avg_valuability' ordinal='12' />
-            <column datatype='real' name='ratioi_HR_valuability' ordinal='13' />
-            <column datatype='real' name='ratioi_avg_valuability' ordinal='14' />
-            <column datatype='string' name='weight_bin' ordinal='15' />
-            <column datatype='string' name='height_bin' ordinal='16' />
-            <column datatype='real' name='bmi' ordinal='17' />
-            <column datatype='string' name='bmi_bin' ordinal='18' />
+            <column datatype='string' name='name' ordinal='0' />
+            <column datatype='string' name='handedness' ordinal='1' />
+            <column datatype='integer' name='height' ordinal='2' />
+            <column datatype='integer' name='weight' ordinal='3' />
+            <column datatype='real' name='avg' ordinal='4' />
+            <column datatype='integer' name='HR' ordinal='5' />
+            <column datatype='real' name='HR_normalized' ordinal='6' />
+            <column datatype='real' name='avg_normalized' ordinal='7' />
+            <column datatype='real' name='valuability' ordinal='8' />
+            <column datatype='real' name='valuability_normalized' ordinal='9' />
+            <column datatype='real' name='bmi' ordinal='10' />
+            <column datatype='string' name='weight_bin' ordinal='11' />
+            <column datatype='string' name='height_bin' ordinal='12' />
+            <column datatype='string' name='bmi_bin' ordinal='13' />
           </columns>
         </relation>
-        <refresh increment-key='' incremental-updates='false' />
         <metadata-records>
-          <metadata-record class='column'>
-            <remote-name>X</remote-name>
-            <remote-type>20</remote-type>
-            <local-name>[X]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
-            <remote-alias>X</remote-alias>
-            <ordinal>0</ordinal>
-            <local-type>integer</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
-            </attributes>
-          </metadata-record>
           <metadata-record class='column'>
             <remote-name>name</remote-name>
             <remote-type>129</remote-type>
             <local-name>[name]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>name</remote-alias>
-            <ordinal>1</ordinal>
+            <ordinal>0</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <scale>1</scale>
@@ -95,9 +74,9 @@
             <remote-name>handedness</remote-name>
             <remote-type>129</remote-type>
             <local-name>[handedness]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>handedness</remote-alias>
-            <ordinal>2</ordinal>
+            <ordinal>1</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <scale>1</scale>
@@ -116,9 +95,9 @@
             <remote-name>height</remote-name>
             <remote-type>20</remote-type>
             <local-name>[height]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>height</remote-alias>
-            <ordinal>3</ordinal>
+            <ordinal>2</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -131,9 +110,9 @@
             <remote-name>weight</remote-name>
             <remote-type>20</remote-type>
             <local-name>[weight]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>weight</remote-alias>
-            <ordinal>4</ordinal>
+            <ordinal>3</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -146,9 +125,9 @@
             <remote-name>avg</remote-name>
             <remote-type>5</remote-type>
             <local-name>[avg]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>avg</remote-alias>
-            <ordinal>5</ordinal>
+            <ordinal>4</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -161,9 +140,9 @@
             <remote-name>HR</remote-name>
             <remote-type>20</remote-type>
             <local-name>[HR]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>HR</remote-alias>
-            <ordinal>6</ordinal>
+            <ordinal>5</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -176,9 +155,9 @@
             <remote-name>HR_normalized</remote-name>
             <remote-type>5</remote-type>
             <local-name>[HR_normalized]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>HR_normalized</remote-alias>
-            <ordinal>7</ordinal>
+            <ordinal>6</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -191,9 +170,9 @@
             <remote-name>avg_normalized</remote-name>
             <remote-type>5</remote-type>
             <local-name>[avg_normalized]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>avg_normalized</remote-alias>
-            <ordinal>8</ordinal>
+            <ordinal>7</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -206,9 +185,9 @@
             <remote-name>valuability</remote-name>
             <remote-type>5</remote-type>
             <local-name>[valuability]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>valuability</remote-alias>
-            <ordinal>9</ordinal>
+            <ordinal>8</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -221,69 +200,24 @@
             <remote-name>valuability_normalized</remote-name>
             <remote-type>5</remote-type>
             <local-name>[valuability_normalized]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>valuability_normalized</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>bmi</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[bmi]</local-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
+            <remote-alias>bmi</remote-alias>
             <ordinal>10</ordinal>
-            <local-type>real</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
-            </attributes>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>ratio_HR_valuability</remote-name>
-            <remote-type>5</remote-type>
-            <local-name>[ratio_HR_valuability]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
-            <remote-alias>ratio_HR_valuability</remote-alias>
-            <ordinal>11</ordinal>
-            <local-type>real</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
-            </attributes>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>ratio_avg_valuability</remote-name>
-            <remote-type>5</remote-type>
-            <local-name>[ratio_avg_valuability]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
-            <remote-alias>ratio_avg_valuability</remote-alias>
-            <ordinal>12</ordinal>
-            <local-type>real</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
-            </attributes>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>ratioi_HR_valuability</remote-name>
-            <remote-type>5</remote-type>
-            <local-name>[ratioi_HR_valuability]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
-            <remote-alias>ratioi_HR_valuability</remote-alias>
-            <ordinal>13</ordinal>
-            <local-type>real</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
-            </attributes>
-          </metadata-record>
-          <metadata-record class='column'>
-            <remote-name>ratioi_avg_valuability</remote-name>
-            <remote-type>5</remote-type>
-            <local-name>[ratioi_avg_valuability]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
-            <remote-alias>ratioi_avg_valuability</remote-alias>
-            <ordinal>14</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -296,9 +230,9 @@
             <remote-name>weight_bin</remote-name>
             <remote-type>129</remote-type>
             <local-name>[weight_bin]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>weight_bin</remote-alias>
-            <ordinal>15</ordinal>
+            <ordinal>11</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <scale>1</scale>
@@ -317,9 +251,9 @@
             <remote-name>height_bin</remote-name>
             <remote-type>129</remote-type>
             <local-name>[height_bin]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>height_bin</remote-alias>
-            <ordinal>16</ordinal>
+            <ordinal>12</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <scale>1</scale>
@@ -335,27 +269,12 @@
             </attributes>
           </metadata-record>
           <metadata-record class='column'>
-            <remote-name>bmi</remote-name>
-            <remote-type>5</remote-type>
-            <local-name>[bmi]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
-            <remote-alias>bmi</remote-alias>
-            <ordinal>17</ordinal>
-            <local-type>real</local-type>
-            <aggregation>Sum</aggregation>
-            <contains-null>true</contains-null>
-            <attributes>
-              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
-            </attributes>
-          </metadata-record>
-          <metadata-record class='column'>
             <remote-name>bmi_bin</remote-name>
             <remote-type>129</remote-type>
             <local-name>[bmi_bin]</local-name>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias>bmi_bin</remote-alias>
-            <ordinal>18</ordinal>
+            <ordinal>13</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <scale>1</scale>
@@ -373,7 +292,7 @@
           <metadata-record class='capability'>
             <remote-name />
             <remote-type>0</remote-type>
-            <parent-name>[baseball_data.csv]</parent-name>
+            <parent-name>[baseball_data_updated.csv]</parent-name>
             <remote-alias />
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -415,12 +334,10 @@
       <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
         <calculation class='tableau' formula='1' />
       </column>
-      <column datatype='integer' hidden='true' name='[X]' role='measure' type='quantitative' />
       <column aggregation='None' datatype='integer' name='[avg (bin)]' role='dimension' type='quantitative'>
         <calculation class='bin' decimals='-2' formula='[avg]' peg='0' size='0.0172' />
       </column>
       <column datatype='real' name='[avg]' role='measure' type='quantitative' />
-      <column datatype='real' name='[avg_normalized]' role='measure' type='quantitative' />
       <column aggregation='None' datatype='integer' name='[bmi (bin)]' role='dimension' type='quantitative'>
         <calculation class='bin' decimals='-1' formula='[bmi]' peg='0' size='0.5' />
       </column>
@@ -441,17 +358,6 @@
         <calculation class='bin' decimals='1' formula='[Calculation_212795121468162051]' peg='0' size='20' />
       </column>
       <column datatype='string' name='[name]' role='dimension' type='nominal' />
-      <column aggregation='None' caption='ratio_HR_valuability (bin)' datatype='integer' name='[ratio_HR_valuability (bin)]' role='dimension' type='ordinal'>
-        <calculation class='bin' decimals='-1' formula='[ratio_HR_valuability]' peg='0' size='0.1' />
-      </column>
-      <column datatype='real' hidden='true' name='[ratio_HR_valuability]' role='measure' type='quantitative' />
-      <column aggregation='None' caption='ratio_avg_valuability (bin)' datatype='integer' name='[ratio_avg_valuability (bin)]' role='dimension' type='ordinal'>
-        <calculation class='bin' decimals='-1' formula='[ratio_avg_valuability]' peg='0' size='0.1' />
-      </column>
-      <column datatype='real' hidden='true' name='[ratio_avg_valuability]' role='measure' type='quantitative' />
-      <column datatype='real' hidden='true' name='[ratioi_HR_valuability]' role='measure' type='quantitative' />
-      <column datatype='real' hidden='true' name='[ratioi_avg_valuability]' role='measure' type='quantitative' />
-      <column datatype='real' name='[valuability_normalized]' role='measure' type='quantitative' />
       <column aggregation='None' caption='weight (bin) 2' datatype='integer' name='[weight (bin) 2]' role='dimension' type='ordinal'>
         <calculation class='bin' decimals='-1' formula='[weight]' peg='0' size='7.6' />
       </column>
@@ -462,35 +368,17 @@
       <column aggregation='None' caption='weight_kg (bin)' datatype='integer' name='[weight_kg (bin)]' role='dimension' type='ordinal'>
         <calculation class='bin' decimals='1' formula='[Calculation_212795121468489732]' peg='0' size='20' />
       </column>
-      <column-instance column='[HR]' derivation='Avg' name='[avg:HR:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[HR_normalized]' derivation='Avg' name='[avg:HR_normalized:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[avg_normalized]' derivation='Avg' name='[avg:avg_normalized:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[valuability_normalized]' derivation='Avg' name='[avg:valuability_normalized:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[HR]' derivation='Median' name='[med:HR:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[HR_normalized]' derivation='Median' name='[med:HR_normalized:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[avg_normalized]' derivation='Median' name='[med:avg_normalized:qk]' pivot='key' type='quantitative' />
       <column-instance column='[Calculation_212795121468489732]' derivation='None' name='[none:Calculation_212795121468489732:qk]' pivot='key' type='quantitative' />
       <column-instance column='[HR (bin) 2]' derivation='None' name='[none:HR (bin) 2:ok]' pivot='key' type='ordinal' />
       <column-instance column='[HR]' derivation='None' name='[none:HR:qk]' pivot='key' type='quantitative' />
       <column-instance column='[HR_normalized]' derivation='None' name='[none:HR_normalized:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[avg_normalized]' derivation='None' name='[none:avg_normalized:qk]' pivot='key' type='quantitative' />
       <column-instance column='[bmi]' derivation='None' name='[none:bmi:ok]' pivot='key' type='ordinal' />
-      <column-instance column='[bmi_bin]' derivation='None' name='[none:bmi_bin:nk]' pivot='key' type='nominal' />
-      <column-instance column='[handedness]' derivation='None' name='[none:handedness:nk]' pivot='key' type='nominal' />
       <column-instance column='[height (bin)]' derivation='None' name='[none:height (bin):ok]' pivot='key' type='ordinal' />
       <column-instance column='[height]' derivation='None' name='[none:height:ok]' pivot='key' type='ordinal' />
-      <column-instance column='[ratio_HR_valuability (bin)]' derivation='None' name='[none:ratio_HR_valuability (bin):ok]' pivot='key' type='ordinal' />
-      <column-instance column='[ratio_HR_valuability]' derivation='None' name='[none:ratio_HR_valuability:ok]' pivot='key' type='ordinal' />
-      <column-instance column='[ratio_avg_valuability (bin)]' derivation='None' name='[none:ratio_avg_valuability (bin):ok]' pivot='key' type='ordinal' />
-      <column-instance column='[valuability_normalized]' derivation='None' name='[none:valuability_normalized:qk]' pivot='key' type='quantitative' />
       <column-instance column='[weight]' derivation='None' name='[none:weight:qk]' pivot='key' type='quantitative' />
       <column-instance column='[weight_kg (bin)]' derivation='None' name='[none:weight_kg (bin):ok]' pivot='key' type='ordinal' />
       <column-instance column='[Calculation_212795121468489732]' derivation='Sum' name='[sum:Calculation_212795121468489732:qk]' pivot='key' type='quantitative' />
       <column-instance column='[HR]' derivation='Sum' name='[sum:HR:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[HR_normalized]' derivation='Sum' name='[sum:HR_normalized:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[avg_normalized]' derivation='Sum' name='[sum:avg_normalized:qk]' pivot='key' type='quantitative' />
-      <column-instance column='[ratio_HR_valuability]' derivation='Sum' name='[sum:ratio_HR_valuability:ok]' pivot='key' type='ordinal' />
-      <column-instance column='[valuability_normalized]' derivation='Sum' name='[sum:valuability_normalized:qk]' pivot='key' type='quantitative' />
       <column-instance column='[weight]' derivation='Sum' name='[sum:weight:qk]' pivot='key' type='quantitative' />
       <group caption='Action (bmi,name)' hidden='true' name='[Action (bmi,name)]' name-style='unqualified' user:auto-column='sheet_link'>
         <groupfilter function='crossjoin'>
@@ -511,7 +399,7 @@
         </groupfilter>
       </group>
       <extract count='-1' enabled='true' units='records'>
-        <connection class='dataengine' dbname='C:/Users/jensl/Documents/My Tableau Repository/Datasources/baseball_data.tde' schema='Extract' tablename='Extract' update-time='08/22/2017 11:41:23 AM'>
+        <connection class='dataengine' dbname='C:/Users/jensl/Documents/My Tableau Repository/Datasources/baseball_data.tde' schema='Extract' tablename='Extract' update-time='08/22/2017 01:14:41 PM'>
           <relation name='Extract' table='[Extract].[Extract]' type='table' />
           <calculations>
             <calculation column='[Calculation_212795121468162051]' formula='[height] * 2.54' />
@@ -523,14 +411,12 @@
             <calculation column='[bmi (bin)]' formula='SYS_NUMBIN([bmi],0.5)' />
             <calculation column='[height (bin)]' formula='SYS_NUMBIN([height],10)' />
             <calculation column='[height_cm (bin)]' formula='SYS_NUMBIN([Calculation_212795121468162051],20)' />
-            <calculation column='[ratio_HR_valuability (bin)]' formula='SYS_NUMBIN([ratio_HR_valuability],0.1)' />
-            <calculation column='[ratio_avg_valuability (bin)]' formula='SYS_NUMBIN([ratio_avg_valuability],0.1)' />
             <calculation column='[weight (bin) 2]' formula='SYS_NUMBIN([weight],7.6)' />
             <calculation column='[weight (bin)]' formula='SYS_NUMBIN([weight],7.6)' />
             <calculation column='[weight_kg (bin)]' formula='SYS_NUMBIN([Calculation_212795121468489732],20)' />
           </calculations>
-          <refresh increment-key='' incremental-updates='false'>
-            <refresh-event add-from-file-path='' increment-value='%null%' refresh-type='create' rows-inserted='1157' timestamp-start='2017-08-22 11:41:23.852' />
+          <refresh>
+            <refresh-event add-from-file-path='' increment-value='%null%' refresh-type='create' rows-inserted='1157' timestamp-start='2017-08-22 13:14:41.499' />
           </refresh>
           <metadata-records>
             <metadata-record class='column'>
@@ -606,7 +492,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>HR</remote-alias>
               <ordinal>2</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>integer</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>212</approx-count>
@@ -639,7 +525,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>HR_normalized</remote-alias>
               <ordinal>3</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>212</approx-count>
@@ -702,7 +588,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>avg</remote-alias>
               <ordinal>5</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>157</approx-count>
@@ -735,7 +621,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>avg_normalized</remote-alias>
               <ordinal>6</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>157</approx-count>
@@ -768,7 +654,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>bmi</remote-alias>
               <ordinal>7</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>236</approx-count>
@@ -801,7 +687,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>bmi_bin</remote-alias>
               <ordinal>8</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>string</local-type>
               <aggregation>Count</aggregation>
               <approx-count>5</approx-count>
@@ -833,7 +719,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>handedness</remote-alias>
               <ordinal>9</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>string</local-type>
               <aggregation>Count</aggregation>
               <approx-count>3</approx-count>
@@ -867,7 +753,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>height</remote-alias>
               <ordinal>10</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>integer</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>16</approx-count>
@@ -896,7 +782,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>height_bin</remote-alias>
               <ordinal>11</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>string</local-type>
               <aggregation>Count</aggregation>
               <approx-count>3</approx-count>
@@ -928,7 +814,7 @@
               <parent-name>[Extract]</parent-name>
               <remote-alias>name</remote-alias>
               <ordinal>12</ordinal>
-              <family>baseball_data.csv</family>
+              <family>baseball_data_updated.csv</family>
               <local-type>string</local-type>
               <aggregation>Count</aggregation>
               <approx-count>1157</approx-count>
@@ -955,79 +841,13 @@
               </attributes>
             </metadata-record>
             <metadata-record class='column'>
-              <remote-name>ratio_HR_valuability</remote-name>
-              <remote-type>5</remote-type>
-              <local-name>[ratio_HR_valuability]</local-name>
-              <parent-name>[Extract]</parent-name>
-              <remote-alias>ratio_HR_valuability</remote-alias>
-              <ordinal>13</ordinal>
-              <family>baseball_data.csv</family>
-              <local-type>real</local-type>
-              <aggregation>Sum</aggregation>
-              <approx-count>801</approx-count>
-              <contains-null>false</contains-null>
-              <statistics>
-                <statistic aggregation='Sum' datatype='real'>90.236987731971965</statistic>
-                <statistic aggregation='Avg' datatype='real'>0.077992210658575603</statistic>
-                <statistic aggregation='Min' datatype='real'>0.0</statistic>
-                <statistic aggregation='Max' datatype='real'>0.55593220338983096</statistic>
-                <statistic aggregation='Stdev' datatype='real'>0.10222838097332969</statistic>
-                <statistic aggregation='StdevP' datatype='real'>0.10218419321203755</statistic>
-                <statistic aggregation='Var' datatype='real'>0.010450641876428236</statistic>
-                <statistic aggregation='VarP' datatype='real'>0.010441609342395021</statistic>
-                <statistic aggregation='Count' datatype='integer'>1157</statistic>
-                <statistic aggregation='SumXSqr' datatype='real'>19.1187241655383</statistic>
-              </statistics>
-              <attributes>
-                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
-                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;array&quot;</attribute>
-                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
-                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>2</attribute>
-                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
-              </attributes>
-            </metadata-record>
-            <metadata-record class='column'>
-              <remote-name>ratio_avg_valuability</remote-name>
-              <remote-type>5</remote-type>
-              <local-name>[ratio_avg_valuability]</local-name>
-              <parent-name>[Extract]</parent-name>
-              <remote-alias>ratio_avg_valuability</remote-alias>
-              <ordinal>14</ordinal>
-              <family>baseball_data.csv</family>
-              <local-type>real</local-type>
-              <aggregation>Sum</aggregation>
-              <approx-count>804</approx-count>
-              <contains-null>false</contains-null>
-              <statistics>
-                <statistic aggregation='Sum' datatype='real'>800.76301226802821</statistic>
-                <statistic aggregation='Avg' datatype='real'>0.6921028628072845</statistic>
-                <statistic aggregation='Min' datatype='real'>0.0</statistic>
-                <statistic aggregation='Max' datatype='real'>1.0</statistic>
-                <statistic aggregation='Stdev' datatype='real'>0.38956365382468006</statistic>
-                <statistic aggregation='StdevP' datatype='real'>0.38939526667446406</statistic>
-                <statistic aggregation='Var' datatype='real'>0.15175984038123516</statistic>
-                <statistic aggregation='VarP' datatype='real'>0.15162867370847696</statistic>
-                <statistic aggregation='Count' datatype='integer'>1157</statistic>
-                <statistic aggregation='SumXSqr' datatype='real'>729.64474870159484</statistic>
-              </statistics>
-              <attributes>
-                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
-                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;array&quot;</attribute>
-                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
-                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
-                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>2</attribute>
-                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
-              </attributes>
-            </metadata-record>
-            <metadata-record class='column'>
               <remote-name>valuability</remote-name>
               <remote-type>5</remote-type>
               <local-name>[valuability]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>valuability</remote-alias>
-              <ordinal>15</ordinal>
-              <family>baseball_data.csv</family>
+              <ordinal>13</ordinal>
+              <family>baseball_data_updated.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>835</approx-count>
@@ -1059,8 +879,8 @@
               <local-name>[valuability_normalized]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>valuability_normalized</remote-alias>
-              <ordinal>16</ordinal>
-              <family>baseball_data.csv</family>
+              <ordinal>14</ordinal>
+              <family>baseball_data_updated.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>835</approx-count>
@@ -1092,8 +912,8 @@
               <local-name>[weight]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>weight</remote-alias>
-              <ordinal>17</ordinal>
-              <family>baseball_data.csv</family>
+              <ordinal>15</ordinal>
+              <family>baseball_data_updated.csv</family>
               <local-type>integer</local-type>
               <aggregation>Sum</aggregation>
               <approx-count>63</approx-count>
@@ -1125,8 +945,8 @@
               <local-name>[weight_bin]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>weight_bin</remote-alias>
-              <ordinal>18</ordinal>
-              <family>baseball_data.csv</family>
+              <ordinal>16</ordinal>
+              <family>baseball_data_updated.csv</family>
               <local-type>string</local-type>
               <aggregation>Count</aggregation>
               <approx-count>3</approx-count>
@@ -1314,60 +1134,6 @@
               </attributes>
             </metadata-record>
             <metadata-record class='column'>
-              <remote-name>ratio_HR_valuability (bin)</remote-name>
-              <remote-type>16</remote-type>
-              <local-name>[ratio_HR_valuability (bin)]</local-name>
-              <parent-name>[Extract]</parent-name>
-              <remote-alias>ratio_HR_valuability (bin)</remote-alias>
-              <local-type>integer</local-type>
-              <aggregation>Sum</aggregation>
-              <approx-count>6</approx-count>
-              <contains-null>false</contains-null>
-              <statistics>
-                <statistic aggregation='Sum' datatype='real'>543.0</statistic>
-                <statistic aggregation='Avg' datatype='real'>0.46931719965427832</statistic>
-                <statistic aggregation='Min' datatype='integer'>0</statistic>
-                <statistic aggregation='Max' datatype='integer'>5</statistic>
-                <statistic aggregation='Stdev' datatype='real'>0.91892857377045645</statistic>
-                <statistic aggregation='StdevP' datatype='real'>0.91853137099686577</statistic>
-                <statistic aggregation='Var' datatype='real'>0.84442972369180525</statistic>
-                <statistic aggregation='VarP' datatype='real'>0.84369987950538194</statistic>
-                <statistic aggregation='Count' datatype='integer'>1157</statistic>
-                <statistic aggregation='SumXSqr' datatype='real'>1231.0</statistic>
-              </statistics>
-              <attributes>
-                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>1</attribute>
-                <attribute datatype='string' name='DebugRemoteType'>&quot;sint8&quot;</attribute>
-              </attributes>
-            </metadata-record>
-            <metadata-record class='column'>
-              <remote-name>ratio_avg_valuability (bin)</remote-name>
-              <remote-type>16</remote-type>
-              <local-name>[ratio_avg_valuability (bin)]</local-name>
-              <parent-name>[Extract]</parent-name>
-              <remote-alias>ratio_avg_valuability (bin)</remote-alias>
-              <local-type>integer</local-type>
-              <aggregation>Sum</aggregation>
-              <approx-count>8</approx-count>
-              <contains-null>false</contains-null>
-              <statistics>
-                <statistic aggregation='Sum' datatype='real'>7496.0</statistic>
-                <statistic aggregation='Avg' datatype='real'>6.4788245462402765</statistic>
-                <statistic aggregation='Min' datatype='integer'>0</statistic>
-                <statistic aggregation='Max' datatype='integer'>10</statistic>
-                <statistic aggregation='Stdev' datatype='real'>3.6549642973683203</statistic>
-                <statistic aggregation='StdevP' datatype='real'>3.6533844553678341</statistic>
-                <statistic aggregation='Var' datatype='real'>13.358764015037099</statistic>
-                <statistic aggregation='VarP' datatype='real'>13.347217978723325</statistic>
-                <statistic aggregation='Count' datatype='integer'>1157</statistic>
-                <statistic aggregation='SumXSqr' datatype='real'>64008.0</statistic>
-              </statistics>
-              <attributes>
-                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>1</attribute>
-                <attribute datatype='string' name='DebugRemoteType'>&quot;sint8&quot;</attribute>
-              </attributes>
-            </metadata-record>
-            <metadata-record class='column'>
               <remote-name>weight (bin)</remote-name>
               <remote-type>16</remote-type>
               <local-name>[weight (bin)]</local-name>
@@ -1451,64 +1217,9 @@
           </metadata-records>
         </connection>
       </extract>
-      <layout dim-ordering='alphabetic' dim-percentage='0.454682' measure-ordering='alphabetic' measure-percentage='0.406742' parameter-percentage='0.138577' rowDisplayCount='1000' show-aliased-fields='true' show-structure='true' user-set-layout='true' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.547596' measure-ordering='alphabetic' measure-percentage='0.395486' parameter-percentage='0.0569185' rowDisplayCount='1000' show-aliased-fields='true' show-structure='true' user-set-layout='true' />
       <style>
         <style-rule element='mark'>
-          <encoding attr='color' field='[none:ratio_avg_valuability (bin):ok]' palette='red_gold_10_0' type='palette'>
-            <map to='#b71d3e'>
-              <bucket>10</bucket>
-            </map>
-            <map to='#bd273f'>
-              <bucket>9</bucket>
-            </map>
-            <map to='#ca3a42'>
-              <bucket>8</bucket>
-            </map>
-            <map to='#cd4e22'>
-              <bucket>3</bucket>
-            </map>
-            <map to='#dc5447'>
-              <bucket>7</bucket>
-            </map>
-            <map to='#de5747'>
-              <bucket>6</bucket>
-            </map>
-            <map to='#ef701b'>
-              <bucket>2</bucket>
-            </map>
-            <map to='#f4d166'>
-              <bucket>0</bucket>
-            </map>
-            <map to='#f4d166'>
-              <bucket>4</bucket>
-            </map>
-            <map to='#f6a143'>
-              <bucket>1</bucket>
-            </map>
-            <map to='#fa8f4d'>
-              <bucket>5</bucket>
-            </map>
-          </encoding>
-          <encoding attr='color' field='[none:ratio_HR_valuability (bin):ok]' palette='green_gold_10_0' type='palette'>
-            <map to='#146c36'>
-              <bucket>5</bucket>
-            </map>
-            <map to='#439350'>
-              <bucket>4</bucket>
-            </map>
-            <map to='#8eb858'>
-              <bucket>3</bucket>
-            </map>
-            <map to='#b9ddf1'>
-              <bucket>0</bucket>
-            </map>
-            <map to='#f4d166'>
-              <bucket>1</bucket>
-            </map>
-            <map to='#f4d166'>
-              <bucket>2</bucket>
-            </map>
-          </encoding>
           <encoding attr='color' field='[none:HR (bin) 2:ok]' palette='green_gold_10_0' type='palette'>
             <map to='#146c36'>
               <bucket>5</bucket>
@@ -1533,2543 +1244,6 @@
             </map>
             <map to='#f4d166'>
               <bucket>0</bucket>
-            </map>
-          </encoding>
-          <encoding attr='shape' field='[sum:ratio_HR_valuability:ok]' palette='Bars' type='shape'>
-            <map to='Bars/bars0.png'>
-              <bucket>0.29631096315913202</bucket>
-            </map>
-            <map to='Bars/bars0.png'>
-              <bucket>0.336966599012754</bucket>
-            </map>
-            <map to='Bars/bars0.png'>
-              <bucket>0.370718849573762</bucket>
-            </map>
-            <map to='Bars/bars0.png'>
-              <bucket>0.40410164353635503</bucket>
-            </map>
-            <map to='Bars/bars0.png'>
-              <bucket>0.41918546462391298</bucket>
-            </map>
-            <map to='Bars/bars0.png'>
-              <bucket>0.43580187138980497</bucket>
-            </map>
-            <map to='Bars/bars0.png'>
-              <bucket>0.49304325093676499</bucket>
-            </map>
-            <map to='Bars/bars1.png'>
-              <bucket>0.29657394620898297</bucket>
-            </map>
-            <map to='Bars/bars1.png'>
-              <bucket>0.34641062500261899</bucket>
-            </map>
-            <map to='Bars/bars1.png'>
-              <bucket>0.378781347265012</bucket>
-            </map>
-            <map to='Bars/bars1.png'>
-              <bucket>0.40952904160215697</bucket>
-            </map>
-            <map to='Bars/bars1.png'>
-              <bucket>0.42526620120265601</bucket>
-            </map>
-            <map to='Bars/bars1.png'>
-              <bucket>0.44177988478583002</bucket>
-            </map>
-            <map to='Bars/bars1.png'>
-              <bucket>0.49528556805249102</bucket>
-            </map>
-            <map to='Bars/bars2.png'>
-              <bucket>0.32026318561554501</bucket>
-            </map>
-            <map to='Bars/bars2.png'>
-              <bucket>0.35022650723488502</bucket>
-            </map>
-            <map to='Bars/bars2.png'>
-              <bucket>0.38648116843860397</bucket>
-            </map>
-            <map to='Bars/bars2.png'>
-              <bucket>0.41187161030895397</bucket>
-            </map>
-            <map to='Bars/bars2.png'>
-              <bucket>0.42610461774286301</bucket>
-            </map>
-            <map to='Bars/bars2.png'>
-              <bucket>0.45910770636853998</bucket>
-            </map>
-            <map to='Bars/bars2.png'>
-              <bucket>0.52178920545342</bucket>
-            </map>
-            <map to='Bars/bars3.png'>
-              <bucket>0.33079998559233498</bucket>
-            </map>
-            <map to='Bars/bars3.png'>
-              <bucket>0.35878569380146702</bucket>
-            </map>
-            <map to='Bars/bars3.png'>
-              <bucket>0.38927630559429699</bucket>
-            </map>
-            <map to='Bars/bars3.png'>
-              <bucket>0.41361421599339199</bucket>
-            </map>
-            <map to='Bars/bars3.png'>
-              <bucket>0.42752925922134599</bucket>
-            </map>
-            <map to='Bars/bars3.png'>
-              <bucket>0.47812696229405299</bucket>
-            </map>
-            <map to='Bars/bars3.png'>
-              <bucket>0.54457152379076801</bucket>
-            </map>
-            <map to='Bars/bars4.png'>
-              <bucket>0.33641164769085102</bucket>
-            </map>
-            <map to='Bars/bars4.png'>
-              <bucket>0.365540155607397</bucket>
-            </map>
-            <map to='Bars/bars4.png'>
-              <bucket>0.39321472641789401</bucket>
-            </map>
-            <map to='Bars/bars4.png'>
-              <bucket>0.41836890727155401</bucket>
-            </map>
-            <map to='Bars/bars4.png'>
-              <bucket>0.43096826359409701</bucket>
-            </map>
-            <map to='Bars/bars4.png'>
-              <bucket>0.48024203867047199</bucket>
-            </map>
-            <map to='Bars/bars4.png'>
-              <bucket>0.55593220338983096</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0023249549894384701</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0024625364125048801</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.00358336792885704</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0042039424777626797</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0045485747567968601</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0048314871553146402</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0052683992418644998</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0070976467406004898</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0072749049050159099</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0076073847295667499</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0084947684657619392</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0097370549861588405</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.010406685660983199</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.011294376915395501</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0126882607798638</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.013429193757062601</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0140105078809107</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0147184204621943</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.015178579692171</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.015680489537234301</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0159983091218001</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.016527815103466799</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.016907543315914601</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.017422184450548599</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.017789508890234802</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.018519956240957099</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.019286318033148401</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0200816912002659</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.020704746941981801</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.021276043693728802</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0215117232333169</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.022612325221391501</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0232785540800555</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.024247402357386299</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.024880213403456398</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.025330956410933001</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.026184837276138299</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.027417107829478999</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.028703587948493599</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.029642444468830902</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.030225486095851101</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.031594446202749399</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.031924212438763297</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.032518175809649698</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.033134660066673399</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.033575331894990498</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.034104497010657701</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.036225081451212102</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0367970831580424</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.037928331898600801</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.038996220967262497</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.039382717609737002</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.040440669852989199</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.041207180546637301</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.041580643992900901</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.042892637635674101</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.043425494825569899</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.044088516611013602</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.045441650888315699</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0459693962057411</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.047561506114360302</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.048312770479269997</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0491419231816944</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.049521665728756298</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.050082835177084097</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0511828225454092</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.052465400931914603</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.053513034225926598</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0548054200714507</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0555601090656744</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.056700619664370601</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.057544280294446602</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.058317638846817399</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.059600936506272503</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.061270660513771398</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.062240401442155598</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.063241332524011901</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.064143932727094899</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0648045837388498</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.066069481965969901</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.067147326198076895</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.068164443751716403</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.069100682452231499</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.071301612470109799</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.073038408594024107</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.074085053820363497</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.075412205215791894</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.076552542350904695</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.078799054619120595</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.081579505636388897</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.083184281481086003</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.085342945626237496</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.0871472756257409</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.087924383165697395</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.089150045946960396</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.090804226456881798</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.092567622655235798</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.095423859932161306</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.099573510247600999</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.102522426780858</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.105160476141751</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.10693752155239999</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.109332754853149</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.11264634273483801</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.117006685569134</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.11995446260565901</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.12216169127533701</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.12425597373451</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.12807920896925101</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.12970485674227999</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.133021429662979</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.13621419590019301</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.14078595955742099</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.143566487758675</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.14516337688688599</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.14714861684028999</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.150829562594268</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.15269239599010301</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.15750563955955599</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.16053359436356801</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.16318007050990699</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.165542267198201</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.16991432556286101</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.1718222513837</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.175108701455087</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.17671053644269999</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.183168994421054</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.18551042156588399</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.19052439066471899</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.19598821680598999</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.201702538561228</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.20703398053187799</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.21104174050546601</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.21588204528492599</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.22203201136789599</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.22883623283024199</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.23227422498200401</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.23516981132075501</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.23796168964061001</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.24247065643431101</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.25265728099838197</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.25577967342824298</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.26458082881870199</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.26818734538135802</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.27538484958920201</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.28316228104020402</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.2956346270263</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.29996576144739001</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.30782802924366298</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.31877621035342402</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.32913138915020401</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.34883875513486901</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0021217413804256401</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.00235312686079963</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0027024132220510302</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0037206769817142299</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0042969619954672297</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0046207270601328499</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0048923460141549902</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0054661200546611997</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0071411465023622396</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0073514030421659698</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0078818365319919294</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0090912870546170192</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0098191098438072996</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.010673608851285399</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0114723020853008</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0127252129921321</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0135752224598193</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.014297026538129001</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0148686751466468</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.015212551680271399</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.015781623390162099</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.016050780867692901</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.016640213365802001</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.016916309945699801</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.017434598109480101</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.017880505887483598</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.018593840790238202</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.019366457060195401</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0201188422465018</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.020869565217391299</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.021293324196631401</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.021555941758065199</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0226745525770028</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.023439377895003499</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.02439405320581</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.024915681686974001</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.025476010829523801</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.026263532124783801</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0275250529731393</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.028734702679389702</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.029867892016082701</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.030663997070715699</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.031745795394477201</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0319659178715377</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0327054059029269</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.033269817349282402</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.033724838850001999</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.034611021711029602</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0363119214490705</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.036831293388730001</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.038106693273922597</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.039007191426252898</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.039444114574329801</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.040506829352631703</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.041283520649164102</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0421174280119418</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.043210771075131403</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.043533658950944999</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.044264821825568797</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.045577078064641598</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.046126956277163497</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.047626307726932798</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.048552431939013402</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.049236311779937703</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.049639693127975899</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.050132562063147798</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.051571168661979701</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.052751385589865397</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0543516740104696</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0548447292208704</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0559329259627682</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.056913661814857103</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.057676151276156502</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0588323922542133</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.059722483832485698</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.061289024320128803</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.062425655421801403</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.063445394405973105</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.064416714505846503</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.065007756918009002</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.066290591990679396</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.067374335731986895</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.068585907662408699</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.069500360215281595</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.071410664098064305</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0730846836586906</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.074380633822779096</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.075624087361750594</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.076832981962989003</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.079123568797731206</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.082257053291536</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.083435083435083393</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.0855799148114567</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.087242881750937307</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.088186153698428402</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.089237918762316598</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.091411683118263504</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.093442663561820294</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.096228148837003397</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.100548844831957</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.10291303946599401</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.105196387972261</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.107099542867805</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.10982347141873899</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.11315498275076501</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.118203113088555</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.12089613253004</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.12228021419372299</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.124897780829614</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.12840543089488801</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.13057055985284699</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.13340174448435099</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.136282280746612</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.14103026436239599</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.14362756395482801</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.145171105933844</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.149245850068814</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.150865895792998</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.152960444136017</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.157976121067708</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.160625088419976</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.16419817020541999</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.16580961179772299</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.170244396314191</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.172232724217601</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.175781658475374</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.18058424957345101</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.183526886140705</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.18713613711517901</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.191250602958872</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.196297191048251</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.20204531083055299</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.20748964204503401</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.21410566697128899</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.216645822843747</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.226219332397083</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.22899492494831</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.232877928071375</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.235263528325316</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.239768516168333</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.245566255255663</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.25288301590564999</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.25593383174106199</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.266528879997527</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.26878594841981601</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.27730415460476798</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.28443053955595998</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.29587278899410402</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.30085798148566301</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.31436547888593303</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.336495824324897</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.36720129881714902</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0021451789066127798</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.00236266981689309</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0031734667221378298</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0038434046941095098</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0043612961559429302</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0046391242238660304</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0050623924434532296</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0055974129030606596</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0071704437805144598</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0074137697210795196</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0080636569995656791</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0091268930303093493</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0099025594191303606</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0107227212174212</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.012453205561419401</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0127810466430269</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0136814882789689</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0144746326179374</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.014906719385552301</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.015231490797641</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.015853196819694101</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0161461025375963</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.016708389124992701</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0169867716255808</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.017452006980802799</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.018215947840188401</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.018743392668361999</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.019474350854971501</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.020147832674706701</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.021121772168201401</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.021314964339674801</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.021671765257781701</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.022773033395820302</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0235624929445932</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0246095082190846</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.024939383443020401</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.025703482639047599</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0265463936488783</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.027934993844700599</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.028814209046767202</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.029969195426304</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.031094128285155901</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.031779096524161297</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.032014175131953398</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.032735697736588798</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0332924508352717</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.033821655581825302</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.035417596498553097</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.036508841985168301</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.037089911939728902</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.038253877870241398</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.039113098565306502</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.039951278928136401</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.040606475480272103</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.041305978525709497</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.042372698891161603</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.043267402791895899</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.043886824689426597</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.044531939447423799</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.045756056051168698</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0463015245623941</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.047698136313191197</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.048583104982865298</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.049372373983952701</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.049713746374465198</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.050716047564702001</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.051789473684210503</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.053089000077409701</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.054409355755075002</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.055052030882846603</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.056032546456523502</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.056990749428354998</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.057888406630758803</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.058973556459722</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.060169133968044297</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.061330383159075699</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.062487652056109101</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.063676543864985002</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.064487486839935604</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.065421883645815901</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.066472604001621305</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.067626617006418102</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.068708962069936902</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.069917399413802303</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.071651046437883198</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.073272821332831695</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.074563704403175599</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.076041266296953805</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0779342005889192</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.080186035418281607</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.082600065179391502</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.083694242917436795</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.086032481940693198</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.087597797915667699</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.0888189174722126</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.089689937226555105</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.091720622082643199</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.093706562645935798</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.096414441002004705</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.10068498990990001</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.10327073378523501</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.10662493939260401</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.107516134405915</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.111873800895331</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.11342356145726901</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.119040677784587</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.121210115551143</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.12253594298155999</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.12495047694511301</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.12897736063122101</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.13200666224993299</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.13446756175053801</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.137104639821652</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.141787818806452</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.14381653290707899</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.145442142065319</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.14947250140458199</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.150888900535145</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.15329215024835699</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.15900520284324399</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.161531295798549</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.164782230943361</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.166233355931311</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.17028403001071801</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.173002648578445</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.176068076642728</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.18204671966568201</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.183735336760248</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.18899452607317799</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.19300813253466501</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.199164525505586</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.20493960113381199</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.208481688365554</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.21476710141069999</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.216823977098973</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.22748569233148899</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.229963795184185</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.232990357447666</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.23615961443328301</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.24137193772779</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.24866678090549801</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.25386189421007399</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.25967904121867902</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.266767312180056</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.26924004330003698</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.27865923942743498</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.28872317621034899</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.30540748155217801</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.31451393503672698</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.326666808537805</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.33089190459080697</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.356941783809549</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.36720858814262802</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.40965798144273202</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0022357335659950401</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0024215935266670599</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0033757358692519902</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0039745050044834402</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0043941910937248798</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0046763615625891103</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0051292476582169601</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0069151141626316798</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0071999824390672198</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0075093294260399701</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0083726866624122508</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0093091899869444297</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0099448183857861906</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.010995936867230801</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.012560601070714701</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0130190588966877</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.013789430905702201</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.014612941618243299</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.015022029256318001</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.015501677773051699</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0159254224121189</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.016296652064822299</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.016765630457561999</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.017057822750202501</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.017610265496228301</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.018281273637862</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.018776953706412899</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0198858469240163</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.020542511586477599</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.021207201252891598</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.021412891801245299</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.021916343712414799</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.023184978601447099</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0237873903096712</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.024704375988551599</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.025189901697944599</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.025990148043475401</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.026786808041486899</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.027991308514898301</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0295186603069553</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0299861461754302</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.031351558019499098</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.031808014067934702</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.032287131336841697</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.032900758573130198</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0335158996157933</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0339624874267795</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.035945697886272401</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.036652395884986297</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0372546173892742</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.038626862156273901</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.039183562017885198</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.040095993617582502</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.040648139542088797</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.041439804592791403</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.042717912726378197</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.043291043175556397</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0439215304364763</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.044613132634687899</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.045917389958886501</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.046496012176105897</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.047934194868368897</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.048619963831490302</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.049445248432223803</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.049924226882581503</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.050847786067241503</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0518663177286348</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.053240876007194002</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0545831379252961</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.055440090146488</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.056077652768585902</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0571745179946586</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.058226309716447197</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.059503382591934703</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.060225679375041703</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.062138662241878299</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.062988093713993096</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.064002997213528104</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.064652380818291902</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.065430348453652296</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.066587717814244607</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.067880794701986796</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.0689519858732517</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.069977385357171198</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.071783947825325697</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.073288992499795202</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.075180501967375898</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.076274142497254699</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.078352572524608102</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.081001800976984797</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.082706183567383004</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.083928196514801601</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.086126229351666195</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.087743434528723005</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.088842541492581806</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.089836599997327904</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.092265682353021905</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.093893727059332396</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.097523139769377903</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.10236578399245599</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.10361646743663</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.106699241181977</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.107909225191352</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.11202046671054799</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.11462519657522301</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.11979393597662601</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.12145256420429</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.123662255543527</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.12582430630400199</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.12930224095581799</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.132223565957649</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.134986830553117</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.13846235027175299</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.142929095714278</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.14394323365433401</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.14571469782201099</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.14957106620685701</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.151065292963451</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.155299210468062</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.159960056431901</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.16164742166427301</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.16515060974260201</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.16834831376279999</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.17122036269484101</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.17342737754232501</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.17622313671696399</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.18222116770157601</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.18397696813263201</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.190039427878407</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.19409159049154101</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.199595037049802</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.205674870669384</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.209639681796912</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.21532308562425501</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.217242323060923</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.22848529143065999</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.23066763483342001</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.233608840743698</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.236873097349066</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.241764641648164</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.24923134211943301</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.25515701237259603</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.26158436105252503</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.26769364176592098</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.269808987913502</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.28205266012283098</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.28916345851404601</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.30680245487778102</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.31707464434602001</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.327005966936328</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.33399919403411898</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.34718903724525602</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.36907758161409399</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0022617725953151002</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0024521714426692801</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0034764544404286201</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0041888293626721699</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0044444745560606796</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0047142015321155004</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0051748075224031303</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0070832643482892903</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0072597959289071199</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.00754173245244263</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0084536808735470193</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0096965396952093802</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0102061454686892</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0111218863804363</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0126698650350353</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0132661040256694</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.013926778264884801</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0146444261885202</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.015099898720191501</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0156204290175322</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.015987855914322901</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0163729845754505</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.016846430405752399</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.017348072142592701</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.017744356834688099</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0183635927377429</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.019049831571611098</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.020032369377347502</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0205886045302104</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0212501754651175</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.021432585370953602</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0224224443198753</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.023226994299472399</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.024091429914504799</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0248549406772322</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0252395059828402</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0260077273513638</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.026993663072998102</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0284202089636299</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.029624500425250101</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.030005946300333899</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.031492786903609397</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.031841127198091797</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.032299649072548897</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.032990328820116099</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.033543466986128298</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.034038078370600001</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.036001229310269098</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.036758388309039401</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.037655943056866599</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0388414664232496</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0393168901862899</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.040276212764728002</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0410780482917543</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.041533591276820297</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.042735321133788903</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.043327629169293599</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.044027141121752503</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.044940887856564998</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.045953699379545</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.046714034782333498</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.048130969318421098</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.048655272492744303</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0494852471029434</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.050058927768969197</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.051065788493951901</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.051912533711492903</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.053445121725412402</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.054793147515514999</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.055488982561008302</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.056434602517126002</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.057308425911096202</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.058280385513231302</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.059554070738615697</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.061042037979485597</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.062187673514713999</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.063134888110672305</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.064037106497778495</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.064691826284847306</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.065890405862877102</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0668071358336845</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.068136890282719895</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.068997352997890601</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.070951353823523994</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.072224116376861006</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.073856777397624404</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.075327784427803898</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.076517631277748202</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.078512049167070996</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.081052433068664401</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.082907375161489605</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.084530376570064597</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.0862131277886201</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.087884150444904205</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.089106759073676101</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.089870400306874501</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.092475345832541703</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.094668700779285006</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.097790034658815597</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.102476187424397</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.10435889277760101</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.106839746412436</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.108318674727215</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.112053111352779</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.11497866606781899</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.11991326710705499</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.12189891309645701</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.123949673231672</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.126165764647133</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.129447158153528</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.132933452216908</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.135386632512459</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.140458015267176</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.14320285407778899</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.14397954055309201</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.14658332578434</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.15025106445455899</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.15151602639982001</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.15638196431004001</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.16002087623456299</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.16261774913237501</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.16530029827655901</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.16957863844411</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.17156389387041901</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.17481678880746199</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.17628616643277301</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.182452688776466</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.18534205050750399</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.19025409433392701</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.19496111207684499</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.20061600297079399</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.206748238783834</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.210807426573659</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.21559550561797799</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.221369062766228</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.228554325612283</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.23194926249088199</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.234599110043406</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.23742888990536401</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.242039149415575</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.250288022742575</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.25559426672498498</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.26267936723291602</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.26811108922592097</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.27264624290192402</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.282192945176371</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.29317034610675102</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.299937585577914</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.30720637688379598</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.31724740643273402</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.32769882917128501</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.34772962116366102</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.36187332192710597</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.369959173563223</bucket>
-            </map>
-          </encoding>
-          <encoding attr='shape' field='[none:ratio_HR_valuability:ok]' palette='Proportions' type='shape'>
-            <map to='Proportions/0.png'>
-              <bucket>0.33079998559233498</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.39321472641789401</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.41918546462391298</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.43580187138980497</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>0.49304325093676499</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.35022650723488502</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.40952904160215697</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.42526620120265601</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.44177988478583002</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>0.49528556805249102</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.378781347265012</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.41187161030895397</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.42610461774286301</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.45910770636853998</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>0.52178920545342</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.38648116843860397</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.41361421599339199</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.42752925922134599</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.47812696229405299</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>0.54457152379076801</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.38927630559429699</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.41836890727155401</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.43096826359409701</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.48024203867047199</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>0.55593220338983096</bucket>
-            </map>
-          </encoding>
-          <encoding attr='shape' field='[none:ratio_HR_valuability (bin):ok]' palette='Proportions' type='shape'>
-            <map to='Proportions/0.png'>
-              <bucket>0</bucket>
-            </map>
-            <map to='Proportions/0.png'>
-              <bucket>1</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>2</bucket>
-            </map>
-            <map to='Proportions/1.png'>
-              <bucket>3</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>4</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>5</bucket>
-            </map>
-          </encoding>
-          <encoding attr='shape' field='[none:ratio_avg_valuability (bin):ok]' type='shape'>
-            <map to='Proportions/0.png'>
-              <bucket>0</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>4</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>5</bucket>
-            </map>
-            <map to='Proportions/2.png'>
-              <bucket>6</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>7</bucket>
-            </map>
-            <map to='Proportions/3.png'>
-              <bucket>8</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>9</bucket>
-            </map>
-            <map to='Proportions/4.png'>
-              <bucket>10</bucket>
-            </map>
-            <map to='plus'>
-              <bucket>2</bucket>
-            </map>
-            <map to='square'>
-              <bucket>1</bucket>
-            </map>
-            <map to='times'>
-              <bucket>3</bucket>
             </map>
           </encoding>
           <encoding attr='color' field='[none:weight_kg (bin):ok]' type='palette'>
@@ -4122,34 +1296,6 @@
             </map>
             <map to='#b9ddf1'>
               <bucket>36</bucket>
-            </map>
-          </encoding>
-          <encoding attr='color' field='[none:bmi_bin:nk]' type='palette'>
-            <map to='#4e79a7'>
-              <bucket>&quot;average (24-26)&quot;</bucket>
-            </map>
-            <map to='#59a14f'>
-              <bucket>&quot;low (22-24)&quot;</bucket>
-            </map>
-            <map to='#59a14f'>
-              <bucket>&quot;very low (-22)&quot;</bucket>
-            </map>
-            <map to='#76b7b2'>
-              <bucket>&quot;very high (28-)&quot;</bucket>
-            </map>
-            <map to='#e15759'>
-              <bucket>&quot;high (26-28)&quot;</bucket>
-            </map>
-          </encoding>
-          <encoding attr='color' field='[none:handedness:nk]' type='palette'>
-            <map to='#4e79a7'>
-              <bucket>&quot;L&quot;</bucket>
-            </map>
-            <map to='#e15759'>
-              <bucket>&quot;B&quot;</bucket>
-            </map>
-            <map to='#f28e2b'>
-              <bucket>&quot;R&quot;</bucket>
             </map>
           </encoding>
           <encoding attr='color' field='[:Measure Names]' type='palette'>
@@ -5461,15 +2607,13 @@
             <zone h='3875' id='3' type='title' w='100000' x='0' y='0' />
             <zone fixed-size='298' h='19125' id='4' is-fixed='true' paired-zone-id='5' removable='false' type='flipboard-nav' w='100000' x='0' y='3875' />
             <zone h='76750' id='5' paired-zone-id='4' removable='false' type='flipboard' w='100000' x='0' y='23000'>
-              <flipboard active-id='1' nav-type='caption' show-nav-arrows='true'>
+              <flipboard active-id='2' nav-type='caption' show-nav-arrows='true'>
                 <story-points>
                   <story-point caption='Who are the top performing baseball players?&#10;&#10;ReggieJackson, Mike Schmidt and Willi Stargell are the top homerunners&#10;&#10;Rod Carew, Lyman Bostock, Matty Alou are the players with  highest batting average' captured-sheet='Top Performers Dashboard' id='1' />
                   <story-point caption='The most of the top homerunners are having a body mass index (BMI) between 24-26.&#10;&#10;Reggie Jackson, who is the top homerunner has a BMI of over 26. Although he is not the tallest, he was quiet heavy. He was packed with muscles which gave him his speed.&#10;&#10;Tony Perez on the other hand had a low BMI. He was tall and very light. ' captured-sheet='Homerunners Features' id='2'>
                     <capturedDeltas>
                       <worksheet name='BMI Top Homerunners'>
                         <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
-                          <column caption='Action (height,name)' datatype='tuple' hidden='true' name='[Action (height,name)]' role='dimension' type='nominal' user:auto-column='sheet_link' />
-                          <column datatype='integer' name='[height]' role='measure' type='quantitative' />
                           <column-instance column='[height]' derivation='None' name='[none:height:ok]' pivot='key' type='ordinal' />
                         </datasource-dependencies>
                         <filter class='categorical' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[Action (bmi_bin,name)]'>
@@ -5498,7 +2642,6 @@
                       </worksheet>
                       <worksheet name='Top 10 Homerunners BMI'>
                         <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
-                          <column caption='Action (height,name)' datatype='tuple' hidden='true' name='[Action (height,name)]' role='dimension' type='nominal' user:auto-column='sheet_link' />
                           <column-instance column='[height]' derivation='None' name='[none:height:ok]' pivot='key' type='ordinal' />
                         </datasource-dependencies>
                         <filter class='categorical' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[Action (height,name)]'>
@@ -5512,16 +2655,8 @@
                           <max>563</max>
                         </filter>
                       </worksheet>
-                      <worksheet name='Top Homerunners Weight'>
-                        <filter class='quantitative' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[none:HR:qk]' included-values='in-range-or-null'>
-                          <min>370</min>
-                          <max>563</max>
-                        </filter>
-                      </worksheet>
                       <worksheet name='Weight Top Home Runners'>
                         <datasource-dependencies datasource='federated.1ebegqm0f2d87w18m1zhp0hlp0tp'>
-                          <column caption='Action (height,name)' datatype='tuple' hidden='true' name='[Action (height,name)]' role='dimension' type='nominal' user:auto-column='sheet_link' />
-                          <column datatype='integer' name='[height]' role='measure' type='quantitative' />
                           <column-instance column='[height]' derivation='None' name='[none:height:ok]' pivot='key' type='ordinal' />
                         </datasource-dependencies>
                         <filter class='categorical' column='[federated.1ebegqm0f2d87w18m1zhp0hlp0tp].[Action (height,name)]'>
@@ -6554,183 +3689,410 @@
     </thumbnail>
     <thumbnail height='192' name='Comparison of Baseball Players' width='192'>
       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
-      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
-      7f8DQS41gCiP7mIAAAAASUVORK5CYII=
+      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
     </thumbnail>
     <thumbnail height='192' name='Height Top Batting Average' width='192'>
       iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAABYlAAAWJQFJUiTw
