@@ -31,8 +31,22 @@ df$valuability = df$avg_normalized + df$HR_normalized
 df$valuability_normalized = (df$valuability - 
                             min(df$valuability))/(max(df$valuability) 
                               - min(df$valuability)) 
-df$ratio_HR_valuability = df$HR_normalized / df$valuability
-df$ratio_avg_valuability = df$avg_normalized / df$valuability
+
+df$bmi = (df$weight * 0.4535923) / (2.54 * df$height / 100 * 2.54 *df$height / 100)
+
+df$weight_bin = cut(df$weight,
+                   c(0,175,200,400),
+                   labels = c('light (-175)',
+                              'average (175-200)', 'heavy (200-)'))
+df$height_bin = cut(df$height,
+                   c(0,70,73,100),
+                   labels = c('short (-70)',
+                              'average (70-73)', 'tall (73-)'))
+
+df$bmi_bin = cut(df$bmi,
+                   c(0,22,24,26,28,50),
+                   labels = c('very low (-22)',
+                              'low (22-24)', 'average (24-26)', 'high (26-28)', 'very high (28-)'))
 
 df[is.na(df)] <- 0
 
