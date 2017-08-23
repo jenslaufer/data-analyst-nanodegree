@@ -81,6 +81,7 @@ a first impression.
 
 ## Design
 
+
 ### Iteration 1
 
 #### Story Point 1
@@ -91,6 +92,7 @@ and batting average are used. The size of the bars was reduced
 and a dot was added at the end of the bar.
 All "chunk" from the bar charts was removed like grid line and axis labels, 
 to make the visualization lightweight and clear.
+
 
 #### Story Point 2
 
@@ -112,21 +114,23 @@ The barchart from Story Point 1 for the top 10 players with the highest
 batting average was resused. For the color of the bar the handedness is used
 to visualize the handedness of the players in a simple way.
 
-Scatterplots for BMI, weight and height with highlight actions are used similiar
-to story point 2.
+Scatterplots for BMI, weight and height with highlight actions are used in a
+similiar way to story point 2.
 
 
-**Feedback**
+##### Feedback 
 
 Story Point 1 
 
-  - I miss a number for home runs/batting average at least for the first and last
+  - I miss a number for home runs/batting average at least for the 
+    first and last player.
   
 Story Point 2/3:
- - I feel overwhelmed with 
- - I'd like to have stronger gridlines for weight/height/BMI
- - I'd like to have either all names or none, as you have   the name on top
 
+  - I feel overwhelmed with the names appearing in chart above and below.
+    It took me a while to understand what I see.
+  - I'd like to have stronger gridlines for weight/height/BMI
+  - I'd like to have either all names or none.
 
 
 
