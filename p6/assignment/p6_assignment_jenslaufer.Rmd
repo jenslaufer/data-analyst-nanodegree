@@ -27,8 +27,12 @@ story.
 The data was first analysed with a R notebook to check the data and get
 a first impression.
 
-   1. The data set was checked for problematic data. All features are available 
-      and are valid. There are some players with duplicated names:
+   1. The data set was checked for problematic data:
+   
+      All features are available 
+      and valid. 
+      
+      There are some players with duplicated names:
       
         - Dave Roberts 
         
@@ -42,11 +46,12 @@ a first impression.
         
         - Mel Stottlemyre
         
-      For the second player ".1" was assigned to the name to distinguish the duplicate
+      For the second player with the same name ".1" was assigned to the name 
+      to distinguish the duplicate
       players.
 
-   2. Additional fields
-      were added, which seemed to be easier in R than with Tableau:
+   2. Additional fields were added. This was done with R, as the MinMax-Scaling was difficult
+      in Tableau:
 
       
       | Field              | Description                                             |
@@ -80,6 +85,25 @@ a first impression.
 
 
 ## Design
+
+
+For the visualization of top performers bar charts were used as they show a 
+trend in the data in a simple way and make it easy to compare the performance
+of the players for the reader by comparing the lenghth of the bars. 
+I used different colors to distinguish the 
+different type of performances. 
+
+For the visualization of height and weight I used a scatter plot as scatter plots
+are good to visualize more than two variables. The plot is facetted with the
+data for the top 10 players and all other players. A color is also used for the
+top 10 players to stress the top 10 players even more.
+
+Throughout all visualizations colors were used, but it was tried to reduce number
+of colors to not confuse the reader.
+
+The number of visualization on a story point was reduced to a minimum for easy
+understanding of the findings.
+
 
 
 ### Iteration 1
@@ -118,7 +142,7 @@ Scatterplots for BMI, weight and height with highlight actions are used in a
 similiar way to story point 2.
 
 
-##### Feedback 
+##### Feedback (from Nadine Dernoschek)
 
 Story Point 1 
 
@@ -132,6 +156,62 @@ Story Point 2/3:
   - I'd like to have stronger gridlines for weight/height/BMI
   - I'd like to have either all names or none.
 
+
+### Iteration 2
+
+Tooltips were improved and reformatted. 
+
+Fixed typos in text.
+
+#### Story Point 1
+
+The metric for the first and last bar was added.
+
+#### Story Point 2/3
+
+
+The metric for the first and last bar was added.
+ 
+Names in Scatterplots were removed.
+
+#### Feedback (from Manuel Armbruster)
+
+   - I don't understand the plots below card 2 and 3.
+   
+   - The BMI legend with 'average', 'low' and 'high' is not sorted
+   
+   - I don't like that I have to scroll to the bottom. The height of the cards
+     is too big.
+     
+### Iteration 3 (final)  
+
+#### Story Point 1
+
+Unchanged
+
+#### Story Point 2
+
+I added  2 scatter plot with the height and weight on the axises. The one
+scatterplot is for the top 10 players (using same color in barchart) and the
+players who are not in the top 10. This chart has more value for the reader
+
+#### Story Point 3
+
+I added 2 bar charts  with the handedness of the top 10 players 
+and the other players.
+The reader can now better compare these two groups.
+
+#### Story Point 4
+
+I added 2 bar charts with the body mass index (BMi) for the top 10 homerunners 
+and for the top 10 players with the highest batting average. The reader can
+easily see now the diffrence between the groups
+
+##### Feedback (Manuel Armbruster, Nadine Dernoschek)
+
+   - Much better now! (Manuel)
+   
+   - I like the simplicity of your charts (Nadine Dernoschek)
 
 
 ## Files
@@ -155,10 +235,19 @@ Data Exploration with Tableau:
 
 Tableau Story Iteration 1:
 
-
    - [Comparison of Baseball Players V1](https://public.tableau.com/views/explanation_baseball_v1/ComparisonofBaseballPlayers?:embed=y&:display_count=yes)
 
 
+
+Tableau Story Iteration 2:
+
+   - [Comparison of Baseball Players V2](https://public.tableau.com/profile/jenslaufer#!/vizhome/explanation_baseball_v2/ComparisonofBaseballPlayers?publish=yes)
+
+
+
+Tableau Story Iteration 3 (final):
+
+   - [Comparison of Baseball Players V3](https://public.tableau.com/profile/jenslaufer#!/vizhome/explanation_baseball_v3/ComparisonofBaseballPlayers?publish=yes)
 
 ## Resources
 
